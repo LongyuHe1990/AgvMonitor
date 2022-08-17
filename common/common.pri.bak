@@ -1,0 +1,5 @@
+HEADERS += \
+    $$PWD/global_helper.h
+
+SOURCES += \
+    $$PWD/global_helper.cpp
