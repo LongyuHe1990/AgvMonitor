@@ -38,7 +38,7 @@ void WidgetApp::Run()
     QDesktopWidget* pDesktopWidget = QApplication::desktop();
     QRect deskRect = pDesktopWidget->geometry();
 
-    /*WidgetLogin login;
+    WidgetLogin login;
 #ifdef QT_NO_DEBUG
     login.setGeometry(0,0,deskRect.width(),deskRect.height());
 #else
@@ -47,7 +47,7 @@ void WidgetApp::Run()
     login.show();
     QEventLoop loop;
     login.SetEventLoop(&loop);
-    loop.exec();*/
+    loop.exec();
 
     QEventLoop loop_main;
     widget_main_->SetEventLoop(&loop_main);

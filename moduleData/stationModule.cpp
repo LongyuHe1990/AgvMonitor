@@ -87,10 +87,13 @@ void StationModule::initStationFromStationType(int stationType, STATIONINFO stat
     {
         QVariantList list = iter.value().toList();
         list.push_back(station);
+        m_stationTypeDistinguishesStation.insert(QString::number(stationType), list);
     }
     else
     {
-        m_stationTypeDistinguishesStation.insert(QString::number(stationType), station);
+        QVariantList list;
+        list.push_back(station);
+        m_stationTypeDistinguishesStation.insert(QString::number(stationType), list);
     }
 }
 
@@ -100,9 +103,10 @@ QVariantList StationModule::getStationFromStationType(int stationTypeId, int row
 
     if(stationTypeId == 0)
     {
-        for(int i = 0; i<m_stationFromMap.size(); ++i)
+        QVariantMap::iterator iter = m_stationFromMap.begin();
+        for(;iter != m_stationFromMap.end(); ++iter)
         {
-            QVariantMap station = list.at(i).toMap();
+            QVariantMap station = iter.value().toMap();
             list.push_back(station);
         }
         return list;
