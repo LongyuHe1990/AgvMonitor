@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QScrollBar>
+#include "tasklist/widgetaddtask.h"
 
 static WidgetTaskList* widget_tasklist_ = nullptr;
 
@@ -17,7 +18,7 @@ WidgetTaskList::WidgetTaskList(QWidget* parent)
   Initialize();
   Translatelanguage();
 
-  connect(ui->pushButton_4, SIGNAL(clicked()), this, SIGNAL(ShowAddTaskListWidget()));
+  connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(AddTaskButtonClicked()));
 
   widget_tasklist_ = this;
 }
@@ -89,7 +90,13 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
 
 void WidgetTaskList::VisitorModel(bool model)
 {
-  ui->pushButton_4->setHidden(model);
+    ui->pushButton_4->setHidden(model);
+}
+
+void WidgetTaskList::AddTaskButtonClicked()
+{
+   emit ShowAddTaskListWidget();
+   WidgetAddTask::GetIntance()->SetInitData();
 }
 
 void WidgetTaskList::Initialize()

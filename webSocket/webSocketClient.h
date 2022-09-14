@@ -4,8 +4,9 @@
 #include <QObject>
 #include <QtWebSockets/QWebSocket>
 #include <QTimer>
+#include "logger.h"
 
-class WebSocketClient : public QObject
+class WebSocketClient : public QObject, logger::Logger
 {
     Q_OBJECT
 public:

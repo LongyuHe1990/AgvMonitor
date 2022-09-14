@@ -76,3 +76,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     image.qrc
+
+DEFINES += BOOST_LOG_DYN_LINK
+
+unix:!macx: LIBS += -L$$PWD/third_party/lib/ -lLogger
+
+INCLUDEPATH += $$PWD/third_party/include
+DEPENDPATH += $$PWD/third_party/include
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/third_party/lib/libLogger.a

@@ -6,6 +6,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "common/global_config.h"
+#include <QUuid>
+#include "widgetmain.h"
 
 #define autoLoginPath "/usr"
 
@@ -13,20 +15,25 @@ static WidgetLogin* s_widgetLogin = nullptr;
 
 WidgetLogin::WidgetLogin(QWidget* parent)
   : QWidget(parent)
+  , logger::Logger("Login")
   , ui(new Ui::WidgetLogin)
   , event_loop_(nullptr)
+  , m_webSocketClient(nullptr)
 {
   ui->setupUi(this);
 
   s_widgetLogin = this;
-
-  setAttribute(Qt::WA_ShowModal, true);
+  m_webSocketClient = new WebSocketClient(this);
+  //setAttribute(Qt::WA_ShowModal, true);
 #ifdef Q_OS_WIN
   setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 #endif
   Initialize();
   TranslateLanguage();
   autoLogig();
+
+  QUuid uuid = QUuid::createUuid();
+  UserConfigs::Uuid = uuid.toString().remove("{").remove("}");
 
   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(LoginButtonClicked()));
   connect(ui->pushButton_2, &QPushButton::clicked, this, &WidgetLogin::AutoLoginButtonClicked);
@@ -88,6 +95,7 @@ void WidgetLogin::LoginButtonClicked()
   QUrl url = QUrl("ws://" + ip + ADDRESS_PORT);
   WebSocketClient::getInstance()->setClickLogin(true);
   WebSocketClient::getInstance()->openWebSocket(url.toString());
+  LOGGER_INFO(this)<<("clickedLoginButton: id-" + id.toStdString() + "  ip-" + ip.toStdString());
 }
 
 void WidgetLogin::AutoLoginButtonClicked()
@@ -123,10 +131,6 @@ void WidgetLogin::Initialize()
   font.setPixelSize(9);
   ui->label_3->setFont(font);
 
-// ui->label->setFixedSize(QSize(108, 56));
-// ui->label_2->setFixedSize(QSize(108, 56));
-// ui->lineEdit->setFixedSize(QSize(576, 56));
-// ui->lineEdit_2->setFixedSize(QSize(576, 56));
   ui->pushButton->setFixedSize(QSize(273, 72));
   ui->pushButton_2->setFixedSize(QSize(378, 72));
   ui->label_8->setFixedSize(QSize(89, 39));

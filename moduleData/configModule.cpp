@@ -116,7 +116,6 @@ QVariantList ConfigModule::getActionTypeOfStationType(int stationTypeId)
     QVariantList actionTypelList;
     int type = int(ConfigType::StationType);
     QVariantMap stationTypeArray = m_configs.value(QString::number(type)).toMap();
-
     QVariantMap::iterator iter = stationTypeArray.find(QString::number(stationTypeId));
     if(iter != stationTypeArray.end())
     {

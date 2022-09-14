@@ -1,29 +1,47 @@
 #include "widgetapp.h"
 #include <QApplication>
 #include <QFontDatabase>
+#include <QDesktopWidget>
+#include <QEventLoop>
+#include "widgetmain.h"
+#include "login/widgetlogin.h"
+
 
 int main(int argc, char* argv[])
 {
-#ifdef QT_NO_QDEBUG
   qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
-#endif
 
   QApplication a(argc, argv);
 
 #ifdef Q_OS_LINUX
-  int     id   = QFontDatabase::addApplicationFont("/usr/fonts/DroidSansFallback.ttf");
+  int         id   = QFontDatabase::addApplicationFont("/usr/fonts/DroidSansFallback.ttf");
   QStringList list = QFontDatabase::applicationFontFamilies (id);
   if(list.size() > 0)
   {
-      QString msyh = list.at(0);
-      QFont   font(msyh, 10);
-      a.setFont(font);
+    QString msyh = list.at(0);
+    QFont   font(msyh, 10);
+    a.setFont(font);
   }
 #endif
 
+  QDesktopWidget* pDesktopWidget = QApplication::desktop();
+  QRect           deskRect       = pDesktopWidget->geometry();
+  WidgetMain      widget_main;
+  WidgetLogin     login;
+#ifdef QT_NO_DEBUG
+  login.setGeometry(0, 0, deskRect.width(), deskRect.height());
+#else
+  login.setGeometry(deskRect.width() / 2 - 400, deskRect.height()/2 - 300, 800, 600);
+#endif
+  login.show();
+  QEventLoop loop;
+  login.SetEventLoop(&loop);
+  loop.exec();
 
-  WidgetApp app;
-  app.Run();
+  widget_main.show();
+  QEventLoop loop_main;
+  widget_main.SetEventLoop(&loop_main);
+  loop_main.exec();
 
-  return 0;
+  return a.exec();
 }

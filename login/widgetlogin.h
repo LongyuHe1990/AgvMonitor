@@ -9,12 +9,14 @@
 #include <QWidget>
 #include <QEventLoop>
 #include <QUrl>
+#include "webSocket/webSocketClient.h"
+#include "logger.h"
 
 namespace Ui {
 class WidgetLogin;
 }
 
-class WidgetLogin : public QWidget
+class WidgetLogin : public QWidget, logger::Logger
 {
   Q_OBJECT
 
@@ -40,6 +42,7 @@ private:
 private:
   Ui::WidgetLogin* ui;
 
+  WebSocketClient* m_webSocketClient;
   QEventLoop* event_loop_;
   int m_agvId;
 };

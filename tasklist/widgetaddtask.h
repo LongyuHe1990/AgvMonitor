@@ -13,21 +13,34 @@ namespace Ui {
 class WidgetAddTask;
 }
 
+struct TargetListInfo
+{
+    int action;
+    int agvAxisId;
+    int stationAxisId;
+    QString stationId;
+    QString actionName;
+    QString stationName;
+};
+
 class WidgetTargetListItem : public QWidget
 {
   Q_OBJECT
 public:
   explicit WidgetTargetListItem(QWidget* parent = nullptr);
   ~WidgetTargetListItem();
-  void SetInput(const QString& charge_label, const QString& status_label);
+  void SetInput(TargetListInfo info);
+  TargetListInfo GetInput();
 
 private:
   void SetupUi();
 
 private:
-  QLabel* charge_label_;
-  QLabel* status_label_;
+  QLabel* station_label_;
+  QLabel* action_label_;
   QFrame* frame_;
+
+  TargetListInfo info_;
 };
 
 class WidgetAddTask : public QWidget
@@ -41,6 +54,7 @@ public:
   static WidgetAddTask * GetIntance();
   void                   InitTargetList();
   void                   GetTargetListInfo();
+  void                   SetInitData();
 
 Q_SIGNALS:
   void HideAddTaskListWidget();
@@ -48,6 +62,8 @@ Q_SIGNALS:
 private Q_SLOTS:
   void AddButtonClicked();
   void CreateButtonClicked();
+  void StationTypeChanged(int index);
+  void StationRowChanged(int index);
 
 private:
   void Initialize();

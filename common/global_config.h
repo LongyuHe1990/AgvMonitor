@@ -7,4 +7,7 @@ class UserConfigs
 {
 public:
   static int AgvId;
+  static QString Uuid;
+  static int AgvAxisId;
+  static QString AgvAxisName;
 };

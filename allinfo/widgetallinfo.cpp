@@ -419,7 +419,7 @@ void WidgetAllInfo::GetDeviceName(QVariantMap dataMap)
   {
     return;
   }
-  QVariantMap config = list.value(QString::number(UserConfigs::AgvId)).toMap();
+  QVariantMap config = list.value(QString("%1").arg(UserConfigs::AgvId)).toMap();
 
   if(config.empty())
   {
@@ -428,8 +428,12 @@ void WidgetAllInfo::GetDeviceName(QVariantMap dataMap)
   int agvTemplateId = config.value("agvTemplateId").toInt();
 
   QVariantMap device     = ConfigModule::getInstance()->getcurrentAgvTemplateLoadDevice(agvTemplateId);
-  QVariantMap dataDevice = device.value(QString("%1").arg(UserConfigs::AgvId)).toMap();
+
+  QVariantMap dataDevice = device.value(QString("%1").arg(agvTemplateId)).toMap();
+  int         id         = dataDevice.value("id").toInt();
   QString     name       = dataDevice.value("name").toString();
+  UserConfigs::AgvAxisId = id;
+  UserConfigs::AgvAxisName = name;
 
   ui->comboBox->addItem(tr("车体设备(%1)").arg(name));
 }

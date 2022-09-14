@@ -17,6 +17,7 @@ static WebSocketClient* s_webSocketClient = nullptr;
 
 WebSocketClient::WebSocketClient(QObject *paretn /*= nullptr*/)
     :QObject(paretn)
+    ,logger::Logger("WebSocket")
     ,m_webSocket(nullptr)
     ,m_timer(nullptr)
     ,m_timeoutCount(0)
@@ -54,6 +55,8 @@ WebSocketClient *WebSocketClient::getInstance()
 void WebSocketClient::openWebSocket(QString url)
 {
     initWebSocket();
+
+    LOGGER_INFO(this)<<("openWebSocket:" + url.toStdString());
 
     if(m_webSocket != nullptr)
     {
@@ -110,6 +113,8 @@ void WebSocketClient::requestMapData(QVariantMap agvData)
 {
     int mapId = agvData.value("mapId").toInt();
 
+    LOGGER_INFO(this)<<("requestMapData:" + mapId);
+
     QVariantMap mapData = ConfigModule::getInstance()->getConfig(ConfigType::Map, mapId);
     QVariantMap floorDatas = mapData.value("floorParams").toMap();
     int areaId = mapData.value("areaId").toInt();
@@ -152,6 +157,8 @@ void WebSocketClient::onConnected()
 
 void WebSocketClient::onTextReceived(QString data)
 {
+    LOGGER_INFO(this)<<("receivedServerData:" + data.toStdString());
+
     m_timeoutCount = 0;
 
     QJsonParseError error;
@@ -193,7 +200,7 @@ void WebSocketClient::onTextReceived(QString data)
                 }
                 case DataModuleType::Task:
                 {
-                    qDebug() << "taskData: " <<data;
+//                    qDebug() << "taskData: " <<data;
                     TaskModule::getInstance()->updataTask(moduleData, m_agvId);
                     break;
                 }

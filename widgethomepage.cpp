@@ -25,7 +25,6 @@ WidgetHomepage::~WidgetHomepage()
 
 void WidgetHomepage::ShowAddTaskListWidget()
 {
-    StationModule::getInstance()->getStationFromStationType(4,1);
   ui->stackedWidget->setCurrentIndex(1);
 }
 
