@@ -8,6 +8,7 @@
 #include <QDomComment>
 #include <QtConcurrent>
 #include <QWebSocket>
+#include <QPushButton>
 
 class MapMonitoringView : public QGraphicsView
 {
@@ -27,6 +28,7 @@ public:
 
     void updataAgvItemPos(QVariantMap data);
 
+    void setRelocationResult(QVariantMap moduleData);
 private:
     void zoomIn(QPoint pos);
     void zoomOut(QPoint pos);
@@ -44,6 +46,8 @@ private:
     void centeredShowMapToView();
 
     void initWidget();
+
+    void sendRelocationDataToServer();
 private:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -52,6 +56,9 @@ private:
 
     void resizeEvent(QResizeEvent *event) override;
 
+    void paintEvent(QPaintEvent *event);
+public slots:
+    void onClickRelocButton();
 private:
     int m_mapId;
     int m_floorId;
@@ -72,6 +79,12 @@ private:
 
     QFutureWatcher<void>* m_loadSlamWatcher;
     QMutex m_loadSlamMutex;
+    bool m_isRelocation;
+    QPoint m_lastPoint;
+    QLineF m_line;
+    double m_angle;
+    QPixmap m_img;
+    QPushButton* m_relocButton;
 };
 
 #endif // MAPMONITORINGVIEW_H

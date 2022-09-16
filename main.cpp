@@ -36,12 +36,20 @@ int main(int argc, char* argv[])
   login.show();
   QEventLoop loop;
   login.SetEventLoop(&loop);
-  loop.exec();
+  int status = loop.exec();
 
-  widget_main.show();
-  QEventLoop loop_main;
-  widget_main.SetEventLoop(&loop_main);
-  loop_main.exec();
+  if(status == 0)
+  {
+    #ifdef QT_NO_DEBUG
+      widget_main.setGeometry(0, 0, deskRect.width(), deskRect.height());
+    #else
+      widget_main.setGeometry(deskRect.width() / 2 - 400, deskRect.height()/2 - 300, 800, 600);
+    #endif
+      widget_main.show();
+      QEventLoop loop_main;
+      widget_main.SetEventLoop(&loop_main);
+      loop_main.exec();
+  }
 
   return a.exec();
 }

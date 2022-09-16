@@ -196,3 +196,14 @@ void WidgetLogin::autoLogig()
 
   file.close();
 }
+
+void WidgetLogin::keyPressEvent(QKeyEvent* event)
+{
+  if(event->key() == Qt::Key_Escape)
+  {
+    event_loop_->exit(1);
+    QApplication::exit(1);
+    QApplication::closeAllWindows();
+    qDebug()<<"closeApp";
+  }
+}

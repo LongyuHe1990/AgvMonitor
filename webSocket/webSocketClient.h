@@ -19,6 +19,7 @@ public:
     void setAgvId(int id);
 
     void setClickLogin(bool status);
+    void sendDataToServer(const QString& data);
 private:
     void loginCheck();
 

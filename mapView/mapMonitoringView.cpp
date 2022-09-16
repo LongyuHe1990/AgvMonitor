@@ -10,6 +10,11 @@
 #include "mapInfo.h"
 #include "customData.h"
 #include "moduleData/stationModule.h"
+#include <QPainter>
+#include "webSocket/webSocketClient.h"
+#include "common/global_config.h"
+#include <QJsonObject>
+#include <QMessageBox>
 
 static MapMonitoringView* s_mapMonitoringView = nullptr;
 
@@ -22,6 +27,7 @@ MapMonitoringView::MapMonitoringView(QWidget * parent /*= nullptr*/)
     ,m_scene(nullptr)
     ,m_loadMapDataWatcher(nullptr)
     ,m_loadSlamWatcher(nullptr)
+    ,m_isRelocation(false)
 {
     s_mapMonitoringView = this;
 
@@ -44,6 +50,8 @@ MapMonitoringView::MapMonitoringView(QWidget * parent /*= nullptr*/)
     m_scene = new MapMonitoringScene();
     setScene(m_scene);
     setTransform(transform().scale(0.02,-0.02));
+
+    m_img.load(":/image/nav.png");
 }
 
 MapMonitoringView::~MapMonitoringView()
@@ -75,6 +83,8 @@ MapMonitoringView::~MapMonitoringView()
         m_loadSlamWatcher->deleteLater();
         m_loadSlamWatcher = nullptr;
     }
+
+    m_relocButton=nullptr;
 }
 
 MapMonitoringView *MapMonitoringView::getInstance()
@@ -112,14 +122,14 @@ void MapMonitoringView::setAreaId(int areaId)
 void MapMonitoringView::initMap(QVariantMap data)
 {
     int type = data.value("RequestId").toInt();
-    switch(static_cast<GetMapType>(type))
+    switch(static_cast<RequestIdType>(type))
     {
-    case GetMapType::MAP_TYPE_XML:
+    case RequestIdType::REQUEST_MAP_XML:
     {
         loadMapData(data);
         break;
     }
-    case GetMapType::MAP_TYPE_SLAM:
+    case RequestIdType::REQUEST_MAP_SLAM:
     {
         loadSlamDataToImagee(data);
         break;
@@ -131,10 +141,10 @@ void MapMonitoringView::requestMapDataInfo(QWebSocket* client)
 {
     if(client != nullptr)
     {
-        QString mapJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"mapId\":%2,\"floorId\":%3,\"type\":%4},\"OperationType\":%5},\"RequestId\":%6}").arg(int(DataModuleType::Map)).arg(m_mapId).arg(m_floorId).arg(int(MapFileType::XML)).arg(int(MapOperationType::MAP_GETMAP)).arg(int(GetMapType::MAP_TYPE_XML));
+        QString mapJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"mapId\":%2,\"floorId\":%3,\"type\":%4},\"OperationType\":%5},\"RequestId\":%6}").arg(int(DataModuleType::Map)).arg(m_mapId).arg(m_floorId).arg(int(MapFileType::XML)).arg(int(MapOperationType::MAP_GETMAP)).arg(int(RequestIdType::REQUEST_MAP_XML));
         client->sendTextMessage(mapJson);
 
-        QString slamJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"mapId\":%2,\"floorId\":%3,\"type\":%4},\"OperationType\":%5},\"RequestId\":%6}").arg(int(DataModuleType::Map)).arg(m_mapId).arg(m_floorId).arg(int(MapFileType::PNG)).arg(int(MapOperationType::MAP_GETMAP)).arg(int(GetMapType::MAP_TYPE_SLAM));
+        QString slamJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"mapId\":%2,\"floorId\":%3,\"type\":%4},\"OperationType\":%5},\"RequestId\":%6}").arg(int(DataModuleType::Map)).arg(m_mapId).arg(m_floorId).arg(int(MapFileType::PNG)).arg(int(MapOperationType::MAP_GETMAP)).arg(int(RequestIdType::REQUEST_MAP_SLAM));
         client->sendTextMessage(slamJson);
     }
 }
@@ -152,6 +162,39 @@ void MapMonitoringView::updataAgvItemPos(QVariantMap data)
         {
             m_scene->updataAgvItemPos(pos, angle);
         }
+    }
+}
+
+void MapMonitoringView::setRelocationResult(QVariantMap moduleData)
+{
+    int status = moduleData.value("Result").toInt();
+    if(status == 0)
+    {
+        QMessageBox::information(this,
+                              tr("重定位"),
+                              tr("重定位成功"),
+                              QMessageBox::Ok);
+    }
+    else if(status == -2)
+    {
+        QMessageBox::information(this,
+                              tr("重定位"),
+                              tr("非手动模式"),
+                              QMessageBox::Ok);
+    }
+    else if(status == 1)
+    {
+        QMessageBox::information(this,
+                              tr("重定位"),
+                              tr("车体定位失败"),
+                              QMessageBox::Ok);
+    }
+    else if(status == -1)
+    {
+        QMessageBox::information(this,
+                              tr("重定位"),
+                              tr("车体断开链接"),
+                              QMessageBox::Ok);
     }
 }
 
@@ -500,7 +543,45 @@ void MapMonitoringView::initWidget()
     mainLayout->addLayout(titleLayout);
     mainLayout->addStretch();
 
+    QHBoxLayout* operateLayout = new QHBoxLayout(this);
+    operateLayout->addStretch();
+    m_relocButton = new QPushButton(this);
+    QIcon icon(":/image/relocation.png");
+    m_relocButton->setIcon(icon);
+    m_relocButton->setIconSize(QSize(50,50));
+    m_relocButton->setStyleSheet("background-color:transparent");
+    m_relocButton->setMaximumSize(60,60);
+    m_relocButton->setMinimumSize(60,60);
+    operateLayout->addWidget(m_relocButton);
+    connect(m_relocButton, &QPushButton::clicked, this, &MapMonitoringView::onClickRelocButton);
+
+    mainLayout->addLayout(operateLayout);
+
     setLayout(mainLayout);
+}
+
+void MapMonitoringView::sendRelocationDataToServer()
+{
+    //{"ModuleType":1,"Async":false,"ModuleData":{"Content":{"posX":15644.018181818183,"posY":2013.7363636363666,"angle":6.52,"id":6,"posZ":1},"OperationType":7},"RequestId":1}
+    QVariantMap rootMap;
+    QVariantMap contentMap;
+    QPointF mapPoint = mapToScene(m_pressPoint.x(), m_pressPoint.y());
+    contentMap.insert("posX",mapPoint.x());
+    contentMap.insert("posY", mapPoint.y());
+    contentMap.insert("angle", m_angle);
+    contentMap.insert("id", UserConfigs::AgvId);
+    contentMap.insert("posZ", 1);
+    QVariantMap moduleData;
+    moduleData.insert("Content", contentMap);
+    moduleData.insert("OperationType", static_cast<int>(AgvOperationType::AGV_RELOC));
+    rootMap.insert("ModuleType", static_cast<int>(DataModuleType::Agv));
+    rootMap.insert("Async",false);
+    rootMap.insert("ModuleData", moduleData);
+    rootMap.insert("RequestId", RequestIdType::REQUEST_RELOCATION);
+
+    QJsonDocument doc = QJsonDocument::fromVariant(QVariant(rootMap));
+    QString data = doc.toJson();
+    WebSocketClient::getInstance()->sendDataToServer(data);
 }
 
 void MapMonitoringView::zoomIn(QPoint pos)
@@ -547,12 +628,28 @@ void MapMonitoringView::mouseMoveEvent(QMouseEvent *event)
         m_pressPoint = event->pos();
     }*/
 
+    if(m_isRelocation && m_leftMousePress)
+    {
+        m_lastPoint = event->pos();
+        m_line.setPoints(m_pressPoint, m_lastPoint);
+        double angle = m_line.angle();
+        m_angle = m_line.dy() > 0 ? -(360 - angle) : angle;
+        qDebug()<<"dy:"<<m_line.dy()<<"angle1:"<<angle<<"angle2:"<<m_angle;
+        this->viewport()->update();
+    }
+
     QGraphicsView::mouseMoveEvent(event);
 }
 
 void MapMonitoringView::mouseReleaseEvent(QMouseEvent *event)
 {
+    if(m_leftMousePress && m_isRelocation)
+    {
+        sendRelocationDataToServer();
+    }
     m_leftMousePress = false;
+    m_line = QLineF();
+    this->viewport()->update();
     QGraphicsView::mouseReleaseEvent(event);
 }
 
@@ -575,4 +672,44 @@ void MapMonitoringView::resizeEvent(QResizeEvent *event)
 {
     centeredShowMapToView();
     QGraphicsView::resizeEvent(event);
+}
+
+void MapMonitoringView::paintEvent(QPaintEvent *event)
+{
+    QGraphicsView::paintEvent(event);
+
+    //painter.setBrush(Qt::white);
+    if (!m_isRelocation || !m_leftMousePress)
+    {
+        return;
+    }
+    QPainter painter(this->viewport());
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    QPen pen(QColor("#f8b62b"), 2, Qt::DashLine);
+    painter.setPen(pen);
+    painter.drawLine(m_line);
+    painter.drawText(m_lastPoint + QPoint(10, 10), QString(u8"%1°").arg(QString::number(m_angle, 'f', 2)));
+    painter.translate(m_pressPoint);
+    painter.rotate(-m_angle);
+    QRect rect = QRect( - 30 / 2, - 30 / 2, 30, 30);
+    painter.drawPixmap(rect, m_img);
+}
+
+void MapMonitoringView::onClickRelocButton()
+{
+    if(!m_isRelocation)
+    {
+        m_isRelocation = true;
+        setDragMode(QGraphicsView::NoDrag);
+        QIcon icon(":/image/showStation.png");
+        m_relocButton->setIcon(icon);
+    }
+    else
+    {
+        m_isRelocation=false;
+        setDragMode(QGraphicsView::ScrollHandDrag);
+        QIcon icon(":/image/relocation.png");
+        m_relocButton->setIcon(icon);
+    }
 }

@@ -24,9 +24,10 @@ typedef struct StationInfo{
     int column;
 }STATIONINFO;
 
-enum GetMapType{
-    MAP_TYPE_XML,
-    MAP_TYPE_SLAM
+enum RequestIdType{
+    REQUEST_MAP_XML,
+    REQUEST_MAP_SLAM,
+    REQUEST_RELOCATION
 };
 
 enum class MapOperationType {

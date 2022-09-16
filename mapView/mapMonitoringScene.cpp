@@ -8,7 +8,7 @@ MapMonitoringScene::MapMonitoringScene()
     :m_slamItem(nullptr)
     ,m_agvItem(new AgvItem())
 {
-    setBackgroundBrush(Qt::blue);
+    setBackgroundBrush(QBrush("#0b1d2e"));
 
     setSceneRect(-500000,-500000,1000000,1000000);
 

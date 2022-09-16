@@ -39,6 +39,7 @@ private:
   void TranslateLanguage();
   void setAutoLogin(bool status);
   void autoLogig();
+  void keyPressEvent(QKeyEvent* event) override;
 private:
   Ui::WidgetLogin* ui;
 

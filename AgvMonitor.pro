@@ -13,6 +13,9 @@ QMAKE_LFLAGS += -no-pie
 TARGET = AgvMonitor
 TEMPLATE = app
 
+CONFIG(debug,debug|release):DESTDIR = $$PWD/debug
+CONFIG(release,debug|release):DESTDIR = $$PWD/bin
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -79,9 +82,10 @@ RESOURCES += \
 
 DEFINES += BOOST_LOG_DYN_LINK
 
-unix:!macx: LIBS += -L$$PWD/third_party/lib/ -lLogger
+unix:!macx|win32: LIBS += -L$$PWD/third_party/lib/ -lLogger
 
 INCLUDEPATH += $$PWD/third_party/include
 DEPENDPATH += $$PWD/third_party/include
 
-unix:!macx: PRE_TARGETDEPS += $$PWD/third_party/lib/libLogger.a
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/third_party/lib/Logger.lib
+else:unix:!macx|win32-g++: PRE_TARGETDEPS += $$PWD/third_party/lib/libLogger.a

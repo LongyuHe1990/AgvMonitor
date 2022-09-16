@@ -83,6 +83,11 @@ void WebSocketClient::setClickLogin(bool status)
     m_clickLogin = status;
 }
 
+void WebSocketClient::sendDataToServer(const QString &data)
+{
+    m_webSocket->sendTextMessage(data);
+}
+
 void WebSocketClient::reconnectWebSocket()
 {
     if(m_timer != nullptr)
@@ -173,9 +178,16 @@ void WebSocketClient::onTextReceived(QString data)
             int requestId = jsonData.value("RequestId").toInt();
             QVariantMap moduleData = jsonData.value("ModuleData").toMap();
             int operatorType = moduleData.value("OperationType").toInt();
-            if(moduleType == -1 &&( requestId == GetMapType::MAP_TYPE_XML || requestId == GetMapType::MAP_TYPE_SLAM))
+            if(moduleType == -1)
             {
-                MapMonitoringView::getInstance()->initMap(jsonData);
+                if(requestId == RequestIdType::REQUEST_MAP_XML || requestId == RequestIdType::REQUEST_MAP_SLAM)
+                {
+                    MapMonitoringView::getInstance()->initMap(jsonData);
+                }
+                else if(requestId == RequestIdType::REQUEST_RELOCATION)
+                {
+                    MapMonitoringView::getInstance()->setRelocationResult(moduleData);
+                }
             }
             else
             {
