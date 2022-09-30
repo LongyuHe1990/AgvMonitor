@@ -3,8 +3,11 @@
 #include <QKeyEvent>
 
 #define WIDGET_HOME 0
-#define WIDGET_SETTING 1
-#define WIDGET_ERROR 2
+#define WIDGET_CONTROL 1
+#define WIDGET_DETAIL 2
+#define WIDGET_LOG 3
+#define WIDGET_SETTING 4
+
 
 WidgetMain::WidgetMain(QWidget* parent)
   : QWidget(parent)
@@ -16,6 +19,14 @@ WidgetMain::WidgetMain(QWidget* parent)
 #ifdef Q_OS_WIN
   setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 #endif
+
+  button_group_ = new QButtonGroup(this);
+  button_group_->addButton(ui->pushButton_home, 0);
+  button_group_->addButton(ui->pushButton_control, 1);
+  button_group_->addButton(ui->pushButton_detail, 2);
+  button_group_->addButton(ui->pushButton_log, 3);
+  button_group_->addButton(ui->pushButton_setting, 4);
+
 
   Initialize();
   TranslateLanguage();
@@ -29,14 +40,13 @@ WidgetMain::WidgetMain(QWidget* parent)
   ui->stackedWidget->addWidget(widget_setting_);
   ui->stackedWidget->addWidget(widget_error_);
 
-  connect(ui->pushButton_switch, SIGNAL(clicked()), this, SLOT(SwitchButtonClicked()));
-  connect(ui->pushButton_setting, SIGNAL(clicked()), this, SLOT(SettingButtonClicked()));
-  connect(ui->pushButton_back, SIGNAL(clicked()), this, SLOT(BackButtonClicked()));
-  connect(widget_home_, SIGNAL(ShowErrorDetailWidget()), this, SLOT(ShowErrorDetailWidget()));
-  connect(widget_setting_, SIGNAL(SwitchVisitor()), this, SLOT(VisitorModel()));
-  connect(widget_switch_, SIGNAL(AdminModel()), this, SLOT(AdminModel()));
+  MenuButtonClicked(0);
 
-  VisitorModel();
+  connect(button_group_, SIGNAL(buttonClicked(int)), this, SLOT(MenuButtonClicked(int)));
+
+  timer_ = new QTimer(this);
+  connect(timer_, SIGNAL(timeout()), this, SLOT(ShowSystemTime()));
+  timer_->start(5000);
 }
 
 WidgetMain::~WidgetMain()
@@ -60,68 +70,66 @@ void WidgetMain::keyPressEvent(QKeyEvent* event)
   }
 }
 
-void WidgetMain::SettingButtonClicked()
+void WidgetMain::ShowSystemTime()
 {
-  ui->stackedWidget->setCurrentIndex(WIDGET_SETTING);
-  ui->pushButton_back->setHidden(false);
+    QDateTime current_time = QDateTime::currentDateTime();
+    QString time = current_time.toString("yyyy.MM.dd hh:mm");
+    QStringList date = time.split(" ");
+    if(date.empty())
+    {
+        return;
+    }
+
+    ui->label_date->setText(date[0]);
+    ui->label_time->setText(date[1]);
 }
 
-void WidgetMain::SwitchButtonClicked()
+void WidgetMain::MenuButtonClicked(int index)
 {
-  widget_switch_->show();
-  ui->pushButton_back->setHidden(true);
-}
+  const auto& buttons = button_group_->buttons();
+  for(int i = 0; i < buttons.count(); ++i)
+  {
+    if(index == i)
+    {
+      buttons[i]->setStyleSheet("QPushButton{background-color:rgb(227, 186, 56);color:rgb(57, 64, 75);border:none;}");
+    }
+    else
+    {
+      buttons[i]->setStyleSheet("QPushButton{background-color:rgb(75, 90, 114);color:rgb(255, 255, 255);border:none;}");
+    }
+  }
 
-void WidgetMain::ShowErrorDetailWidget()
-{
-  ui->stackedWidget->setCurrentIndex(WIDGET_ERROR);
-  ui->pushButton_back->setHidden(false);
-}
-
-void WidgetMain::VisitorModel()
-{
-  ui->pushButton_back->setHidden(true);
-  ui->pushButton_setting->setHidden(true);
-  ui->pushButton_switch->setHidden(false);
-  WidgetBaseInfo::GetInstance()->VisitorModel(true);
-  WidgetTaskList::GetInstance()->VisitorModel(true);
-  ui->stackedWidget->setCurrentIndex(WIDGET_HOME);
-}
-
-void WidgetMain::AdminModel()
-{
-  ui->pushButton_back->setHidden(true);
-  ui->pushButton_setting->setHidden(false);
-  ui->pushButton_switch->setHidden(true);
-  WidgetBaseInfo::GetInstance()->VisitorModel(false);
-  WidgetTaskList::GetInstance()->VisitorModel(false);
-}
-
-void WidgetMain::BackButtonClicked()
-{
-  ui->stackedWidget->setCurrentIndex(WIDGET_HOME);
-  ui->pushButton_back->setHidden(true);
+  ui->stackedWidget->setCurrentIndex(index);
 }
 
 void WidgetMain::Initialize()
 {
-  QFont font = ui->label_2->font();
-  font.setPixelSize(20);
-  ui->label_2->setFont(font);
-
+  QFont font = ui->label_title->font();
   font.setPixelSize(16);
-  ui->pushButton_switch->setFont(font);
-  ui->pushButton_setting->setFont(font);
-  ui->pushButton_back->setFont(font);
+  ui->label_title->setFont(font);
+  ui->label_time->setFont(font);
 
-  ui->label->setFixedSize(QSize(46, 18));
-  ui->label_5->setFixedSize(QSize(28, 28));
+  font.setPixelSize(12);
+  ui->pushButton_home->setFont(font);
+  ui->pushButton_control->setFont(font);
+  ui->pushButton_detail->setFont(font);
+  ui->pushButton_log->setFont(font);
+  ui->pushButton_setting->setFont(font);
+
+  font.setPixelSize(8);
+  ui->label_date->setFont(font);
+
+  ui->label_icon->setFixedSize(QSize(110, 15));
+  ui->label_time->setFixedSize(QSize(40, 14));
+  ui->label_date->setFixedSize(QSize(40, 14));
 }
 
 void WidgetMain::TranslateLanguage()
 {
-  ui->label_2->setText("牵星系统调度平台");
-  ui->pushButton_switch->setText("切换");
-  ui->pushButton_setting->setText("设置");
-  ui->pushButton_back->setText(tr("返回"));
+  ui->label_title->setText(tr("牵星系统调度平台"));
+  ui->pushButton_home->setText(tr("主界面"));
+  ui->pushButton_control->setText(tr("手动控制"));
+  ui->pushButton_detail->setText(tr("状态详览"));
+  ui->pushButton_log->setText(tr("日志"));
+  ui->pushButton_setting->setText(tr("设置"));
 }

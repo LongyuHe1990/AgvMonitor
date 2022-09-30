@@ -14,18 +14,6 @@ namespace Ui {
 class WidgetBaseInfo;
 }
 
-struct BaseInfo {
-  double current;
-  int energy;
-  double voltage;
-  bool isCharging;
-  int futureNodeId;
-  int targetStationId;
-  int walkStatus;
-  int workStatus;
-  int id;
-};
-
 class WidgetBaseInfo : public QWidget
 {
   Q_OBJECT
@@ -49,6 +37,5 @@ private:
   Ui::WidgetBaseInfo* ui;
 
   QVariantMap data_map_;
-  BaseInfo    base_info_;
 };
 

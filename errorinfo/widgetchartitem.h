@@ -1,11 +1,12 @@
 ﻿#pragma once
-
 #include <QWidget>
-#include <QChartView>
+#include <QtCharts/QChartView>
 #include <QtWidgets/QGraphicsView>
-#include <qchart.h>
+#include <QtCharts/QChart>
 #include <common/global_helper.h>
 #include <math.h>
+#include <QtCharts/qsplineseries.h>
+#include <QPaintEvent>
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QChartView;
@@ -15,10 +16,10 @@ class QBarSeries;
 class QSplineSeries;
 QT_CHARTS_END_NAMESPACE
 
-  QT_CHARTS_USE_NAMESPACE
+QT_CHARTS_USE_NAMESPACE
 class WidgetChartItem : public QChartView
 {
-  Q_OBJECT
+//  Q_OBJECT
 public:
   explicit WidgetChartItem(QWidget* parent = nullptr);
   virtual ~WidgetChartItem();
@@ -26,9 +27,7 @@ public:
   virtual void Clear() = 0;
 
 private:
-  /*!
-   * Override the widget event.
-   */
+  // Override the widget event.
   virtual void paintEvent(QPaintEvent* e) override;
 
 protected:
@@ -38,9 +37,9 @@ protected:
   QChart* chart_;
 };
 
-class WidgetChartError : WidgetChartItem
+class WidgetChartError : public WidgetChartItem
 {
-  Q_OBJECT
+//  Q_OBJECT
 public:
   explicit WidgetChartError(QWidget* parent = nullptr);
   virtual ~WidgetChartError();
@@ -54,5 +53,6 @@ private:
   void Initialize();
   void TranslateLanguage();
 
-  QSplineSeries* series_;
+  QLineSeries* series_;
 };
+

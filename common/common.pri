@@ -5,3 +5,5 @@ HEADERS += \
 SOURCES += \
     $$PWD/global_helper.cpp \
     $$PWD/global_config.cpp
+
+include(customWidget/customWidget.pri)

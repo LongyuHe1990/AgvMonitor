@@ -25,7 +25,7 @@ private:
 
     void reconnectWebSocket();
 
-    void requestMapData(QVariantMap agvData);
+    void initMapData(QVariantMap agvData);
 
     void initWebSocket();
 

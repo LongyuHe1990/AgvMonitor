@@ -12,6 +12,7 @@
 #include "switch/widgetswitch.h"
 #include "errorinfo/widgeterror.h"
 #include <QEventLoop>
+#include <QButtonGroup>
 
 namespace Ui {
 class WidgetMain;
@@ -31,12 +32,8 @@ private:
   void keyPressEvent(QKeyEvent* event) override;
 
 private Q_SLOTS:
-  void SettingButtonClicked();
-  void BackButtonClicked();
-  void SwitchButtonClicked();
-  void ShowErrorDetailWidget();
-  void VisitorModel();
-  void AdminModel();
+  void ShowSystemTime();
+  void MenuButtonClicked(int index);
 
 private:
   void Initialize();
@@ -50,5 +47,7 @@ private:
   WidgetSetting*  widget_setting_;
   WidgetSwitch*   widget_switch_;
   WidgetError*    widget_error_;
+  QButtonGroup*   button_group_;
+  QTimer*         timer_;
 };
 

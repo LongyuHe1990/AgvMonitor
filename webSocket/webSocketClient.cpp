@@ -12,6 +12,7 @@
 #include "moduleData/taskModule.h"
 #include "baseinfo/widgetbaseinfo.h"
 #include "allinfo/widgetallinfo.h"
+#include "errorinfo/widgeterrorinfo.h"
 
 static WebSocketClient* s_webSocketClient = nullptr;
 
@@ -114,7 +115,7 @@ void WebSocketClient::loginCheck()
     }
 }
 
-void WebSocketClient::requestMapData(QVariantMap agvData)
+void WebSocketClient::initMapData(QVariantMap agvData)
 {
     int mapId = agvData.value("mapId").toInt();
 
@@ -129,7 +130,8 @@ void WebSocketClient::requestMapData(QVariantMap agvData)
         MapMonitoringView::getInstance()->setMapId(mapId);
         MapMonitoringView::getInstance()->setAreaId(areaId);
         MapMonitoringView::getInstance()->setFloorId(floorIds.at(0).toInt());
-        MapMonitoringView::getInstance()->requestMapDataInfo(m_webSocket);
+        MapMonitoringView::getInstance()->requestMapDataInfo();
+        MapMonitoringView::getInstance()->updateFloorComboBox();
     }
 }
 
@@ -205,7 +207,7 @@ void WebSocketClient::onTextReceived(QString data)
                     int type = moduleData.value("OperationType").toInt();
                     if(type == int(ConfigOperatedType::OPERATED_TYPE_INIT))
                     {
-                        requestMapData(ConfigModule::getInstance()->getConfig(ConfigType::Agv, m_agvId));
+                        initMapData(ConfigModule::getInstance()->getConfig(ConfigType::Agv, m_agvId));
                     }
 
                     break;
@@ -221,7 +223,8 @@ void WebSocketClient::onTextReceived(QString data)
 //                    qDebug() << "agvData: " <<data;
 
                     WidgetBaseInfo::GetInstance()->InitData(jsonData);
-                    WidgetAllInfo::GetInstance()->InitData(jsonData);
+                    //WidgetAllInfo::GetInstance()->InitData(jsonData);
+                    WidgetErrorInfo::GetInstance()->InitData(jsonData);
                     MapMonitoringView::getInstance()->updataAgvItemPos(moduleData);
                     break;
                 }
@@ -236,13 +239,14 @@ void WebSocketClient::onTextReceived(QString data)
                     {
                         StationModule::getInstance()->initCraftStationTypeInfo(moduleData);
                     }
-//                    qDebug() << "stationData: " <<data;
+                    qDebug() << "stationData: " <<data;
                     break;
                 }
                 }
             }
         }
     }
+
 }
 
 void WebSocketClient::onTimeoutReconnect()

@@ -28,6 +28,8 @@ Q_SIGNALS:
   void ShowAddTaskListWidget();
 private Q_SLOTS:
   void AddTaskButtonClicked();
+  void TaskCancelButtonClicked();
+  void TaskDeleteButtonClicked();
 private:
   void Initialize();
   void Translatelanguage();

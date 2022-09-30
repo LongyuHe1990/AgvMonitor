@@ -9,6 +9,7 @@
 #include <QtConcurrent>
 #include <QWebSocket>
 #include <QPushButton>
+#include <QLabel>
 
 class MapMonitoringView : public QGraphicsView
 {
@@ -24,11 +25,12 @@ public:
     void setAreaId(int areaId);
 
     void initMap(QVariantMap data);
-    void requestMapDataInfo(QWebSocket* client);
+    void requestMapDataInfo();
 
     void updataAgvItemPos(QVariantMap data);
 
     void setRelocationResult(QVariantMap moduleData);
+    void updateFloorComboBox();
 private:
     void zoomIn(QPoint pos);
     void zoomOut(QPoint pos);
@@ -48,6 +50,8 @@ private:
     void initWidget();
 
     void sendRelocationDataToServer();
+    void setMapVersions();
+    void showFloorInfo(int floor);
 private:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -85,6 +89,9 @@ private:
     double m_angle;
     QPixmap m_img;
     QPushButton* m_relocButton;
+    QLabel* m_mapVersionsLabel;
+    QString m_mapVersions;
+    QList<QString> m_floorIdList;
 };
 
 #endif // MAPMONITORINGVIEW_H

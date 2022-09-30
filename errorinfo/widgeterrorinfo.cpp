@@ -1,6 +1,13 @@
 ﻿#include "widgeterrorinfo.h"
 #include "ui_widgeterrorinfo.h"
+#include "common/global_helper.h"
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QString>
+#include "moduleData/configModule.h"
+#include "moduleData/stationModule.h"
 
+static WidgetErrorInfo* widget_error_ = nullptr;
 
 WidgetErrorInfo::WidgetErrorInfo(QWidget* parent)
   : QWidget(parent)
@@ -11,11 +18,10 @@ WidgetErrorInfo::WidgetErrorInfo(QWidget* parent)
   Initialize();
   TranslateLanguage();
 
-// chart_error_ = new WidgetChartError(this);
-// ui->horizontalLayout_4->addWidget(chart_error_);
-  ui->stackedWidget->setCurrentIndex(0);
+  ui->stackedWidget->setCurrentIndex(1);
 
   connect(ui->pushButton_3, SIGNAL(clicked()), this, SIGNAL(ShowDetailWidget()));
+  widget_error_ = this;
 }
 
 WidgetErrorInfo::~WidgetErrorInfo()
@@ -23,36 +29,60 @@ WidgetErrorInfo::~WidgetErrorInfo()
   delete ui;
 }
 
-void WidgetErrorInfo::InitData(QVariantMap data_map, int agvId)
+WidgetErrorInfo * WidgetErrorInfo::GetInstance()
+{
+  return widget_error_;
+}
+
+void WidgetErrorInfo::InitData(QVariantMap data_map)
 {
   if(data_map.empty())
   {
     return;
   }
+
+  QVariantMap module = data_map.value("ModuleData").toMap();
+  if(module.isEmpty())
+  {
+    return;
+  }
+
+  int operation = module.value("OperationType").toInt();
+  if(static_cast<AgvOperationType>(operation) != AgvOperationType::AGV_STATUS_UPDATED)
+  {
+    return;
+  }
+
+  StatisticsInfoList list;
+  for(int i = 10; i < 17; ++i)
+  {
+    StatisticsInfo info;
+    info.key   = QString("2022/09/%1").arg(i);
+    info.value = i;
+    list.push_back(info);
+  }
+
+  ui->widgetchart->SetInputData(list);
 }
 
 void WidgetErrorInfo::Initialize()
 {
   QFont font = ui->label_10->font();
   font.setPixelSize(16);
-  ui->label_10->setFont(font);
+
   ui->label_19->setFont(font);
 
   font.setPixelSize(12);
   ui->pushButton_3->setFont(font);
   ui->label_20->setFont(font);
-  ui->label_22->setFont(font);
-
-  font.setPixelSize(14);
-  ui->label_21->setFont(font);
+  ui->label_10->setFont(font);
 
   ui->pushButton_3->setFixedSize(QSize(70, 24));
 }
 
 void WidgetErrorInfo::TranslateLanguage()
 {
-  ui->label_10->setText(tr("异常数据"));
-  ui->label_20->setText(tr("已预警数据"));
-  ui->label_22->setText(tr("历史预警数据"));
+  ui->label_10->setText(tr("异常报警"));
+  ui->label_20->setText(tr("今日预警数据"));
   ui->pushButton_3->setText(tr("详情"));
 }

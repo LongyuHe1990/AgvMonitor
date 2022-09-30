@@ -5,7 +5,6 @@
 #include <QTransform>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QLabel>
 #include <QGridLayout>
 #include "mapInfo.h"
 #include "customData.h"
@@ -15,6 +14,10 @@
 #include "common/global_config.h"
 #include <QJsonObject>
 #include <QMessageBox>
+#include <QComboBox>
+#include <QListView>
+#include <QLineEdit>
+#include "moduleData/configModule.h"
 
 static MapMonitoringView* s_mapMonitoringView = nullptr;
 
@@ -85,6 +88,7 @@ MapMonitoringView::~MapMonitoringView()
     }
 
     m_relocButton=nullptr;
+    m_mapVersionsLabel=nullptr;
 }
 
 MapMonitoringView *MapMonitoringView::getInstance()
@@ -98,7 +102,7 @@ void MapMonitoringView::setMapId(int mapId)
     QLabel* mapLabel = findChild<QLabel*>("labelMap");
     if(mapLabel != nullptr)
     {
-        QString mapName = "地图" + QString::number(mapId);
+        QString mapName = QString::number(mapId) + "号地图";
         mapLabel->setText(mapName);
     }
 }
@@ -114,13 +118,14 @@ void MapMonitoringView::setAreaId(int areaId)
     QLabel* areaLabel = findChild<QLabel*>("labelArea");
     if(areaLabel != nullptr)
     {
-        QString areaName = "区域" + QString::number(areaId);
+        QString areaName = QString::number(areaId) + tr("号区域");
         areaLabel->setText(areaName);
     }
 }
 
 void MapMonitoringView::initMap(QVariantMap data)
 {
+    m_scene->clear();
     int type = data.value("RequestId").toInt();
     switch(static_cast<RequestIdType>(type))
     {
@@ -135,17 +140,19 @@ void MapMonitoringView::initMap(QVariantMap data)
         break;
     }
     }
+
+    update();
 }
 
-void MapMonitoringView::requestMapDataInfo(QWebSocket* client)
+void MapMonitoringView::requestMapDataInfo()
 {
-    if(client != nullptr)
+    if(WebSocketClient::getInstance() != nullptr)
     {
         QString mapJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"mapId\":%2,\"floorId\":%3,\"type\":%4},\"OperationType\":%5},\"RequestId\":%6}").arg(int(DataModuleType::Map)).arg(m_mapId).arg(m_floorId).arg(int(MapFileType::XML)).arg(int(MapOperationType::MAP_GETMAP)).arg(int(RequestIdType::REQUEST_MAP_XML));
-        client->sendTextMessage(mapJson);
+        WebSocketClient::getInstance()->sendDataToServer(mapJson);
 
         QString slamJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"mapId\":%2,\"floorId\":%3,\"type\":%4},\"OperationType\":%5},\"RequestId\":%6}").arg(int(DataModuleType::Map)).arg(m_mapId).arg(m_floorId).arg(int(MapFileType::PNG)).arg(int(MapOperationType::MAP_GETMAP)).arg(int(RequestIdType::REQUEST_MAP_SLAM));
-        client->sendTextMessage(slamJson);
+        WebSocketClient::getInstance()->sendDataToServer(slamJson);
     }
 }
 
@@ -156,6 +163,12 @@ void MapMonitoringView::updataAgvItemPos(QVariantMap data)
     {
         QVariantMap content = data.value("Content").toMap();
         QVariantMap posData = content.value("globalPos").toMap();
+        QString currentMapUuid = content.value("currentMapUuid").toString();
+        if(m_mapVersions != currentMapUuid)
+        {
+            m_mapVersions = currentMapUuid;
+            setMapVersions();
+        }
         QPoint pos(posData.value("x").toInt(), posData.value("y").toInt());
         int angle = content.value("angle").toInt();
         if(m_scene != nullptr)
@@ -198,8 +211,27 @@ void MapMonitoringView::setRelocationResult(QVariantMap moduleData)
     }
 }
 
+void MapMonitoringView::updateFloorComboBox()
+{
+    QComboBox* pComboBox = this->findChild<QComboBox*>("mapView_floorComboBox");
+    pComboBox->clear();
+    m_floorIdList.clear();
+    QVariantMap mapData = ConfigModule::getInstance()->getConfig(ConfigType::Map, m_mapId);
+    QVariantMap floorDatas = mapData.value("floorParams").toMap();
+    m_floorIdList = floorDatas.keys();
+    for(int i = 0; i < m_floorIdList.size(); i++)
+    {
+        int floorId = m_floorIdList.at(i).toInt();
+        QString info = QString("  %1F (%2楼)").arg(floorId).arg(floorId);
+        pComboBox->addItem(info);
+    }
+}
+
 void MapMonitoringView::loadMapData(QVariantMap data)
 {
+    m_nodes.clear();
+    m_lines.clear();
+    m_stations.clear();
     if(m_loadMapDataWatcher != nullptr && m_loadMapDataWatcher->isRunning())
     {
         m_loadMapDataWatcher->cancel();
@@ -233,7 +265,7 @@ void MapMonitoringView::loadMapData(QVariantMap data)
             }
             else if(nodeName == "StationInfo")
             {
-             readStationXml(sonList);
+                readStationXml(sonList);
             }
 
             node = node.nextSibling();
@@ -277,7 +309,9 @@ void MapMonitoringView::loadSlamDataToImagee(QVariantMap data)
         m_slamRect = QRect(x,y,width,height);
 
         QByteArray arr_base64 = pngData.toLatin1();
-        m_slamImage.loadFromData(QByteArray::fromBase64(arr_base64));
+        QImage image;
+        image.loadFromData(QByteArray::fromBase64(arr_base64));
+        m_slamImage = image;
     });
 
     if(m_loadSlamWatcher != nullptr)
@@ -502,19 +536,26 @@ void MapMonitoringView::centeredShowMapToView()
 void MapMonitoringView::initWidget()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0,0,0,0);
 
     QHBoxLayout* titleLayout = new QHBoxLayout(this);
-    titleLayout->setSizeConstraint(QLayout::SetFixedSize);
+    titleLayout->setContentsMargins(20,0,40,0);
+    titleLayout->setSpacing(5);
+    titleLayout->setGeometry(QRect(0,0,geometry().width(),40));
 
-    QFont font("微软雅黑", 13);
+    QFont font("微软雅黑", 9);
     QLabel* imageArea = new QLabel(this);
-    imageArea->resize(30,30);
+    imageArea->setMinimumSize(30,40);
+    imageArea->setAlignment(Qt::AlignCenter);
     QPixmap areaImage(30,30);
     areaImage.load(":/image/area.png");
     areaImage = areaImage.scaled(30,30);
     imageArea->setPixmap(areaImage);
     titleLayout->addWidget(imageArea);
     QLabel *labelArea = new QLabel(this);
+    //labelArea->setFrameShape(QFrame::Box);
+    labelArea->setMinimumSize(40,40);
+    labelArea->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     labelArea->setStyleSheet("color:white;");
     labelArea->setFont(font);
     QString areaName = "区域" + QString::number(m_areaId);
@@ -522,16 +563,21 @@ void MapMonitoringView::initWidget()
     labelArea->setObjectName("labelArea");
     titleLayout->addWidget(labelArea);
 
-    titleLayout->addSpacing(50);
+    titleLayout->addSpacing(30);
 
     QLabel* imageMap = new QLabel(this);
-    imageMap->resize(30,30);
+    imageMap->setAlignment(Qt::AlignCenter);
+    //imageMap->setFrameShape(QFrame::Box);
+    imageMap->setMinimumSize(30,40);
     QPixmap mapImage(30,30);
     mapImage.load(":/image/map.png");
     mapImage = mapImage.scaled(25,25);
     imageMap->setPixmap(mapImage);
     titleLayout->addWidget(imageMap);
     QLabel *labelMap = new QLabel(this);
+    //labelMap->setFrameShape(QFrame::Box);
+    labelMap->setMinimumSize(40,40);
+    labelMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     QString mapName = "地图" + QString::number(m_mapId);
     labelMap->setText(mapName);
     labelMap->setObjectName("labelMap");
@@ -539,6 +585,40 @@ void MapMonitoringView::initWidget()
     labelMap->setStyleSheet("color:white");
     titleLayout->addWidget(labelMap);
     titleLayout->addStretch();
+
+    QHBoxLayout* floorBoxLayout = new QHBoxLayout(this);
+    floorBoxLayout->setContentsMargins(0,0,0,0);
+    floorBoxLayout->setSpacing(0);
+    QLabel* floorLabel = new QLabel(this);
+    floorLabel->setMaximumSize(30,40);
+    QPixmap floorImage(30,30);
+    floorImage.load(":/image/floor.png");
+    floorImage = floorImage.scaled(30,30);
+    floorLabel->setPixmap(floorImage);
+    QComboBox* pComboBox = new QComboBox(this);
+    connect(pComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),[=](int index){
+        int floorId = m_floorIdList.at(index).toInt();
+        showFloorInfo(floorId);
+    });
+    pComboBox->setMinimumSize(60, 40);
+    pComboBox->setObjectName("mapView_floorComboBox");
+    QListView* listView = new QListView();
+    pComboBox->setView(listView);
+    floorBoxLayout->addWidget(floorLabel);
+    floorBoxLayout->addWidget(pComboBox);
+    titleLayout->addLayout(floorBoxLayout);
+
+    titleLayout->addStretch();
+    m_mapVersionsLabel = new QLabel(this);
+    m_mapVersionsLabel->setFont(QFont("微软雅黑", 8));
+    m_mapVersionsLabel->setStyleSheet("color:white");
+    m_mapVersionsLabel->setMinimumHeight(40);
+    m_mapVersionsLabel->setAlignment(Qt::AlignVCenter);
+    QString versionsInfo = tr("当前地图版本：") + m_mapVersions;
+    m_mapVersionsLabel->setText(versionsInfo);
+    //m_mapVersionsLabel->setFrameShape (QFrame::Box);
+    titleLayout->addStretch();
+    titleLayout->addWidget(m_mapVersionsLabel);
 
     mainLayout->addLayout(titleLayout);
     mainLayout->addStretch();
@@ -582,6 +662,21 @@ void MapMonitoringView::sendRelocationDataToServer()
     QJsonDocument doc = QJsonDocument::fromVariant(QVariant(rootMap));
     QString data = doc.toJson();
     WebSocketClient::getInstance()->sendDataToServer(data);
+}
+
+void MapMonitoringView::setMapVersions()
+{
+    if(m_mapVersionsLabel != nullptr)
+    {
+        QString versionsInfo = tr("当前地图版本：") + m_mapVersions;
+        m_mapVersionsLabel->setText(versionsInfo);
+    }
+}
+
+void MapMonitoringView::showFloorInfo(int floor)
+{
+    setFloorId(floor);
+    requestMapDataInfo();
 }
 
 void MapMonitoringView::zoomIn(QPoint pos)
@@ -678,14 +773,36 @@ void MapMonitoringView::paintEvent(QPaintEvent *event)
 {
     QGraphicsView::paintEvent(event);
 
+    QPainter painter(this->viewport());
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.save();
+    QRect rect1(0,0,10,40);
+    painter.setPen(Qt::transparent);
+    painter.setBrush(QColor(200, 172, 72));
+    painter.drawRect(rect1);
+    painter.restore();
+
+    painter.save();
+    QRect rect2(rect1.topRight().x(), rect1.topRight().y(), geometry().width() - rect1.width(), rect1.bottomRight().y());
+    painter.setPen(Qt::transparent);
+    QLinearGradient gradient(rect2.topLeft(), rect2.bottomRight());
+    gradient.setColorAt(0, QColor(69, 86, 107));
+    gradient.setColorAt(1, QColor(37, 51, 64));
+    painter.setBrush(gradient);
+    painter.drawRect(rect2);
+
+    painter.save();
+    QRect rect3(rect2.topRight().x() - 30, rect2.topRight().y() + rect2.height() / 2, 4, 4);
+    painter.setBrush(QColor(255, 214, 61));
+    painter.setPen(Qt::transparent);
+    painter.drawRect(rect3);
+    painter.restore();
+
     //painter.setBrush(Qt::white);
     if (!m_isRelocation || !m_leftMousePress)
     {
         return;
     }
-    QPainter painter(this->viewport());
-    painter.setRenderHint(QPainter::Antialiasing, true);
-
     QPen pen(QColor("#f8b62b"), 2, Qt::DashLine);
     painter.setPen(pen);
     painter.drawLine(m_line);

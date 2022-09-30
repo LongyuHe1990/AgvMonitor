@@ -43,13 +43,12 @@ private:
   Ui::WidgetHomepage* ui;
 
   WidgetBaseInfo*  widget_baseinfo_;
-  WidgetErrorInfo* widget_errorinfo_;
   WidgetTaskList*  widget_tasklist_;
-  WidgetAllInfo*   widget_allinfo_;
-  WidgetAddTask*   widget_addtask_;
+//  WidgetAllInfo*   widget_allinfo_;
+//  WidgetAddTask*   widget_addtask_;
+  WidgetErrorInfo* Widget_error_;
   ConfigModule*    m_configModule;
   StationModule*   m_stationModule;
   TaskModule*      m_taskModule;
-
 };
 

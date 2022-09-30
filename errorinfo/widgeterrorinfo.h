@@ -22,7 +22,8 @@ public:
   explicit WidgetErrorInfo(QWidget* parent = nullptr);
   ~WidgetErrorInfo();
 
-  void InitData(QVariantMap data_map, int agvId);
+  static WidgetErrorInfo* GetInstance();
+  void InitData(QVariantMap data_map);
 
 Q_SIGNALS:
   void ShowDetailWidget();
@@ -34,6 +35,5 @@ private:
 private:
   Ui::WidgetErrorInfo* ui;
 
-// WidgetChartError* chart_error_;
 };
 

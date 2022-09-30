@@ -35,7 +35,7 @@ void ConfigModule::initConfig(QVariantMap data)
     case ConfigOperatedType::OPERATED_TYPE_INIT:
     {
         m_configs = moduleData.value("Content").toMap();
-        WidgetAllInfo::GetInstance()->GetDeviceName(m_configs);
+        //WidgetAllInfo::GetInstance()->GetDeviceName(m_configs);
         break;
     }
     }

@@ -44,6 +44,8 @@ include(switch/switch.pri)
 include(setting/setting.pri)
 include(moduleData/moduleData.pri)
 include(common/common.pri)
+include(common/customWidget.)
+include(statisticAnalysis/statisticAnalysis.pri)
 
 SOURCES += \
     main.cpp \
@@ -78,7 +80,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 RESOURCES += \
-    image.qrc
+    image.qrc \
+    qss.qrc
 
 DEFINES += BOOST_LOG_DYN_LINK
 

@@ -8,6 +8,7 @@
 #include "common/global_config.h"
 #include <QUuid>
 #include "widgetmain.h"
+#include <QKeyEvent>
 
 #define autoLoginPath "/usr"
 
@@ -17,8 +18,8 @@ WidgetLogin::WidgetLogin(QWidget* parent)
   : QWidget(parent)
   , logger::Logger("Login")
   , ui(new Ui::WidgetLogin)
-  , event_loop_(nullptr)
   , m_webSocketClient(nullptr)
+  , event_loop_(nullptr)
 {
   ui->setupUi(this);
 

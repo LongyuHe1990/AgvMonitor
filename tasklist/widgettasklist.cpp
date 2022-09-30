@@ -63,6 +63,7 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     QTableWidgetItem* item1 = new QTableWidgetItem;
     QTableWidgetItem* item2 = new QTableWidgetItem;
     QTableWidgetItem* item3 = new QTableWidgetItem;
+    QTableWidgetItem* item4 = new QTableWidgetItem;
 
     QVariantMap item = dataMap.value(keys[i]).toMap();
 
@@ -77,12 +78,48 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     ui->tableWidget->setItem(row, 2, item2);
     ui->tableWidget->setItem(row, 3, item3);
 
-    ui->tableWidget->setRowHeight(row, 24);
+    QPushButton* btn_cancel = new QPushButton(ui->tableWidget);
+    btn_cancel->setText(tr("取消"));
+    btn_cancel->setCursor(QCursor(Qt::PointingHandCursor));
+    btn_cancel->setFocusPolicy(Qt::NoFocus);
+    btn_cancel->setFixedSize(QSize(43, 24));
+
+    btn_cancel->setStyleSheet(
+      "QPushButton::hover{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;} \
+       QPushButton{background-color:rgba(7, 22, 41, 0.7);color:rgb(217,231,255);border:1px solid #D9E7FF;border-radius:4px;} \
+       QPushButton::pressed{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;}");
+    connect(btn_cancel, SIGNAL(clicked()), this, SLOT(TaskCancelButtonClicked()));
+
+    QPushButton* btn_delete = new QPushButton(ui->tableWidget);
+    btn_delete->setText(tr("强制删除"));
+    btn_delete->setCursor(QCursor(Qt::PointingHandCursor));
+    btn_delete->setFocusPolicy(Qt::NoFocus);
+    btn_delete->setFixedSize(QSize(43, 24));
+
+    btn_delete->setStyleSheet(
+       "QPushButton::hover{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;} \
+       QPushButton{background-color:rgba(7, 22, 41, 0.7);color:rgb(217,231,255);border:1px solid #D9E7FF;border-radius:4px;} \
+       QPushButton::pressed{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;}");
+   connect(btn_delete, SIGNAL(clicked()), this, SLOT(TaskDeleteButtonClicked()));
+
+
+    QWidget * widget1 = new QWidget(ui->tableWidget);
+    widget1->setMinimumWidth(150);
+    QHBoxLayout * layout = new QHBoxLayout;
+    layout->setContentsMargins(0,0,0,0);
+
+    layout->addWidget(btn_cancel);
+    layout->addWidget(btn_delete);
+    widget1->setLayout(layout);
 
     item0->setTextAlignment(Qt::AlignCenter);
     item1->setTextAlignment(Qt::AlignCenter);
     item2->setTextAlignment(Qt::AlignCenter);
     item3->setTextAlignment(Qt::AlignCenter);
+    item4->setTextAlignment(Qt::AlignCenter);
+
+    ui->tableWidget->setCellWidget(row, 4, widget1);
+    ui->tableWidget->setRowHeight(row, 24);
 
     ++row;
   }
@@ -96,7 +133,17 @@ void WidgetTaskList::VisitorModel(bool model)
 void WidgetTaskList::AddTaskButtonClicked()
 {
    emit ShowAddTaskListWidget();
-   WidgetAddTask::GetIntance()->SetInitData();
+    WidgetAddTask::GetIntance()->SetInitData();
+}
+
+void WidgetTaskList::TaskCancelButtonClicked()
+{
+
+}
+
+void WidgetTaskList::TaskDeleteButtonClicked()
+{
+
 }
 
 void WidgetTaskList::Initialize()
@@ -118,7 +165,7 @@ void WidgetTaskList::Translatelanguage()
   ui->pushButton_4->setText(tr("添加"));
 
   QStringList header;
-  header << tr("ID") << tr("车号") << tr("阶段") << tr("目标列表");
+  header << tr("ID") << tr("车号") << tr("阶段") << tr("目标列表") << tr("操作");
   for(int i = 0; i < header.size(); ++i)
   {
     QTableWidgetItem* item = new QTableWidgetItem;
@@ -131,13 +178,13 @@ void WidgetTaskList::Translatelanguage()
 void WidgetTaskList::InitTasklistTable()
 {
   const int offset = 1;
-  ui->tableWidget->setColumnCount(4);
-  ui->tableWidget->horizontalHeader()->setDefaultSectionSize(150);
-  ui->tableWidget->setColumnWidth(0, 130 * offset);
-  ui->tableWidget->setColumnWidth(1, 200 * offset);
-  ui->tableWidget->setColumnWidth(2, 200 * offset);
-  ui->tableWidget->setColumnWidth(3, 200 * offset);
-// ui->tableWidget->setColumnWidth(4, 200 * offset);
+  ui->tableWidget->setColumnCount(5);
+  ui->tableWidget->horizontalHeader()->setDefaultSectionSize(50);
+  ui->tableWidget->setColumnWidth(0, 50 * offset);
+  ui->tableWidget->setColumnWidth(1, 100 * offset);
+  ui->tableWidget->setColumnWidth(2, 100 * offset);
+  ui->tableWidget->setColumnWidth(3, 100 * offset);
+  ui->tableWidget->setColumnWidth(4, 100 * offset);
 
   // 设置表头字体加粗
   QFont font = ui->tableWidget->horizontalHeader()->font();
@@ -156,7 +203,7 @@ void WidgetTaskList::InitTasklistTable()
                                  QTableWidget::item{ border:none; border-top:0.5px solid rgb(255,255,255);} \
                                  QTableWidget::item:selected { background:transparent; color:rgb(240,179,28);} \
                                  QTableWidget{ color:rgb(255,255,255); background-color:rgb(15, 24, 25); border:none; }");
-  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(255, 255, 255);background-color: rgb(15, 24, 25); border:none; }");
+  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227, 186, 56);background-color: rgb(15, 24, 25); border:none; }");
   ui->tableWidget->verticalScrollBar()->setStyleSheet(
     "QScrollBar{ background:#0F1819; width:4px; padding-top:0px; padding-bottom:0px; } \
                                                       QScrollBar::handle:vertical{ border-radius:4px; background:#5D6068; min-height: 30px; } \

@@ -1,7 +1,10 @@
-﻿#include "widgetchartitem.h"
+﻿
+#include "widgetchartitem.h"
 #include <QtCharts/qcategoryaxis.h>
 #include <QtCharts/qbarcategoryaxis.h>
-#include <QtCharts/qsplineseries.h>
+#include <QMetaObject>
+
+#pragma comment  (lib, "Qt5Charts.lib")
 
 WidgetChartItem::WidgetChartItem(QWidget* parent)
   : QChartView(parent)
@@ -73,9 +76,9 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 WidgetChartError::WidgetChartError(QWidget* parent)
   : WidgetChartItem(parent)
 {
-  series_ = new QSplineSeries(chart_);
-  series_->setPen(QPen(QColor("#3CC2FF"), 2));
-  series_->setPointLabelsColor(QColor("#3CC2FF"));
+  series_ = new QLineSeries(chart_);
+  series_->setPen(QPen(QColor("#E6F7FF"), 2));
+  series_->setPointLabelsColor(QColor("#E6F7FF"));
   series_->setPointLabelsFormat("@yPoint");
   series_->setPointLabelsVisible(true);
   series_->setPointsVisible(true);
@@ -83,16 +86,16 @@ WidgetChartError::WidgetChartError(QWidget* parent)
   chart_->addSeries(series_);
 
   QCategoryAxis* axis_x = new QCategoryAxis(chart_);
-  axis_x->setLabelsColor(QColor("#3CDFFF"));
+  axis_x->setLabelsColor(QColor("#E6F7FF"));
   axis_x->setGridLineVisible(false);
-  axis_x->setLinePen(QPen(QColor("#3CC2FF"), 1));
+  axis_x->setLinePen(QPen(QColor("#E6F7FF"), 1));
 
   QValueAxis* axis_y = new QValueAxis(chart_);
   axis_y->setTickCount(6);
   axis_y->setRange(0, 50);
-  axis_y->setGridLinePen(QPen(QColor("#3CC2FF"), 0.25));
-  axis_y->setLinePen(QPen(QColor("#3CC2FF"), 1));
-  axis_y->setLabelsColor(QColor("#3CDFFF"));
+  axis_y->setGridLinePen(QPen(QColor("#E6F7FF"), 0.25));
+  axis_y->setLinePen(QPen(QColor("#E6F7FF"), 1));
+  axis_y->setLabelsColor(QColor("#E6F7FF"));
   axis_y->setLabelFormat("%d");
 
   chart_->setAxisX(axis_x, series_);
@@ -177,3 +180,4 @@ void WidgetChartError::TranslateLanguage()
 {
   show_bar_text_ = tr("单位：次");
 }
+
