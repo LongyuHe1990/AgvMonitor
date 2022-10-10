@@ -29,6 +29,10 @@ public:
 private:
   void ShowBaseInfo();
 
+private Q_SLOTS:
+  void LogoutButtonClicked();
+  void PauseButtonClicekd();
+
 private:
   void Initialize();
   void TranslateLanguage();

@@ -37,7 +37,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="40,561,18">
       <property name="spacing">
-       <number>0</number>
+       <number>8</number>
       </property>
       <property name="leftMargin">
        <number>20</number>
@@ -107,6 +107,19 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
+             <widget class="QWidget" name="widget_8" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#widget_8{border:2px solid #D9E7FF;}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_home">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
@@ -120,6 +133,19 @@
               <property name="icon">
                <iconset resource="image.qrc">
                 <normaloff>:/image/home_all/zhuye_no_icon.png</normaloff>:/image/home_all/zhuye_no_icon.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_9" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#widget_9{border:2px solid #D9E7FF;}</string>
               </property>
              </widget>
             </item>
@@ -141,7 +167,23 @@
              </widget>
             </item>
             <item>
+             <widget class="QWidget" name="widget_10" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#widget_10{border:2px solid #D9E7FF;}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_detail">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>状态详览</string>
               </property>
@@ -152,13 +194,42 @@
              </widget>
             </item>
             <item>
+             <widget class="QWidget" name="widget_11" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#widget_11{border:2px solid #D9E7FF;}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_log">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>日志</string>
               </property>
               <property name="icon">
                <iconset resource="image.qrc">
                 <normaloff>:/image/home_all/rizhi_no_icon.png</normaloff>:/image/home_all/rizhi_no_icon.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_12" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#widget_12{border:2px solid #D9E7FF;}</string>
               </property>
              </widget>
             </item>
@@ -176,6 +247,19 @@
               <property name="icon">
                <iconset resource="image.qrc">
                 <normaloff>:/image/home_all/shezhi_no_icon.png</normaloff>:/image/home_all/shezhi_no_icon.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_13" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>12</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#widget_13{border:2px solid #D9E7FF;}</string>
               </property>
              </widget>
             </item>

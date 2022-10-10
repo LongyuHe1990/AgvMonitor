@@ -34,6 +34,8 @@ private:
 private Q_SLOTS:
   void ShowSystemTime();
   void MenuButtonClicked(int index);
+  void ShowErrorDetailWidget();
+  void HideErrorDetialWidget();
 
 private:
   void Initialize();

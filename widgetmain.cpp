@@ -3,11 +3,11 @@
 #include <QKeyEvent>
 
 #define WIDGET_HOME 0
-#define WIDGET_CONTROL 1
-#define WIDGET_DETAIL 2
-#define WIDGET_LOG 3
-#define WIDGET_SETTING 4
-
+//#define WIDGET_CONTROL 1
+//#define WIDGET_DETAIL 2
+//#define WIDGET_LOG 3
+//#define WIDGET_SETTING 4
+#define WIDGET_ERROR 1
 
 WidgetMain::WidgetMain(QWidget* parent)
   : QWidget(parent)
@@ -32,21 +32,24 @@ WidgetMain::WidgetMain(QWidget* parent)
   TranslateLanguage();
 
   widget_home_    = new WidgetHomepage(this);
-  widget_setting_ = new WidgetSetting(this);
-  widget_switch_  = new WidgetSwitch(this);
+//  widget_setting_ = new WidgetSetting(this);
+//  widget_switch_  = new WidgetSwitch(this);
   widget_error_   = new WidgetError(this);
 
   ui->stackedWidget->addWidget(widget_home_);
-  ui->stackedWidget->addWidget(widget_setting_);
+//  ui->stackedWidget->addWidget(widget_setting_);
   ui->stackedWidget->addWidget(widget_error_);
 
   MenuButtonClicked(0);
 
-  connect(button_group_, SIGNAL(buttonClicked(int)), this, SLOT(MenuButtonClicked(int)));
-
   timer_ = new QTimer(this);
   connect(timer_, SIGNAL(timeout()), this, SLOT(ShowSystemTime()));
   timer_->start(5000);
+
+  ui->stackedWidget->setCurrentIndex(0);
+  connect(button_group_, SIGNAL(buttonClicked(int)), this, SLOT(MenuButtonClicked(int)));
+  connect(widget_error_, SIGNAL(WidgetErrorBack()), this, SLOT(HideErrorDetialWidget()));
+  connect(widget_home_, SIGNAL(ShowErrorDetailWidget()), this, SLOT(ShowErrorDetailWidget()));
 }
 
 WidgetMain::~WidgetMain()
@@ -99,7 +102,17 @@ void WidgetMain::MenuButtonClicked(int index)
     }
   }
 
-  ui->stackedWidget->setCurrentIndex(index);
+//  ui->stackedWidget->setCurrentIndex(index);
+}
+
+void WidgetMain::ShowErrorDetailWidget()
+{
+    ui->stackedWidget->setCurrentIndex(WIDGET_ERROR);
+}
+
+void WidgetMain::HideErrorDetialWidget()
+{
+    ui->stackedWidget->setCurrentIndex(WIDGET_HOME);
 }
 
 void WidgetMain::Initialize()
@@ -116,12 +129,17 @@ void WidgetMain::Initialize()
   ui->pushButton_log->setFont(font);
   ui->pushButton_setting->setFont(font);
 
-  font.setPixelSize(8);
+  font.setPixelSize(10);
   ui->label_date->setFont(font);
 
   ui->label_icon->setFixedSize(QSize(110, 15));
-  ui->label_time->setFixedSize(QSize(40, 14));
-  ui->label_date->setFixedSize(QSize(40, 14));
+  ui->label_time->setFixedSize(QSize(50, 14));
+  ui->label_date->setFixedSize(QSize(50, 14));
+  ui->pushButton_home->setFixedSize(QSize(105, 28));
+  ui->pushButton_control->setFixedSize(QSize(105, 28));
+  ui->pushButton_detail->setFixedSize(QSize(105, 28));
+  ui->pushButton_log->setFixedSize(QSize(105, 28));
+  ui->pushButton_setting->setFixedSize(QSize(105, 28));
 }
 
 void WidgetMain::TranslateLanguage()

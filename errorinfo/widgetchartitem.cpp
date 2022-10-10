@@ -3,6 +3,7 @@
 #include <QtCharts/qcategoryaxis.h>
 #include <QtCharts/qbarcategoryaxis.h>
 #include <QMetaObject>
+#include <QDebug>
 
 #pragma comment  (lib, "Qt5Charts.lib")
 
@@ -14,7 +15,7 @@ WidgetChartItem::WidgetChartItem(QWidget* parent)
 {
   chart_ = new QChart;
   chart_->setTheme(QChart::ChartThemeLight);
-  chart_->setBackgroundBrush(QColor(15, 24, 25));
+  chart_->setBackgroundBrush(QColor(7, 22, 41));
 
   chart_->legend()->setVisible(true);
   chart_->legend()->setAlignment(Qt::AlignRight);
@@ -34,7 +35,7 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
   {
     QPainter painter(viewport());
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.fillRect(rect(), QColor(15, 24, 25));
+    painter.fillRect(rect(), QColor(7, 22, 41));
   }
 
   QChartView::paintEvent(e);
@@ -47,7 +48,7 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 
     //
     QFont ft = painter.font();
-    ft.setPixelSize(6);
+    ft.setPixelSize(10);
     painter.setFont(ft);
     painter.drawText(20, 20, show_bar_text_);
   }
@@ -60,7 +61,7 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 
     //
     QFont ft = painter.font();
-    ft.setPixelSize(6);
+    ft.setPixelSize(10);
     painter.setFont(ft);
     const int text_height = QFontMetrics(ft).height() + chart_->margins().bottom();
     painter.drawText(0, height() - text_height, width(), text_height, Qt::AlignCenter, show_title_text_);
@@ -76,19 +77,34 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 WidgetChartError::WidgetChartError(QWidget* parent)
   : WidgetChartItem(parent)
 {
-  series_ = new QLineSeries(chart_);
-  series_->setPen(QPen(QColor("#E6F7FF"), 2));
-  series_->setPointLabelsColor(QColor("#E6F7FF"));
-  series_->setPointLabelsFormat("@yPoint");
-  series_->setPointLabelsVisible(true);
-  series_->setPointsVisible(true);
-  series_->setPointLabelsClipping(false);
-  chart_->addSeries(series_);
+  QLineSeries* series = new QLineSeries(chart_);
+  series->setPen(QPen(QColor("#E3BA38"), 2));
+  series->setPointLabelsColor(QColor("#E3BA38"));
+  series->setPointLabelsFormat("@yPoint");
+  series->setPointLabelsVisible(true);
+  series->setPointsVisible(true);
+  series->setPointLabelsClipping(false);
+  series->setName(tr("本周"));
+
+  QLineSeries* series1 = new QLineSeries(chart_);
+  series1->setPen(QPen(QColor("#E6F7FF"), 2));
+  series1->setPointLabelsColor(QColor("#E6F7FF"));
+  series1->setPointLabelsFormat("@yPoint");
+  series1->setPointLabelsVisible(true);
+  series1->setPointsVisible(true);
+  series1->setPointLabelsClipping(false);
+  series1->setName(tr("过去一周"));
+
+  series_list_.append(series);
+  series_list_.append(series1);
+  chart_->addSeries(series_list_[0]);
+  chart_->addSeries(series_list_[1]);
 
   QCategoryAxis* axis_x = new QCategoryAxis(chart_);
   axis_x->setLabelsColor(QColor("#E6F7FF"));
   axis_x->setGridLineVisible(false);
   axis_x->setLinePen(QPen(QColor("#E6F7FF"), 1));
+  axis_x->setRange(0, 14);
 
   QValueAxis* axis_y = new QValueAxis(chart_);
   axis_y->setTickCount(6);
@@ -98,9 +114,13 @@ WidgetChartError::WidgetChartError(QWidget* parent)
   axis_y->setLabelsColor(QColor("#E6F7FF"));
   axis_y->setLabelFormat("%d");
 
-  chart_->setAxisX(axis_x, series_);
-  chart_->setAxisY(axis_y, series_);
-  chart_->legend()->setVisible(false);
+  chart_->setAxisX(axis_x, series_list_[0]);
+  chart_->setAxisY(axis_y, series_list_[0]);
+  chart_->setAxisX(axis_x, series_list_[1]);
+  chart_->setAxisY(axis_y, series_list_[1]);
+  chart_->legend()->setVisible(true);
+  chart_->legend()->setAlignment(Qt::AlignTop);
+
 
   Initialize();
   TranslateLanguage();
@@ -118,7 +138,14 @@ void WidgetChartError::Clear()
     return;
   }
 
-  series_->clear();
+  const QList<QLineSeries *> series_list = series_list_;
+  if(series_list.count() < 1)
+  {
+    return;
+  }
+  series_list.at(0)->clear();
+  series_list.at(1)->clear();
+
   const QStringList labels(axis_x->categoriesLabels());
   for(const QString& label : labels)
   {
@@ -133,9 +160,10 @@ void WidgetChartError::SetInputData(StatisticsInfoList data)
   int max_value = 0;
   for(auto itr = data.begin(); itr != data.end(); ++itr)
   {
-    if(itr->value > max_value)
+    StatisticsInfo info = *itr;
+    if(info.Max() > max_value)
     {
-      max_value = itr->value;
+      max_value = info.Max();
     }
   }
 
@@ -148,20 +176,29 @@ void WidgetChartError::SetInputData(StatisticsInfoList data)
 
   for(auto itr = data.begin(); itr != data.end(); ++itr)
   {
+    StatisticsInfo info   = *itr;
     QCategoryAxis* axis_x = static_cast<QCategoryAxis *>(chart_->axisX());
     const int      offset = (axis_x->count() + 1) * 2;
     if(axis_x)
     {
-      axis_x->append(itr->key.mid(5), offset);
+      axis_x->append(info.key.mid(5), offset);
     }
-    series_->append(QPointF(offset - 1, itr->value));
+
+    const QList<QLineSeries *> serise_list = series_list_;
+    if(serise_list.count() < 1)
+    {
+      return;
+    }
+
+    serise_list.at(0)->append(QPointF(offset - 1, info.value));
+    serise_list.at(1)->append(QPointF(offset - 1, info.value1));
   }
 }
 
 void WidgetChartError::Initialize()
 {
   QFont ft = font();
-  ft.setPixelSize(6);
+  ft.setPixelSize(10);
 
   QBarCategoryAxis* axis_x = static_cast<QBarCategoryAxis *>(chart_->axisX());
   if(axis_x)

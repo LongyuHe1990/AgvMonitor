@@ -15,7 +15,8 @@ WidgetHomepage::WidgetHomepage(QWidget* parent)
   Initialize();
 
   connect(widget_tasklist_, SIGNAL(ShowAddTaskListWidget()), this, SLOT(ShowAddTaskListWidget()));
-//  connect(widget_addtask_, SIGNAL(HideAddTaskListWidget()), this, SLOT(HideAddTaskListWidget()));
+  connect(widget_addtask_, SIGNAL(HideAddTaskListWidget()), this, SLOT(HideAddTaskListWidget()));
+  connect(Widget_error_, SIGNAL(ShowDetailWidget()), this, SIGNAL(ShowErrorDetailWidget()));
 }
 
 WidgetHomepage::~WidgetHomepage()
@@ -25,10 +26,12 @@ WidgetHomepage::~WidgetHomepage()
 
 void WidgetHomepage::ShowAddTaskListWidget()
 {
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
 void WidgetHomepage::HideAddTaskListWidget()
 {
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void WidgetHomepage::Initialize()
@@ -39,15 +42,15 @@ void WidgetHomepage::Initialize()
 
   widget_baseinfo_ = new WidgetBaseInfo(this);
   widget_tasklist_ = new WidgetTaskList(this);
-//  widget_allinfo_  = new WidgetAllInfo(this);
-//  widget_addtask_  = new WidgetAddTask(this);
+  widget_addtask_  = new WidgetAddTask(this);
   Widget_error_    = new WidgetErrorInfo(this);
   MapMonitoringView* mapView = new MapMonitoringView(this);
 
   ui->verticalLayout->addWidget(widget_baseinfo_);
   // 地图
-  ui->verticalLayout_2->addWidget(mapView, 2);
-  ui->verticalLayout_2->addWidget(widget_tasklist_, 1);
+  ui->stackedWidget->addWidget(mapView);
+  ui->stackedWidget->addWidget(widget_addtask_);
+  ui->verticalLayout_5->addWidget(widget_tasklist_);
 
   ui->verticalLayout_4->addWidget(new TimeUtilizationRateView(this));
   ui->verticalLayout_4->setStretch(0,1);
@@ -56,4 +59,6 @@ void WidgetHomepage::Initialize()
   //异常报警
   ui->verticalLayout_4->addWidget(Widget_error_);
   ui->verticalLayout_4->setStretch(2,1);
+  ui->stackedWidget->setCurrentIndex(0);
+
 }

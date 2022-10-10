@@ -16,11 +16,12 @@ struct NameAndLabelInfo {
 struct StatisticsInfo
 {
   int value;
+  int value1;
   QString key;
 
-  inline bool operator ==(StatisticsInfo other) const
+  inline int Max()
   {
-    return key == other.key;
+      return value > value1 ? value : value1;
   }
 };
 using StatisticsInfoList = std::list<StatisticsInfo>;

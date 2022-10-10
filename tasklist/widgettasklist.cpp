@@ -97,16 +97,16 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     btn_delete->setFixedSize(QSize(43, 24));
 
     btn_delete->setStyleSheet(
-       "QPushButton::hover{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;} \
+      "QPushButton::hover{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;} \
        QPushButton{background-color:rgba(7, 22, 41, 0.7);color:rgb(217,231,255);border:1px solid #D9E7FF;border-radius:4px;} \
        QPushButton::pressed{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;}");
-   connect(btn_delete, SIGNAL(clicked()), this, SLOT(TaskDeleteButtonClicked()));
+    connect(btn_delete, SIGNAL(clicked()), this, SLOT(TaskDeleteButtonClicked()));
 
 
-    QWidget * widget1 = new QWidget(ui->tableWidget);
+    QWidget* widget1 = new QWidget(ui->tableWidget);
     widget1->setMinimumWidth(150);
-    QHBoxLayout * layout = new QHBoxLayout;
-    layout->setContentsMargins(0,0,0,0);
+    QHBoxLayout* layout = new QHBoxLayout;
+    layout->setContentsMargins(0, 0, 0, 0);
 
     layout->addWidget(btn_cancel);
     layout->addWidget(btn_delete);
@@ -127,23 +127,21 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
 
 void WidgetTaskList::VisitorModel(bool model)
 {
-    ui->pushButton_4->setHidden(model);
+  ui->pushButton_4->setHidden(model);
 }
 
 void WidgetTaskList::AddTaskButtonClicked()
 {
-   emit ShowAddTaskListWidget();
-    WidgetAddTask::GetIntance()->SetInitData();
+  emit ShowAddTaskListWidget();
+  WidgetAddTask::GetIntance()->SetInitData();
 }
 
 void WidgetTaskList::TaskCancelButtonClicked()
 {
-
 }
 
 void WidgetTaskList::TaskDeleteButtonClicked()
 {
-
 }
 
 void WidgetTaskList::Initialize()
@@ -202,8 +200,8 @@ void WidgetTaskList::InitTasklistTable()
     " \
                                  QTableWidget::item{ border:none; border-top:0.5px solid rgb(255,255,255);} \
                                  QTableWidget::item:selected { background:transparent; color:rgb(240,179,28);} \
-                                 QTableWidget{ color:rgb(255,255,255); background-color:rgb(15, 24, 25); border:none; }");
-  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227, 186, 56);background-color: rgb(15, 24, 25); border:none; }");
+                                 QTableWidget{ color:rgb(255,255,255); background-color:rgb(7, 22, 41); border:none; }");
+  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227, 186, 56);background-color: rgb(7, 22, 41); border:none; }");
   ui->tableWidget->verticalScrollBar()->setStyleSheet(
     "QScrollBar{ background:#0F1819; width:4px; padding-top:0px; padding-bottom:0px; } \
                                                       QScrollBar::handle:vertical{ border-radius:4px; background:#5D6068; min-height: 30px; } \

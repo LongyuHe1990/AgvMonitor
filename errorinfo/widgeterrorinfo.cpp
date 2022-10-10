@@ -59,6 +59,7 @@ void WidgetErrorInfo::InitData(QVariantMap data_map)
     StatisticsInfo info;
     info.key   = QString("2022/09/%1").arg(i);
     info.value = i;
+    info.value1 = i + 5;
     list.push_back(info);
   }
 

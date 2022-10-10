@@ -650,7 +650,7 @@ void MapMonitoringView::sendRelocationDataToServer()
     contentMap.insert("posY", mapPoint.y());
     contentMap.insert("angle", m_angle);
     contentMap.insert("id", UserConfigs::AgvId);
-    contentMap.insert("posZ", 1);
+    contentMap.insert("posZ", m_floorId);
     QVariantMap moduleData;
     moduleData.insert("Content", contentMap);
     moduleData.insert("OperationType", static_cast<int>(AgvOperationType::AGV_RELOC));

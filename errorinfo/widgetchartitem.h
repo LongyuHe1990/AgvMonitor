@@ -53,6 +53,6 @@ private:
   void Initialize();
   void TranslateLanguage();
 
-  QLineSeries* series_;
+  QList<QLineSeries*> series_list_;
 };
 

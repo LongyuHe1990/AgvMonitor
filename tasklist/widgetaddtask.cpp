@@ -397,6 +397,8 @@ void WidgetAddTask::Initialize()
   ui->comboBox_device->setFont(font);
 
   ui->pushButton_close->setFixedSize(QSize(34, 34));
+  ui->label->setFixedSize(QSize(32, 11));
+  ui->label_2->setFixedSize(QSize(32, 11));
 }
 
 void WidgetAddTask::TranslateLanguage()

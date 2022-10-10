@@ -72,6 +72,7 @@ FORMS += \
     switch/widgetswitch.ui \
     switch/widgetcode.ui \
     tasklist/widgetaddtask.ui \
+    common/widgetmessagebox.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

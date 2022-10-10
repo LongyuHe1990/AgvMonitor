@@ -18,22 +18,26 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="1">
    <property name="leftMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="spacing">
-    <number>9</number>
+    <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="widget_3" native="true">
+     <property name="styleSheet">
+      <string notr="true">#widget_3{border-image: url(:/image/home_all/renwu_ditu.png);}
+</string>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="4,10,19,12,9,24,8,24,8,24,8,24,8,24,8,24,8,24,19,30,15">
@@ -47,7 +51,7 @@
          <number>9</number>
         </property>
         <property name="rightMargin">
-         <number>9</number>
+         <number>12</number>
         </property>
         <property name="bottomMargin">
          <number>9</number>
@@ -70,12 +74,10 @@
           <item>
            <widget class="QLabel" name="label">
             <property name="styleSheet">
-             <string notr="true">QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(255, 229, 2);border:none;}
-
-</string>
+             <string notr="true">border-image: url(:/image/home_all/step1.png);</string>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -590,6 +592,9 @@ QCheckBox::indicator::checked { image: url(:/image/yes_icon.png);}</string>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton{background-color: rgb(255, 226, 96);
 color: rgb(0, 0, 0);border-radius:6px;border:none;}
@@ -621,7 +626,7 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
          <number>0</number>
         </property>
         <property name="leftMargin">
-         <number>9</number>
+         <number>20</number>
         </property>
         <property name="topMargin">
          <number>9</number>
@@ -647,15 +652,16 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QLabel" name="label_2">
             <property name="styleSheet">
-             <string notr="true">QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(255, 229, 2);border:none;}
-
-</string>
+             <string notr="true">border-image: url(:/image/home_all/step2.png);</string>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -847,8 +853,8 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>457</width>
-                <height>151</height>
+                <width>455</width>
+                <height>156</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -901,6 +907,9 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton{background-color: rgb(255, 226, 96);

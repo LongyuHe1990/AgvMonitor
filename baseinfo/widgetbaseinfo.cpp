@@ -7,6 +7,8 @@
 #include "moduleData/stationModule.h"
 #include <QDebug>
 #include "common/global_config.h"
+#include "common/widgetmessagebox.h"
+#include "common/tiplabel.h"
 
 static WidgetBaseInfo* widget_baseinfo_ = nullptr;
 
@@ -20,6 +22,9 @@ WidgetBaseInfo::WidgetBaseInfo(QWidget* parent)
   TranslateLanguage();
 
   widget_baseinfo_ = this;
+
+  connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(LogoutButtonClicked()));
+  connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(PauseButtonClicekd()));
 }
 
 WidgetBaseInfo::~WidgetBaseInfo()
@@ -202,6 +207,19 @@ void WidgetBaseInfo::VisitorModel(bool model)
   ui->pushButton_2->setHidden(model);
 }
 
+void WidgetBaseInfo::LogoutButtonClicked()
+{
+  if(WidgetMessageBox().MessageHint(tr("登出确认"), tr("您确定要登出机器人")))
+  {
+     TipLabel::Popup(tr("登出成功"));
+  }
+}
+
+void WidgetBaseInfo::PauseButtonClicekd()
+{
+
+}
+
 void WidgetBaseInfo::Initialize()
 {
   QFont font = ui->label_7->font();
@@ -249,7 +267,7 @@ void WidgetBaseInfo::Initialize()
   ui->label_18->setFont(font);
 
   ui->label_6->setFixedSize(QSize(14, 14));
-  ui->label_13->setFixedSize(QSize(80, 84));
+  ui->label_13->setFixedSize(QSize(85, 78));
   ui->pushButton->setFixedSize(QSize(93, 30));
   ui->pushButton_2->setFixedSize(QSize(93, 30));
   ui->label_2->setFixedSize(QSize(11, 11));

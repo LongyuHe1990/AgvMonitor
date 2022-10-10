@@ -44,8 +44,7 @@ private:
 
   WidgetBaseInfo*  widget_baseinfo_;
   WidgetTaskList*  widget_tasklist_;
-//  WidgetAllInfo*   widget_allinfo_;
-//  WidgetAddTask*   widget_addtask_;
+  WidgetAddTask*   widget_addtask_;
   WidgetErrorInfo* Widget_error_;
   ConfigModule*    m_configModule;
   StationModule*   m_stationModule;

@@ -22,6 +22,9 @@ public:
 
   static WidgetError * GetInstance();
 
+Q_SIGNALS:
+  void WidgetErrorBack();
+
 private Q_SLOTS:
   void SearchButtonClicked();
 

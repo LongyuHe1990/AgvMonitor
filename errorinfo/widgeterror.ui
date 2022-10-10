@@ -32,36 +32,33 @@
    <item row="0" column="0">
     <widget class="QWidget" name="widget_4" native="true">
      <property name="styleSheet">
-      <string notr="true">#widget_4{background-color:rgb(20,26,31);border:3px solid #5d6068;}</string>
+      <string notr="true">#widget_4{background-color: rgb(7, 17, 30);}
+</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="32,496">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="36,16,496">
       <property name="spacing">
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QWidget" name="widget_2" native="true">
-        <property name="styleSheet">
-         <string notr="true">#widget_2{background-color: rgb(64, 67, 76);}
-</string>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="516,372">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="95,12,817">
          <property name="spacing">
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>9</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
           <number>0</number>
@@ -73,29 +70,56 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="styleSheet">
-            <string notr="true">QLabel{color: rgb(255, 255, 255);
-background-color: rgba(255, 255, 255, 0);border:none;}
+            <string notr="true">QPushButton{color: rgb(217, 231, 255);
+background-color: rgb(55, 68, 88);border:none;}
+QPushButton::hover{color: rgb(217, 231, 255);
+background-color: rgb(66, 82, 106);border:none;}
+QPushButton::pressed{color: rgb(217, 231, 255);
+background-color: rgb(66, 82, 106);border:none;}
 </string>
            </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string>PushButton</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../image.qrc">
+             <normaloff>:/image/home_all/fanhui_icon.png</normaloff>:/image/home_all/fanhui_icon.png</iconset>
            </property>
           </widget>
          </item>
          <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QWidget" name="widget_3" native="true">
            <property name="styleSheet">
-            <string notr="true">#widget_3{background-color: rgb(83, 87, 97);}
+            <string notr="true">#widget_3{background-color: rgb(55, 68, 88);}
 </string>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="24,93,14,18,10,93,41,55,24">
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="109,378,93,14,18,10,93,21,54,16">
             <property name="spacing">
              <number>0</number>
             </property>
             <property name="leftMargin">
-             <number>0</number>
+             <number>9</number>
             </property>
             <property name="topMargin">
              <number>0</number>
@@ -106,6 +130,18 @@ background-color: rgba(255, 255, 255, 0);border:none;}
             <property name="bottomMargin">
              <number>0</number>
             </property>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="styleSheet">
+               <string notr="true">QLabel{color: rgb(227, 186, 56);
+background-color: rgba(255, 255, 255, 0);border:none;}
+</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
@@ -178,7 +214,7 @@ background-color: rgba(255, 255, 255, 0);border:none;}
             <item>
              <widget class="QLabel" name="label_2">
               <property name="styleSheet">
-               <string notr="true">border-image: url(:/image/link_icon.png);</string>
+               <string notr="true">border-image: url(:/image/home_all/link2.png);</string>
               </property>
               <property name="text">
                <string/>
@@ -247,7 +283,7 @@ background-color: rgba(255, 255, 255, 0);border:none;}
             <item>
              <widget class="QPushButton" name="pushButton">
               <property name="styleSheet">
-               <string notr="true">QPushButton{color: rgb(255, 255, 255);
+               <string notr="true">QPushButton{color: rgb(227, 186, 56);
 background-color: rgba(255, 255, 255, 0);border:none;}
 </string>
               </property>
@@ -256,7 +292,7 @@ background-color: rgba(255, 255, 255, 0);border:none;}
               </property>
               <property name="icon">
                <iconset resource="../image.qrc">
-                <normaloff>:/image/search_icon.png</normaloff>:/image/search_icon.png</iconset>
+                <normaloff>:/image/home_all/search_icon.png</normaloff>:/image/home_all/search_icon.png</iconset>
               </property>
              </widget>
             </item>
@@ -278,6 +314,19 @@ background-color: rgba(255, 255, 255, 0);border:none;}
          </item>
         </layout>
        </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QTableWidget" name="tableWidget"/>

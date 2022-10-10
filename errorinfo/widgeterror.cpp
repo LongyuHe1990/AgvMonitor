@@ -21,6 +21,7 @@ WidgetError::WidgetError(QWidget* parent)
   ui->dateEdit_2->setDateTime(QDateTime::currentDateTime());
 
   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(SearchButtonClicked()));
+  connect(ui->pushButton_2, SIGNAL(clicked()), this, SIGNAL(WidgetErrorBack()));
 }
 
 WidgetError::~WidgetError()
@@ -73,8 +74,8 @@ void WidgetError::InitErrorTable()
     " \
                                    QTableWidget::item{ border:none; border-top:0.5px solid rgb(255,255,255);} \
                                    QTableWidget::item:selected { background:transparent; color:rgb(240,179,28);} \
-                                   QTableWidget{ color:rgb(255,255,255); background-color:rgb(15, 24, 25); border:none; }");
-  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(255, 255, 255);background-color: rgb(15, 24, 25); border:none; }");
+                                   QTableWidget{ color:rgb(255,255,255); background-color:rgb(7, 17, 30); border:none; }");
+  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227, 186, 56);background-color: rgb(49, 62, 84); border:none; }");
   ui->tableWidget->verticalScrollBar()->setStyleSheet(
     "QScrollBar{ background:#0F1819; width:4px; padding-top:0px; padding-bottom:0px; } \
                                                         QScrollBar::handle:vertical{ border-radius:4px; background:#5D6068; min-height: 30px; } \
@@ -92,6 +93,9 @@ void WidgetError::Initialize()
   font.setPixelSize(18);
   ui->label->setFont(font);
 
+  font.setPixelSize(16);
+  ui->pushButton_2->setFont(font);
+
   font.setPixelSize(14);
   ui->pushButton->setFont(font);
 
@@ -102,6 +106,7 @@ void WidgetError::TranslateLanguage()
 {
   ui->label->setText(tr("异常信息列表"));
   ui->pushButton->setText(tr("查询"));
+  ui->pushButton_2->setText(tr("返回"));
 
   QStringList header;
   header << tr("模块") << tr("来源") << tr("异常码") << tr("级别") << tr("描述") << tr("提示");
