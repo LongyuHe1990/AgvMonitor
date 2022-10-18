@@ -16,16 +16,6 @@ ConfigModule *ConfigModule::getInstance()
     return s_configModule;
 }
 
-void ConfigModule::setAgvId(int id)
-{
-    m_agvId = id;
-}
-
-int ConfigModule::getAgvId()
-{
-    return m_agvId;
-}
-
 void ConfigModule::initConfig(QVariantMap data)
 {
     QVariantMap moduleData = data.value("ModuleData").toMap();

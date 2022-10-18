@@ -1,6 +1,7 @@
 ﻿#include "widgetmain.h"
 #include "ui_widgetmain.h"
 #include <QKeyEvent>
+#include <QDebug>
 
 #define WIDGET_HOME 0
 //#define WIDGET_CONTROL 1
@@ -144,10 +145,10 @@ void WidgetMain::Initialize()
 
 void WidgetMain::TranslateLanguage()
 {
-  ui->label_title->setText(tr("牵星系统调度平台"));
-  ui->pushButton_home->setText(tr("主界面"));
-  ui->pushButton_control->setText(tr("手动控制"));
-  ui->pushButton_detail->setText(tr("状态详览"));
-  ui->pushButton_log->setText(tr("日志"));
-  ui->pushButton_setting->setText(tr("设置"));
+  ui->label_title->setText(tr("Dispatching platform of traction satellite system"));
+  ui->pushButton_home->setText(tr("Home"));
+  ui->pushButton_control->setText(tr("Manual control"));
+  ui->pushButton_detail->setText(tr("Status Details"));
+  ui->pushButton_log->setText(tr("Log"));
+  ui->pushButton_setting->setText(tr("Setting"));
 }

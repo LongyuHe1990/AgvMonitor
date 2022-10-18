@@ -119,18 +119,18 @@ void WidgetSetting::Initialize()
 
 void WidgetSetting::TranslateLanguage()
 {
-  ui->label_set->setText(tr("设置"));
-  ui->label_id->setText(tr("整车ID"));
-  ui->label_ip->setText(tr("IP地址"));
-  ui->label_autoLogin->setText(tr("自动登录"));
-  ui->label_tip->setText(tr("取消选择后结束自动登录状态"));
-  ui->label_safeCode->setText(tr("安全码更改"));
-  ui->pushButton_qiehuan->setText(tr("切换访客界面"));
-  ui->pushButton_edit->setText(tr("编辑"));
-  ui->label_log->setText(tr("操作日志"));
+  ui->label_set->setText(tr("Setting"));
+  ui->label_id->setText(tr("Vehicle ID"));
+  ui->label_ip->setText(tr("IP address"));
+  ui->label_autoLogin->setText(tr("Automatic login"));
+  ui->label_tip->setText(tr("End automatic login after deselecting"));
+  ui->label_safeCode->setText(tr("Security code change"));
+  ui->pushButton_qiehuan->setText(tr("Switch visitor interface"));
+  ui->pushButton_edit->setText(tr("Edit"));
+  ui->label_log->setText(tr("Operation log"));
 
   QStringList header;
-  header << tr("序号") << tr("日期") << tr("指令") << tr("操作");
+  header << tr("Number") << tr("Date") << tr("Order") << tr("Operation");
   for(int i = 0; i < header.size(); ++i)
   {
     QTableWidgetItem* item = new QTableWidgetItem;

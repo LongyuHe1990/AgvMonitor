@@ -13,6 +13,7 @@ class AgvItem : public QGraphicsItem
 {
 public:
     AgvItem(QGraphicsItem* parent = nullptr);
+    ~AgvItem();
 
     void setAgvType(AgvType type);
 private:

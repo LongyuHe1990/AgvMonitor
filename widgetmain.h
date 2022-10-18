@@ -13,6 +13,8 @@
 #include "errorinfo/widgeterror.h"
 #include <QEventLoop>
 #include <QButtonGroup>
+#include <QDateTime>
+#include <QTimer>
 
 namespace Ui {
 class WidgetMain;

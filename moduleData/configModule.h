@@ -14,9 +14,6 @@ public:
 
     static ConfigModule* getInstance();
 
-    void setAgvId(int id);
-    int getAgvId();
-
     void initConfig(QVariantMap data);
     QVariantMap getConfig(ConfigType configType, int id);
 

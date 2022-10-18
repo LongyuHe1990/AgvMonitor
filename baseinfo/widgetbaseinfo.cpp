@@ -95,7 +95,7 @@ void WidgetBaseInfo::InitData(QVariantMap data_map)
   double voltage    = batteryState.value("voltage").toDouble() / 10.0;
   bool   isCharging = batteryState.value("isCharging").toBool();
 
-  ui->label_24->setText(isCharging ? tr("是") : tr("否"));
+  ui->label_24->setText(isCharging ? tr("Yes") : tr("No"));
   ui->label_17->setText(QString::number(voltage));
   ui->label_19->setText(QString::number(current));
   ui->label_13->setText(tr("%1%").arg(energy));
@@ -193,12 +193,12 @@ void WidgetBaseInfo::InitData(QVariantMap data_map)
   int  isAvoid  = content.value("isAvoid").toBool();
   bool isNormal = content.value("isNormal").toBool();
 
-  ui->label_21->setText(isAuto ? tr("自动") : tr("手动"));
-  ui->label_23->setText(isScram ? tr("触发") : tr("正常"));
+  ui->label_21->setText(isAuto ? tr("Automatic") : tr("Manual"));
+  ui->label_23->setText(isScram ? tr("Trigger") : tr("Normal"));
   ui->label_30->setText(QString::number(speed));
-  ui->label_32->setText(isNormal ? tr("正常") : tr("异常"));
-  ui->label_34->setText(isAvoid ? tr("避障") : tr("正常"));
-  ui->label_36->setText(isEdged ? tr("触发") : tr("正常"));
+  ui->label_32->setText(isNormal ? tr("Normal") : tr("Abnormal"));
+  ui->label_34->setText(isAvoid ? tr("Obstacle avoidance") : tr("Normal"));
+  ui->label_36->setText(isEdged ? tr("Trigger") : tr("Normal"));
 }
 
 void WidgetBaseInfo::VisitorModel(bool model)
@@ -209,9 +209,9 @@ void WidgetBaseInfo::VisitorModel(bool model)
 
 void WidgetBaseInfo::LogoutButtonClicked()
 {
-  if(WidgetMessageBox().MessageHint(tr("登出确认"), tr("您确定要登出机器人")))
+  if(WidgetMessageBox().MessageHint(tr("Sign out confirmation"), tr("Are you sure you want to log out of the robot")))
   {
-     TipLabel::Popup(tr("登出成功"));
+     TipLabel::Popup(tr("Login succeeded"));
   }
 }
 
@@ -277,21 +277,21 @@ void WidgetBaseInfo::Initialize()
 
 void WidgetBaseInfo::TranslateLanguage()
 {
-  ui->label_10->setText(tr("基础信息"));
-  ui->label_11->setText(tr("运行状态"));
-  ui->label_9->setText(tr("机器位置"));
-  ui->pushButton->setText(tr("登出"));
-  ui->pushButton_2->setText(tr("暂停"));
-  ui->label_16->setText(tr("充电状态"));
-  ui->label_15->setText(tr("电池电压(V)"));
-  ui->label_18->setText(tr("电池电流(A)"));
-  ui->label_8->setText(tr("离线"));
-  ui->label_20->setText(tr("AGV模式"));
-  ui->label_22->setText(tr("急停状态"));
-  ui->label_25->setText(tr("AGV工作状态"));
-  ui->label_27->setText(tr("AGV行走状态"));
-  ui->label_29->setText(tr("AGV速度"));
-  ui->label_31->setText(tr("激光当前状态"));
-  ui->label_33->setText(tr("避障状态"));
-  ui->label_35->setText(tr("触边状态"));
+  ui->label_10->setText(tr("Basic information"));
+  ui->label_11->setText(tr("Running state"));
+  ui->label_9->setText(tr("Machine position"));
+  ui->pushButton->setText(tr("Logout"));
+  ui->pushButton_2->setText(tr("Pause"));
+  ui->label_16->setText(tr("Charging state"));
+  ui->label_15->setText(tr("Battery voltage(V)"));
+  ui->label_18->setText(tr("Battery current(A)"));
+  ui->label_8->setText(tr("Offline"));
+  ui->label_20->setText(tr("AGV mode"));
+  ui->label_22->setText(tr("Emergency stop status"));
+  ui->label_25->setText(tr("AGV working state"));
+  ui->label_27->setText(tr("AGV travel status"));
+  ui->label_29->setText(tr("AGV speed"));
+  ui->label_31->setText(tr("Current state of laser"));
+  ui->label_33->setText(tr("Obstacle avoidance state"));
+  ui->label_35->setText(tr("Contact state"));
 }

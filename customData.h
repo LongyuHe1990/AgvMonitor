@@ -75,12 +75,22 @@ enum class StationOperationType {
 };
 
 enum class TaskOperationType {
-    TASK_CREATED,
-    TASK_UPDATED,
-    TASK_ERASED,
-    TASK_CANCEL,
-    TASK_ALL_CANCEL,
-    TASK_MANDATORY_DELETED
+    Task_Inited = 0,
+    Task_Created = 1,
+    Task_Updated = 2,
+    Task_Erased = 3,
+
+    Create_Task = 11,
+    Cancel_Task = 12,
+    Cancel_All_Task = 13,
+    Delete_Task = 14
+};
+
+enum RequestIdType{
+    REQUEST_MAP_XML,
+    REQUEST_MAP_SLAM,
+    REQUEST_RELOCATION,
+    REQUEST_CREATE_TASK
 };
 
 #endif // CUSTOMDATA_H

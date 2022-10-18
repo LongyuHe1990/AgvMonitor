@@ -12,7 +12,6 @@
 #include "tasklist/widgettasklist.h"
 #include "allinfo/widgetallinfo.h"
 #include "tasklist/widgetaddtask.h"
-#include "mapView/mapMonitoringView.h"
 #include "moduleData/configModule.h"
 #include "moduleData/stationModule.h"
 #include "moduleData/taskModule.h"

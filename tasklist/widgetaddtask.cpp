@@ -403,19 +403,19 @@ void WidgetAddTask::Initialize()
 
 void WidgetAddTask::TranslateLanguage()
 {
-  ui->label_title->setText(tr("添加任务"));
-  ui->label_type->setText(tr("站台类型"));
-  ui->label_target->setText(tr("目标站台"));
-  ui->label_floor->setText(tr("站台层级"));
-  ui->label_agvFloor->setText(tr("所在排数"));
-  ui->label_action->setText(tr("机构动作"));
-  ui->label_device->setText(tr("车体设备"));
-  ui->label_loop->setText(tr("循环任务"));
-  ui->label_tragetList->setText(tr("目标列表"));
-  ui->label_target1->setText(tr("目标站台"));
-  ui->label_action1->setText(tr("机构动作"));
-  ui->pushButton_add->setText(tr("添加目标列表"));
-  ui->pushButton_create->setText(tr("创建任务"));
+  ui->label_title->setText(tr("Add task"));
+  ui->label_type->setText(tr("Platform type"));
+  ui->label_target->setText(tr("Target platform"));
+  ui->label_floor->setText(tr("Platform level"));
+  ui->label_agvFloor->setText(tr("Row number"));
+  ui->label_action->setText(tr("Mechanism action"));
+  ui->label_device->setText(tr("Car body equipment"));
+  ui->label_loop->setText(tr("Circular task"));
+  ui->label_tragetList->setText(tr("Target List"));
+  ui->label_target1->setText(tr("Target platform"));
+  ui->label_action1->setText(tr("Mechanism action"));
+  ui->pushButton_add->setText(tr("Add Target List"));
+  ui->pushButton_create->setText(tr("Create Task"));
 }
 
 WidgetTargetListItem::WidgetTargetListItem(QWidget* parent)

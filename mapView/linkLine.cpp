@@ -7,7 +7,8 @@ LinkLine::LinkLine(QGraphicsItem *parent /*= nullptr*/)
     :QGraphicsItem(parent)
 {
     //setFlag(QGraphicsItem::ItemIgnoresTransformations);
-    setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    setZValue(2);
 }
 
 void LinkLine::setStartPoint(QPoint point)

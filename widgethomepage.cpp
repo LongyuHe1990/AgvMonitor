@@ -2,6 +2,7 @@
 #include "ui_widgethomepage.h"
 #include "statisticAnalysis/timeUtilizationRateView.h"
 #include "statisticAnalysis/performanceUtilizationRateView.h"
+#include "mapView/mapMonitoringWidget.h"
 
 WidgetHomepage::WidgetHomepage(QWidget* parent)
   : QWidget(parent)
@@ -44,7 +45,7 @@ void WidgetHomepage::Initialize()
   widget_tasklist_ = new WidgetTaskList(this);
   widget_addtask_  = new WidgetAddTask(this);
   Widget_error_    = new WidgetErrorInfo(this);
-  MapMonitoringView* mapView = new MapMonitoringView(this);
+  MapMonitoringWidget* mapView = new MapMonitoringWidget(this);
 
   ui->verticalLayout->addWidget(widget_baseinfo_);
   // 地图
@@ -60,5 +61,4 @@ void WidgetHomepage::Initialize()
   ui->verticalLayout_4->addWidget(Widget_error_);
   ui->verticalLayout_4->setStretch(2,1);
   ui->stackedWidget->setCurrentIndex(0);
-
 }

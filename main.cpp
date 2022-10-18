@@ -6,6 +6,8 @@
 #include "widgetmain.h"
 #include "login/widgetlogin.h"
 #include <QDebug>
+#include <QTranslator>
+#include <QLocale>
 
 int main(int argc, char* argv[])
 {
@@ -13,6 +15,25 @@ int main(int argc, char* argv[])
 
   QApplication a(argc, argv);
 
+  QLocale locale;
+  QTranslator translator;
+  if(locale.language() == QLocale::English)
+  {
+      if(translator.load("./translate/translate_en.qm"))
+      {
+          qDebug() << "english system";
+          a.installTranslator(&translator);
+      }
+  }
+  else if(locale.language() == QLocale::Chinese)
+  {
+      if(translator.load(".\\translate\\translate_zh_CN.qm"))
+      {
+          qDebug() << "中文系统";
+          a.installTranslator(&translator);
+      }
+  }
+  
   QString qss;
   QFile qssFile(":/qss/theme.css");
   qssFile.open(QFile::ReadOnly);
@@ -56,8 +77,8 @@ int main(int argc, char* argv[])
     #else
       widget_main.setGeometry(deskRect.width() / 2 - 900, deskRect.height()/2 - 500, 1800, 1000);
     #endif
-//      widget_main.show();
-      widget_main.showFullScreen();
+      widget_main.show();
+      //widget_main.showFullScreen();
       QEventLoop loop_main;
       widget_main.SetEventLoop(&loop_main);
       loop_main.exec();

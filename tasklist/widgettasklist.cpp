@@ -79,7 +79,7 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     ui->tableWidget->setItem(row, 3, item3);
 
     QPushButton* btn_cancel = new QPushButton(ui->tableWidget);
-    btn_cancel->setText(tr("取消"));
+    btn_cancel->setText(tr("Cancel"));
     btn_cancel->setCursor(QCursor(Qt::PointingHandCursor));
     btn_cancel->setFocusPolicy(Qt::NoFocus);
     btn_cancel->setFixedSize(QSize(43, 24));
@@ -91,7 +91,7 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     connect(btn_cancel, SIGNAL(clicked()), this, SLOT(TaskCancelButtonClicked()));
 
     QPushButton* btn_delete = new QPushButton(ui->tableWidget);
-    btn_delete->setText(tr("强制删除"));
+    btn_delete->setText(tr("Force Delete"));
     btn_delete->setCursor(QCursor(Qt::PointingHandCursor));
     btn_delete->setFocusPolicy(Qt::NoFocus);
     btn_delete->setFixedSize(QSize(43, 24));
@@ -159,11 +159,11 @@ void WidgetTaskList::Initialize()
 
 void WidgetTaskList::Translatelanguage()
 {
-  ui->label_23->setText(tr("任务信息列表"));
-  ui->pushButton_4->setText(tr("添加"));
+  ui->label_23->setText(tr("Task information list"));
+  ui->pushButton_4->setText(tr("Add"));
 
   QStringList header;
-  header << tr("ID") << tr("车号") << tr("阶段") << tr("目标列表") << tr("操作");
+  header << tr("ID") << tr("AGV number") << tr("Stage") << tr("Target List") << tr("Operation");
   for(int i = 0; i < header.size(); ++i)
   {
     QTableWidgetItem* item = new QTableWidgetItem;

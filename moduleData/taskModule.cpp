@@ -5,6 +5,7 @@
 #include "configModule.h"
 #include "tasklist/widgettasklist.h"
 #include <QDebug>
+#include "customData.h"
 
 static TaskModule* s_taskModule = nullptr;
 
@@ -75,11 +76,11 @@ void TaskModule::updataTask(QVariantMap data, int agv_id)
     taskData.insert("targetInfo", targetInfo);
     taskData.insert("id", id);
     taskData.insert("agvName", ConfigModule::getInstance()->getAgvName(agvId));
-    if(type == int(TaskOperationType::TASK_CREATED) || type == int(TaskOperationType::TASK_UPDATED))
+    if(type == int(TaskOperationType::Task_Created) || type == int(TaskOperationType::Task_Updated))
     {
         m_tasks.insert(QString::number(id), taskData);
     }
-    else if(type == int(TaskOperationType::TASK_ERASED))
+    else if(type == int(TaskOperationType::Task_Erased))
     {
         m_tasks.erase(m_tasks.find(QString::number(id)));
     }

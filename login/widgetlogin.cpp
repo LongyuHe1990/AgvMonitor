@@ -91,7 +91,6 @@ void WidgetLogin::LoginButtonClicked()
 
   QString id = ui->lineEdit->text();
   QString ip = ui->lineEdit_2->text();
-  WebSocketClient::getInstance()->setAgvId(id.toInt());
   UserConfigs::AgvId = id.toInt();
   QUrl url = QUrl("ws://" + ip + ADDRESS_PORT);
   WebSocketClient::getInstance()->setClickLogin(true);
@@ -139,14 +138,14 @@ void WidgetLogin::Initialize()
 
 void WidgetLogin::TranslateLanguage()
 {
-  ui->label->setText(tr("整车ID"));
-  ui->label_2->setText(tr("IP地址"));
-  ui->pushButton->setText(tr("访客登录"));
-  ui->pushButton_2->setText(tr("下次自动登录"));
-  ui->label_3->setText(tr("记住整车ID与IP地址下次重启机器后自动登录"));
-  ui->label_4->setText(tr("*请输入正确的IP地址"));
-  ui->label_5->setText(tr("*请输入IP地址"));
-  ui->label_7->setText(tr("牵星系统调度平台"));
+  ui->label->setText(tr("Vehicle ID"));
+  ui->label_2->setText(tr("IP address"));
+  ui->pushButton->setText(tr("Guest Login"));
+  ui->pushButton_2->setText(tr("Automatic login next time"));
+  ui->label_3->setText(tr("Remember the vehicle ID and IP address, and log in automatically after the next restart"));
+  ui->label_4->setText(tr("*Please enter the correct IP address"));
+  ui->label_5->setText(tr("*Please enter ip address"));
+  ui->label_7->setText(tr("Dispatching platform of traction satellite system"));
 }
 
 void WidgetLogin::setAutoLogin(bool status)

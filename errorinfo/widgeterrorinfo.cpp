@@ -83,7 +83,7 @@ void WidgetErrorInfo::Initialize()
 
 void WidgetErrorInfo::TranslateLanguage()
 {
-  ui->label_10->setText(tr("异常报警"));
-  ui->label_20->setText(tr("今日预警数据"));
-  ui->pushButton_3->setText(tr("详情"));
+  ui->label_10->setText(tr("Abnormal alarm"));
+  ui->label_20->setText(tr("Today's alert data"));
+  ui->pushButton_3->setText(tr("Details"));
 }

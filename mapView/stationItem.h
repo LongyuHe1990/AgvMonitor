@@ -36,13 +36,13 @@ private:
 
 private:
     QPointF m_stationPoint;
-    QPainterPath m_painterPath;
     QPointF m_associateNodePoint;
 
     LinkLine* m_linkLine;
     QString m_stationName;
 
     StationType  m_type;
+    QRect m_boundingRect;
 };
 
 #endif // STATIONITEM_H

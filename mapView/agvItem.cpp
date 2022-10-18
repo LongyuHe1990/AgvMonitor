@@ -1,5 +1,6 @@
 #include "agvItem.h"
 #include <QPainter>
+#include <QDebug>
 
 AgvItem::AgvItem(QGraphicsItem* parent /*= nullptr*/)
     :QGraphicsItem(parent)
@@ -8,6 +9,11 @@ AgvItem::AgvItem(QGraphicsItem* parent /*= nullptr*/)
     m_rect.setRect(-10,-10,20,20);
     setZValue(2);
     setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+}
+
+AgvItem::~AgvItem()
+{
+    qDebug()<<"delete-agvItem";
 }
 
 void AgvItem::setAgvType(AgvType type)

@@ -12,9 +12,8 @@ StationItem::StationItem(QGraphicsItem *parent/* = nullptr*/)
     ,m_type(STATION_COMMON)
 {
     setFlag(QGraphicsItem::ItemIgnoresTransformations);
-    setZValue(1);
 
-    setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
     m_linkLine = new LinkLine();
 }
 
@@ -75,7 +74,7 @@ void StationItem::setStationType(StationType type)
 
 QRectF StationItem::boundingRect() const
 {
-    return m_painterPath.boundingRect();
+    return QRect(m_boundingRect.topLeft(),m_boundingRect.bottomRight());
 }
 
 void StationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -83,13 +82,8 @@ void StationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    QPainterPath path;
     QRect imageRect(-10,-10,20,20);
     painter->setPen(QPen(Qt::green));
-    path.addRect(imageRect);
-    //QBrush brush(Qt::green);
-    //painter->setBrush(brush);
-    //painter->drawPath(path);
 
     QImage image;
     switch (m_type)
@@ -112,20 +106,23 @@ void StationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     }
     painter->drawImage(imageRect, image);
 
-    QPainterPath titlePath;
-
 
     QFont font = QApplication::font();
-
     QFontMetrics metrics(font);
-
-    titlePath.addText(-(metrics.width(m_stationName) / 2), metrics.height() + 5, font, m_stationName);
+    int nameHeight = metrics.height();
+    int nameWidth = metrics.width(m_stationName);
+    QRect titleRect(-(nameWidth / 2), imageRect.bottomLeft().y(), nameWidth, nameHeight);
     painter->setPen(QPen("#1afa29"));
     painter->setBrush(QBrush("#1afa29"));
-    painter->drawPath(titlePath);
+    painter->drawText(titleRect, m_stationName);
 
-    QPainterPath allPath;
-    allPath.addPath(path);
-    allPath.addPath(titlePath);
-    m_painterPath = allPath;
+    m_boundingRect = imageRect;
+    m_boundingRect = m_boundingRect | titleRect;
+    //m_boundingRect.adjust(-10,-10,10,10);
+
+    painter->setBrush(Qt::transparent);
+    painter->drawRect(m_boundingRect);
+
+    painter->setPen(Qt::red);
+    painter->drawRect(titleRect);
 }

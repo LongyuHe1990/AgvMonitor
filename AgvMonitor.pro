@@ -33,6 +33,8 @@ msvc {
     QMAKE_CXXFLAGS += /utf-8
 }
 
+TRANSLATIONS += tranlate_zh_CN.ts
+
 include(mapView/mapView.pri)
 include(webSocket/webSocket.pri)
 include(login/login.pri)

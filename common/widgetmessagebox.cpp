@@ -50,8 +50,8 @@ void WidgetMessageBox::CancleButtonClicked()
 
 void WidgetMessageBox::TranslateLanguage()
 {
-    ui->pushButton_2->setText(tr("确定"));
-    ui->pushButton_3->setText(tr("取消"));
+    ui->pushButton_2->setText(tr("Confirm"));
+    ui->pushButton_3->setText(tr("Cancel"));
 }
 
 void WidgetMessageBox::Initialize()

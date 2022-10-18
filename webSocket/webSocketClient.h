@@ -16,8 +16,6 @@ public:
 
     void openWebSocket(QString url);
 
-    void setAgvId(int id);
-
     void setClickLogin(bool status);
     void sendDataToServer(const QString& data);
 private:
@@ -41,7 +39,6 @@ private:
     QTimer *m_timer;
     QUrl m_url;
     int m_timeoutCount; //3次超时则重连
-    int m_agvId;
     bool m_clickLogin;
 };
 

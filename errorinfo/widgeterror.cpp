@@ -104,12 +104,12 @@ void WidgetError::Initialize()
 
 void WidgetError::TranslateLanguage()
 {
-  ui->label->setText(tr("异常信息列表"));
-  ui->pushButton->setText(tr("查询"));
-  ui->pushButton_2->setText(tr("返回"));
+  ui->label->setText(tr("Exception information list"));
+  ui->pushButton->setText(tr("Search"));
+  ui->pushButton_2->setText(tr("Back"));
 
   QStringList header;
-  header << tr("模块") << tr("来源") << tr("异常码") << tr("级别") << tr("描述") << tr("提示");
+  header << tr("Modular") << tr("Source") << tr("Exception code") << tr("Level") << tr("Describe") << tr("Tips");
   for(int i = 0; i < header.size(); ++i)
   {
     QTableWidgetItem* item = new QTableWidgetItem;

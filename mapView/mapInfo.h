@@ -24,11 +24,11 @@ typedef struct StationInfo{
     int column;
 }STATIONINFO;
 
-enum RequestIdType{
-    REQUEST_MAP_XML,
-    REQUEST_MAP_SLAM,
-    REQUEST_RELOCATION
-};
+typedef struct LiftInfo{
+    QString id;
+    QPointF point;
+    NODEINFO node;
+}LIFTINFO;
 
 enum class MapOperationType {
     MAP_GETMAP,

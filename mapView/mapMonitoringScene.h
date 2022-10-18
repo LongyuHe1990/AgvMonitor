@@ -19,9 +19,12 @@ public:
     void addNodeItems(QMap<QString, NODEINFO> nodes);
     void addLineItems(QMap<QString, LINEINFO> lines);
     void addStationItems(QMap<QString, STATIONINFO> stations);
+    void addLiftItems(QMap<QString, LIFTINFO> lifts);
     void addSlamItem(const QImage &image, QRect rect);
+    void addAgvItem(int floor);
+    void clearAllItem();
 
-    void updataAgvItemPos(QPointF pos, int angle);
+    void updataAgvItemPos(QPointF pos, int angle, bool show);
 private:
     SlamItem *m_slamItem;
     AgvItem *m_agvItem;

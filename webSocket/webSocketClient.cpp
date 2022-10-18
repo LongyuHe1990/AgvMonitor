@@ -13,6 +13,8 @@
 #include "baseinfo/widgetbaseinfo.h"
 #include "allinfo/widgetallinfo.h"
 #include "errorinfo/widgeterrorinfo.h"
+#include "common/global_config.h"
+#include "mapView/mapMonitoringWidget.h"
 
 static WebSocketClient* s_webSocketClient = nullptr;
 
@@ -73,12 +75,6 @@ void WebSocketClient::openWebSocket(QString url)
     }
 }
 
-void WebSocketClient::setAgvId(int id)
-{
-    m_agvId = id;
-    ConfigModule::getInstance()->setAgvId(id);
-}
-
 void WebSocketClient::setClickLogin(bool status)
 {
     m_clickLogin = status;
@@ -108,7 +104,7 @@ void WebSocketClient::reconnectWebSocket()
 
 void WebSocketClient::loginCheck()
 {
-    QString mapJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"agvId\":%2},\"OperationType\":%3},\"RequestId\":-1}").arg(int(DataModuleType::User)).arg(m_agvId).arg(int(LoginOperationType::LOGIN_CHECK));
+    QString mapJson = QString("{\"ModuleType\":%1,\"Async\":false,\"ModuleData\":{\"Content\":{\"agvId\":%2},\"OperationType\":%3},\"RequestId\":-1}").arg(int(DataModuleType::User)).arg(UserConfigs::AgvId).arg(int(LoginOperationType::LOGIN_CHECK));
     if(m_webSocket->isValid())
     {
         m_webSocket->sendTextMessage(mapJson);
@@ -127,11 +123,9 @@ void WebSocketClient::initMapData(QVariantMap agvData)
     QList<QString> floorIds = floorDatas.keys();
     if(floorIds.size() > 0)
     {
-        MapMonitoringView::getInstance()->setMapId(mapId);
-        MapMonitoringView::getInstance()->setAreaId(areaId);
-        MapMonitoringView::getInstance()->setFloorId(floorIds.at(0).toInt());
-        MapMonitoringView::getInstance()->requestMapDataInfo();
-        MapMonitoringView::getInstance()->updateFloorComboBox();
+        MapMonitoringWidget::getInstance()->setMapId(mapId);
+        MapMonitoringWidget::getInstance()->setAreaId(areaId);
+        MapMonitoringWidget::getInstance()->updateFloorComboBox();
     }
 }
 
@@ -207,7 +201,7 @@ void WebSocketClient::onTextReceived(QString data)
                     int type = moduleData.value("OperationType").toInt();
                     if(type == int(ConfigOperatedType::OPERATED_TYPE_INIT))
                     {
-                        initMapData(ConfigModule::getInstance()->getConfig(ConfigType::Agv, m_agvId));
+                        initMapData(ConfigModule::getInstance()->getConfig(ConfigType::Agv, UserConfigs::AgvId));
                     }
 
                     break;
@@ -215,7 +209,7 @@ void WebSocketClient::onTextReceived(QString data)
                 case DataModuleType::Task:
                 {
 //                    qDebug() << "taskData: " <<data;
-                    TaskModule::getInstance()->updataTask(moduleData, m_agvId);
+                    TaskModule::getInstance()->updataTask(moduleData, UserConfigs::AgvId);
                     break;
                 }
                 case DataModuleType::Agv:
@@ -225,7 +219,7 @@ void WebSocketClient::onTextReceived(QString data)
                     WidgetBaseInfo::GetInstance()->InitData(jsonData);
                     //WidgetAllInfo::GetInstance()->InitData(jsonData);
                     WidgetErrorInfo::GetInstance()->InitData(jsonData);
-                    MapMonitoringView::getInstance()->updataAgvItemPos(moduleData);
+                    MapMonitoringWidget::getInstance()->updataAgvItemPos(moduleData);
                     break;
                 }
                 case DataModuleType::Station:
