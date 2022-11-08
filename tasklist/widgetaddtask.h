@@ -8,6 +8,8 @@
 #pragma once
 #include <QWidget>
 #include <QLabel>
+#include <QTableView>
+#include <QStandardItemModel>
 
 namespace Ui {
 class WidgetAddTask;
@@ -15,32 +17,12 @@ class WidgetAddTask;
 
 struct TargetListInfo
 {
-    int action;
-    int agvAxisId;
-    int stationAxisId;
-    QString stationId;
-    QString actionName;
-    QString stationName;
-};
-
-class WidgetTargetListItem : public QWidget
-{
-  Q_OBJECT
-public:
-  explicit WidgetTargetListItem(QWidget* parent = nullptr);
-  ~WidgetTargetListItem();
-  void SetInput(TargetListInfo info);
-  TargetListInfo GetInput();
-
-private:
-  void SetupUi();
-
-private:
-  QLabel* station_label_;
-  QLabel* action_label_;
-  QFrame* frame_;
-
-  TargetListInfo info_;
+  int action;
+  int agvBufferIndex;
+  int stationBufferIndex;
+  int stationId;
+  QString actionName;
+  QString stationName;
 };
 
 class WidgetAddTask : public QWidget
@@ -53,7 +35,6 @@ public:
 
   static WidgetAddTask * GetIntance();
   void                   InitTargetList();
-  void                   GetTargetListInfo();
   void                   SetInitData();
 
 Q_SIGNALS:
@@ -64,14 +45,20 @@ private Q_SLOTS:
   void CreateButtonClicked();
   void StationTypeChanged(int index);
   void StationRowChanged(int index);
+  void TableViewMenu(const QPoint &pos);
+  void DeleteMenuTriggered();
+  void ClearMenuTriggered();
 
 private:
   void Initialize();
   void TranslateLanguage();
+  void InitTargetListTableView();
+  virtual void changeEvent(QEvent* e) override;
 
 private:
   Ui::WidgetAddTask* ui;
 
-  QList<WidgetTargetListItem *> items_;
+  QStandardItemModel* model_;
+  int                 count_;
 };
-
+Q_DECLARE_METATYPE(TargetListInfo)

@@ -74,7 +74,7 @@ void StationItem::setStationType(StationType type)
 
 QRectF StationItem::boundingRect() const
 {
-    return QRect(m_boundingRect.topLeft(),m_boundingRect.bottomRight());
+    return m_boundingRect;
 }
 
 void StationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -118,11 +118,4 @@ void StationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
     m_boundingRect = imageRect;
     m_boundingRect = m_boundingRect | titleRect;
-    //m_boundingRect.adjust(-10,-10,10,10);
-
-    painter->setBrush(Qt::transparent);
-    painter->drawRect(m_boundingRect);
-
-    painter->setPen(Qt::red);
-    painter->drawRect(titleRect);
 }

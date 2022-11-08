@@ -75,7 +75,6 @@ public:
 
   static WidgetAllInfo * GetInstance();
   void                   InitData(QVariantMap dataMap);
-  void                   GetDeviceName(QVariantMap dataMap);
 
 private Q_SLOTS:
   void CurrentIndexChanged(int index);
@@ -87,7 +86,9 @@ private:
   void ShowAgvDeviceInfo();
   void Initialize();
   void TranslateLanguage();
+  void GetDeviceName();
 
+  virtual void changeEvent(QEvent* e) override;
 
 private:
   Ui::WidgetAllInfo* ui;

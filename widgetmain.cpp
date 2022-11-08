@@ -60,7 +60,12 @@ WidgetMain::~WidgetMain()
 
 void WidgetMain::SetEventLoop(QEventLoop* loop)
 {
-  event_loop_ = loop;
+    event_loop_ = loop;
+}
+
+void WidgetMain::SetTranslator(QTranslator *translator)
+{
+    translator_ = translator;
 }
 
 void WidgetMain::keyPressEvent(QKeyEvent* event)
@@ -151,4 +156,17 @@ void WidgetMain::TranslateLanguage()
   ui->pushButton_detail->setText(tr("Status Details"));
   ui->pushButton_log->setText(tr("Log"));
   ui->pushButton_setting->setText(tr("Setting"));
+}
+
+void WidgetMain::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }

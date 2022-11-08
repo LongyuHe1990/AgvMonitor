@@ -15,6 +15,7 @@
 #include <QButtonGroup>
 #include <QDateTime>
 #include <QTimer>
+#include <QTranslator>
 
 namespace Ui {
 class WidgetMain;
@@ -29,6 +30,7 @@ public:
   virtual ~WidgetMain();
 
   void SetEventLoop(QEventLoop* loop);
+  void SetTranslator(QTranslator* translator);
 
 private:
   void keyPressEvent(QKeyEvent* event) override;
@@ -40,8 +42,9 @@ private Q_SLOTS:
   void HideErrorDetialWidget();
 
 private:
-  void Initialize();
-  void TranslateLanguage();
+  void         Initialize();
+  void         TranslateLanguage();
+  virtual void changeEvent(QEvent* e) override;
 
 private:
   Ui::WidgetMain* ui;
@@ -53,5 +56,6 @@ private:
   WidgetError*    widget_error_;
   QButtonGroup*   button_group_;
   QTimer*         timer_;
+  QTranslator*    translator_;
 };
 

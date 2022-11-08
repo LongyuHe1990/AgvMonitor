@@ -529,7 +529,7 @@
              <item>
               <widget class="QLabel" name="label_24">
                <property name="styleSheet">
-                <string notr="true">QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(255, 226, 96);border:none;}</string>
+                <string notr="true">QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(43, 235, 182);border:none;}</string>
                </property>
                <property name="text">
                 <string/>

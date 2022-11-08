@@ -1,6 +1,7 @@
 #include "configModule.h"
 #include "mapView/mapMonitoringView.h"
 #include "allinfo/widgetallinfo.h"
+#include "common/global_config.h"
 
 
 static ConfigModule *s_configModule = nullptr;
@@ -25,7 +26,7 @@ void ConfigModule::initConfig(QVariantMap data)
     case ConfigOperatedType::OPERATED_TYPE_INIT:
     {
         m_configs = moduleData.value("Content").toMap();
-        //WidgetAllInfo::GetInstance()->GetDeviceName(m_configs);
+//        WidgetAllInfo::GetInstance()->GetDeviceName(m_configs);
         break;
     }
     }
@@ -138,6 +139,11 @@ int ConfigModule::getAgvBelongMapId(int agvId)
     }
 
     return mapId;
+}
+
+QVariantMap ConfigModule::getDeviceNameData()
+{
+    return m_configs;
 }
 
 QVariantMap ConfigModule::getStationTypeParams()

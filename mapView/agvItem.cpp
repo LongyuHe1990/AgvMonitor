@@ -52,9 +52,9 @@ void AgvItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         image.load(":/image/agv_green.png");
     }
 
-    QMatrix matrix;
+    /*QMatrix matrix;
     matrix.rotate(90.0);
-    image = image.transformed(matrix,Qt::FastTransformation);
+    image = image.transformed(matrix,Qt::FastTransformation);*/
     painter->drawImage(m_rect, image);
 }
 

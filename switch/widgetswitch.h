@@ -25,6 +25,7 @@ public:
 private:
   void Initialize();
   void TranslateLanguage();
+  virtual void changeEvent(QEvent* e) override;
 
 Q_SIGNALS:
   void AdminModel();

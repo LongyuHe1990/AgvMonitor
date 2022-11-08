@@ -8,28 +8,31 @@
 #include <QAbstractItemView>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QMenu>
 #include "moduleData/configModule.h"
 #include "moduleData/stationModule.h"
+#include "moduleData/taskModule.h"
 #include "common/global_helper.h"
 #include "common/global_config.h"
+#include "webSocket/webSocketClient.h"
+#include "customData.h"
 
 static WidgetAddTask* add_task_ = nullptr;
 
 WidgetAddTask::WidgetAddTask(QWidget* parent)
   : QWidget(parent)
   , ui(new Ui::WidgetAddTask)
+  , count_(0)
 {
   ui->setupUi(this);
 
   add_task_ = this;
 
   Initialize();
+  InitTargetListTableView();
   TranslateLanguage();
 
-  ui->verticalLayout_3->setAlignment(Qt::AlignTop);
   ui->widget_4->setHidden(true);
-
-  GetTargetListInfo();
 
   QString style =
     "\
@@ -74,27 +77,10 @@ WidgetAddTask * WidgetAddTask::GetIntance()
   return add_task_;
 }
 
-void WidgetAddTask::InitTargetList()
-{
-  for(int i = 0; i < items_.count(); ++i)
-  {
-    WidgetTargetListItem* item = items_[i];
-    ui->verticalLayout_3->addWidget(item);
-  }
-}
-
-void WidgetAddTask::GetTargetListInfo()
-{
-  while(!items_.isEmpty())
-  {
-    WidgetTargetListItem* item = items_.takeLast();
-    ui->verticalLayout_3->removeWidget(item);
-    delete item;
-  }
-}
-
 void WidgetAddTask::SetInitData()
 {
+  model_->removeRows(0, model_->rowCount());
+  count_ = 0;
   ui->comboBox_action->clear();
   ui->comboBox_agvFloor->clear();
   ui->comboBox_floor->clear();
@@ -122,7 +108,7 @@ void WidgetAddTask::SetInitData()
   ui->comboBox_type->setCurrentIndex(0);
   // station row
   int         typeId = ui->comboBox_type->itemData(ui->comboBox_type->currentIndex()).toInt();
-  QVariantMap row    = StationModule::getInstance()->getCraftStationType(typeId);
+  QVariantMap row    = StationModule::getInstance()->getStationType(typeId);
 
   if(row.isEmpty())
   {
@@ -138,10 +124,11 @@ void WidgetAddTask::SetInitData()
       ui->comboBox_agvFloor->addItem(tr("第%1排").arg(i), i);
     }
   }
+  ui->comboBox_agvFloor->setCurrentIndex(0);
   // target station
   int          rowId       = ui->comboBox_agvFloor->itemData(ui->comboBox_agvFloor->currentIndex()).toInt();
   QVariantList stationList = StationModule::getInstance()->getStationFromStationType(typeId, rowId);
-
+  ui->comboBox_target->clear();
   for(int i = 0; i < stationList.size(); ++i)
   {
     QVariantMap map = stationList.at(i).toMap();
@@ -151,7 +138,7 @@ void WidgetAddTask::SetInitData()
 
 // qDebug() << strRet;
     int         stationTypeId = map.value("stationTypeId").toInt();
-    QString     id            = map.value("id").toString();
+    int     id            = map.value("id").toInt();
     QVariantMap temp;
     temp.insert("stationTypeId", stationTypeId);
     temp.insert("id", id);
@@ -161,6 +148,7 @@ void WidgetAddTask::SetInitData()
   }
 
   // station level
+  ui->comboBox_floor->clear();
   QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
   int stationTypeId = 0;
   if(!map.empty())
@@ -169,7 +157,6 @@ void WidgetAddTask::SetInitData()
   }
 
   QVariantMap   stationLevel = ConfigModule::getInstance()->getMaterialBufferParams(stationTypeId);
-
   if(stationLevel.isEmpty())
   {
     ui->widget_floor->setHidden(true);
@@ -184,12 +171,19 @@ void WidgetAddTask::SetInitData()
       QVariantMap map = iter.value().toMap();
       int id = map.value("id").toInt();
       QString name = map.value("name").toString();
-
-      ui->comboBox_floor->addItem(name, id);
+      if(name.isEmpty())
+      {
+          ui->comboBox_floor->addItem(QString::number(id), id);
+      }
+      else
+      {
+          ui->comboBox_floor->addItem(name, id);
+      }
     }
   }
 
   // 机构动作
+  ui->comboBox_action->clear();
   QVariantList actionList = ConfigModule::getInstance()->getActionTypeOfStationType(stationTypeId);
   for(int i = 0; i < actionList.size(); ++i)
   {
@@ -197,28 +191,49 @@ void WidgetAddTask::SetInitData()
     NameAndLabelInfo info = GetActionType(type);
     ui->comboBox_action->addItem(info.name, type);
   }
-  // 车体设备
-  if(!UserConfigs::AgvAxisName.isEmpty())
+  // 车体仓位
+  QVariantMap config = ConfigModule::getInstance()->getConfig(ConfigType::Agv, UserConfigs::AgvId);
+  int agvTypeId = config.value("agvTypeId").toInt();
+
+  QVariantMap position = ConfigModule::getInstance()->getConfig(ConfigType::AgvType, agvTypeId);
+
+  QVariantList materialBufferParamList = position.value("materialBufferParamList").toList();
+  for(int i = 0; i < materialBufferParamList.size(); ++i)
   {
-    ui->comboBox_device->addItem(UserConfigs::AgvAxisName, UserConfigs::AgvAxisId);
+      QVariantMap map = materialBufferParamList.at(i).toMap();
+      int id = map.value("id").toInt();
+      QString name = map.value("name").toString();
+      if(name.isEmpty())
+      {
+         ui->comboBox_device->addItem(QString::number(id), id);
+      }
+      else
+      {
+         ui->comboBox_device->addItem(name, id);
+      }
   }
 }
 
 void WidgetAddTask::AddButtonClicked()
 {
-  WidgetTargetListItem* item = new WidgetTargetListItem();
   TargetListInfo        info;
   info.actionName    = ui->comboBox_action->currentText();
   info.stationName   = ui->comboBox_target->currentText();
   info.action        = ui->comboBox_action->itemData(ui->comboBox_action->currentIndex()).toInt();
-  info.agvAxisId     = ui->comboBox_device->itemData(ui->comboBox_device->currentIndex()).toInt();
-  info.stationAxisId = ui->comboBox_floor->itemData(ui->comboBox_floor->currentIndex()).toInt();
+  info.agvBufferIndex     = ui->comboBox_device->itemData(ui->comboBox_device->currentIndex()).toInt();
+  info.stationBufferIndex = ui->comboBox_floor->itemData(ui->comboBox_floor->currentIndex()).toInt();
   QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
-  info.stationId     = map.value("id").toString();
+  info.stationId     = map.value("id").toInt();
 
-  item->SetInput(info);
-  ui->verticalLayout_3->addWidget(item);
-  items_ << item;
+  model_->setItem(count_, 0, new QStandardItem(QString::number(count_)));
+  model_->setItem(count_, 1, new QStandardItem(info.stationName));
+  model_->setItem(count_, 2, new QStandardItem(info.actionName));
+  model_->item(count_, 0)->setTextAlignment(Qt::AlignCenter);
+  model_->item(count_, 1)->setTextAlignment(Qt::AlignCenter);
+  model_->item(count_, 2)->setTextAlignment(Qt::AlignCenter);
+  model_->item(count_)->setData(QVariant::fromValue(info));
+
+  count_++;
 }
 
 void WidgetAddTask::CreateButtonClicked()
@@ -232,14 +247,14 @@ void WidgetAddTask::CreateButtonClicked()
 
   QVariantList stationList;
 
-  for(int i = 0; i < items_.count(); ++i)
+  for(int i = 0; i < model_->rowCount(); ++i)
   {
     QVariantList   actionList;
     QVariantMap    actionListMap;
-    TargetListInfo info = items_[i]->GetInput();
+    TargetListInfo info = model_->item(i)->data().value<TargetListInfo>();
     actionListMap.insert("action", info.action);
-    actionListMap.insert("agvAxisId", info.agvAxisId);
-    actionListMap.insert("stationAxisId", info.stationAxisId);
+    actionListMap.insert("agvBufferIndex", info.agvBufferIndex);
+    actionListMap.insert("stationBufferIndex", info.stationBufferIndex);
     actionList.insert(i, actionListMap);
     QVariantMap stationListMap;
 
@@ -251,7 +266,24 @@ void WidgetAddTask::CreateButtonClicked()
   }
 
   dataMap.insert("stationList", stationList);
+
+  QVariantMap Content;
+  Content.insert("Content", dataMap);
+  Content.insert("OperationType", int(StationOperationType::Update_Station_Material));
+  //
+  QVariantMap sendData;
+  sendData.insert("ModuleType", int(DataModuleType::Task));
+  sendData.insert("Async", false);
+  sendData.insert("ModuleData", Content);
+  sendData.insert("RequestId", int(RequestIdType::REQUEST_CREATE_TASK));
+
+  QJsonObject   obj = QJsonObject::fromVariantMap(sendData);
+  QJsonDocument doc(obj);
+  QString       strRet = QString(doc.toJson(QJsonDocument::Indented));
+
   //send request
+  WebSocketClient::getInstance()->sendDataToServer(strRet);
+
 }
 
 void WidgetAddTask::StationTypeChanged(int index)
@@ -262,7 +294,7 @@ void WidgetAddTask::StationTypeChanged(int index)
   ui->comboBox_floor->clear();
   int typeId = ui->comboBox_type->itemData(index).toInt();
 
-  QVariantMap row = StationModule::getInstance()->getCraftStationType(typeId);
+  QVariantMap row = StationModule::getInstance()->getStationType(typeId);
 
   if(row.isEmpty())
   {
@@ -270,15 +302,21 @@ void WidgetAddTask::StationTypeChanged(int index)
   }
   else
   {
-    ui->widget_4->setHidden(false);
-
     int count = row.value("rowCount").toInt();
-    for(int i = 1; i <= count; ++i)
+    if(count < 1)
     {
-      ui->comboBox_agvFloor->addItem(tr("第%1排").arg(i), i);
+        ui->widget_4->setHidden(true);
+    }
+    else
+    {
+        ui->widget_4->setHidden(false);
+        for(int i = 1; i <= count; ++i)
+        {
+          ui->comboBox_agvFloor->addItem(tr("第%1排").arg(i), i);
+        }
     }
   }
-
+   ui->comboBox_agvFloor->setCurrentIndex(0);
   // target station
 
   int          rowId       = ui->comboBox_agvFloor->itemData(ui->comboBox_agvFloor->currentIndex()).toInt();
@@ -289,7 +327,7 @@ void WidgetAddTask::StationTypeChanged(int index)
     QVariantMap map = stationList.at(i).toMap();
 
     int         stationTypeId = map.value("stationTypeId").toInt();
-    QString     id            = map.value("id").toString();
+    int     id            = map.value("id").toInt();
     QVariantMap temp;
     temp.insert("stationTypeId", stationTypeId);
     temp.insert("id", id);
@@ -298,16 +336,17 @@ void WidgetAddTask::StationTypeChanged(int index)
     ui->comboBox_target->addItem(name, temp);
   }
 
-  if(index == 0)
+  int stationTypeId = 0;
+
+  QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
+  if(!map.empty())
   {
-    QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
-    if(!map.empty())
-    {
-      typeId = map.value("stationTypeId").toInt();
-    }
+    stationTypeId = map.value("stationTypeId").toInt();
   }
+
   // station level
-  QVariantMap stationLevel = ConfigModule::getInstance()->getMaterialBufferParams(typeId);
+  ui->comboBox_floor->clear();
+  QVariantMap stationLevel = ConfigModule::getInstance()->getMaterialBufferParams(stationTypeId);
   if(stationLevel.isEmpty())
   {
     ui->widget_floor->setHidden(true);
@@ -322,11 +361,19 @@ void WidgetAddTask::StationTypeChanged(int index)
       int id = map.value("id").toInt();
       QString name = map.value("name").toString();
       ui->widget_floor->setHidden(name.isEmpty());
-      ui->comboBox_floor->addItem(name, id);
+      if(name.isEmpty())
+      {
+          ui->comboBox_floor->addItem(QString::number(id), id);
+      }
+      else
+      {
+          ui->comboBox_floor->addItem(name, id);
+      }
     }
   }
+
   // 机构动作
-  QVariantList actionList = ConfigModule::getInstance()->getActionTypeOfStationType(typeId);
+  QVariantList actionList = ConfigModule::getInstance()->getActionTypeOfStationType(stationTypeId);
   for(int i = 0; i < actionList.size(); ++i)
   {
     int              type = actionList.at(i).toInt();
@@ -338,18 +385,18 @@ void WidgetAddTask::StationTypeChanged(int index)
 void WidgetAddTask::StationRowChanged(int index)
 {
   ui->comboBox_target->clear();
-  int typeId = ui->comboBox_type->itemData(ui->comboBox_type->currentIndex()).toInt();
-  if(ui->comboBox_type->currentIndex() == 0)
+
+  int stationTypeId = 0;
+
+  QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
+  if(!map.empty())
   {
-    QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
-    if(!map.empty())
-    {
-      typeId = map.value("stationTypeId").toInt();
-    }
+    stationTypeId = map.value("stationTypeId").toInt();
   }
 
+  ui->comboBox_agvFloor->setCurrentIndex(0);
   int          rowId       = ui->comboBox_agvFloor->itemData(index).toInt();
-  QVariantList stationList = StationModule::getInstance()->getStationFromStationType(typeId, rowId);
+  QVariantList stationList = StationModule::getInstance()->getStationFromStationType(stationTypeId, rowId);
   if(stationList.isEmpty())
   {
     return;
@@ -360,7 +407,7 @@ void WidgetAddTask::StationRowChanged(int index)
     QVariantMap map = stationList.at(i).toMap();
 
     int         stationTypeId = map.value("stationTypeId").toInt();
-    QString     id            = map.value("id").toString();
+    int     id            = map.value("id").toInt();
     QVariantMap temp;
     temp.insert("stationTypeId", stationTypeId);
     temp.insert("id", id);
@@ -368,6 +415,31 @@ void WidgetAddTask::StationRowChanged(int index)
 
     ui->comboBox_target->addItem(name, temp);
   }
+}
+
+void WidgetAddTask::TableViewMenu(const QPoint &pos)
+{
+    QModelIndex current_index = ui->tableView->currentIndex();
+    if(current_index.isValid())
+    {
+        QMenu* menu = new QMenu(this);
+        menu->addAction(tr("Delete"), this, SLOT(DeleteMenuTriggered()));
+        menu->addAction(tr("Clear"), this, SLOT(ClearMenuTriggered()));
+
+        menu->exec(QCursor::pos());
+    }
+}
+
+void WidgetAddTask::DeleteMenuTriggered()
+{
+    model_->removeRow(ui->tableView->currentIndex().row());
+    count_--;
+}
+
+void WidgetAddTask::ClearMenuTriggered()
+{
+    model_->removeRows(0, model_->rowCount());
+    count_ = 0;
 }
 
 void WidgetAddTask::Initialize()
@@ -385,8 +457,6 @@ void WidgetAddTask::Initialize()
   ui->label_loop->setFont(font);
   ui->label_floor->setFont(font);
   ui->label_action->setFont(font);
-  ui->label_action1->setFont(font);
-  ui->label_target1->setFont(font);
   ui->label_agvFloor->setFont(font);
   ui->label_device->setFont(font);
   ui->comboBox_type->setFont(font);
@@ -399,6 +469,8 @@ void WidgetAddTask::Initialize()
   ui->pushButton_close->setFixedSize(QSize(34, 34));
   ui->label->setFixedSize(QSize(32, 11));
   ui->label_2->setFixedSize(QSize(32, 11));
+  ui->pushButton_add->setFixedHeight(30);
+  ui->pushButton_create->setFixedHeight(30);
 }
 
 void WidgetAddTask::TranslateLanguage()
@@ -409,67 +481,67 @@ void WidgetAddTask::TranslateLanguage()
   ui->label_floor->setText(tr("Platform level"));
   ui->label_agvFloor->setText(tr("Row number"));
   ui->label_action->setText(tr("Mechanism action"));
-  ui->label_device->setText(tr("Car body equipment"));
+  ui->label_device->setText(tr("Car body position"));  //车体仓位
   ui->label_loop->setText(tr("Circular task"));
   ui->label_tragetList->setText(tr("Target List"));
-  ui->label_target1->setText(tr("Target platform"));
-  ui->label_action1->setText(tr("Mechanism action"));
   ui->pushButton_add->setText(tr("Add Target List"));
   ui->pushButton_create->setText(tr("Create Task"));
+
+  QStringList header_List;
+  header_List << tr("Number") << tr("Target platform") << tr("Mechanism action");
+  model_->setHorizontalHeaderLabels(header_List);
 }
 
-WidgetTargetListItem::WidgetTargetListItem(QWidget* parent)
-  : QWidget(parent)
-  , info_()
+void WidgetAddTask::InitTargetListTableView()
 {
-  SetupUi();
+   model_ = new QStandardItemModel();
+   ui->tableView->setModel(model_);
+
+   ui->tableView->verticalHeader()->setVisible(false);
+   ui->tableView->horizontalHeader()->setStretchLastSection(true);
+   ui->tableView->setAutoScroll(true);
+
+   ui->tableView->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+   ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+   ui->tableView->setColumnWidth(0, 30);
+   ui->tableView->resizeColumnToContents(2);
+
+   ui->tableView->setFocusPolicy(Qt::NoFocus);
+   ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+   ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+   //
+   ui->tableView->setShowGrid(false);                                                  // 设置不显示格子线
+   ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);                  // 设置不可编辑
+
+   QFont font = ui->tableView->font();
+   font.setPixelSize(12);
+   ui->tableView->setFont(font);
+
+   ui->tableView->horizontalHeader()->setFont(font);
+
+   ui->tableView->verticalHeader()->setDefaultSectionSize(24);
+   ui->tableView->horizontalHeader()->setFixedHeight(24);                              // 设置表头的高度
+   ui->tableView->setStyleSheet(
+     "QTableView::Item{ border:none; }\
+      QTableView::item:selected {background:transparent;color:rgb(240,179,28);border:none;}\
+      QTableView{background:transparent;color:rgb(255,255,255);border:none;} ");
+   ui->tableView->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227,186,56);background-color: rgb(32, 42, 67); border:none; }");
+
+   connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(TableViewMenu(QPoint)));
+   ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-WidgetTargetListItem::~WidgetTargetListItem()
+void WidgetAddTask::changeEvent(QEvent *e)
 {
-}
-
-void WidgetTargetListItem::SetInput(TargetListInfo info)
-{
-  station_label_->setText(info.stationName);
-  action_label_->setText(info.actionName);
-
-  info_ = info;
-}
-
-TargetListInfo WidgetTargetListItem::GetInput()
-{
-  return info_;
-}
-
-void WidgetTargetListItem::SetupUi()
-{
-  setStyleSheet("QWidget{background:transprent;}");
-  QVBoxLayout* main_layout = new QVBoxLayout(this);
-
-  station_label_ = new QLabel(this);
-  action_label_  = new QLabel(this);
-
-  QHBoxLayout* layout = new QHBoxLayout;
-  layout->addWidget(station_label_);
-  layout->addWidget(action_label_);
-
-  QFont font = station_label_->font();
-  font.setPixelSize(12);
-  station_label_->setFont(font);
-  action_label_->setFont(font);
-  QString style = "QLabel{color:rgb(255,255,255);border:none;}";
-  station_label_->setStyleSheet(style);
-  action_label_->setStyleSheet(style);
-
-  layout->setMargin(11);
-  frame_ = new QFrame(this);
-  frame_->setFixedHeight(1);
-  frame_->setStyleSheet("background:rgb(184,184,184)");
-
-  main_layout->addLayout(layout);
-  main_layout->addWidget(frame_);
-  main_layout->setSpacing(11);
-
-  setFixedHeight(35);
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }

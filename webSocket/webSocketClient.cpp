@@ -7,6 +7,7 @@
 #include "moduleData/configModule.h"
 #include <QByteArray>
 #include <QFile>
+#include <QDebug>
 #include "moduleData/stationModule.h"
 #include "login/widgetlogin.h"
 #include "moduleData/taskModule.h"
@@ -15,6 +16,7 @@
 #include "errorinfo/widgeterrorinfo.h"
 #include "common/global_config.h"
 #include "mapView/mapMonitoringWidget.h"
+#include "errorinfo/widgeterror.h"
 
 static WebSocketClient* s_webSocketClient = nullptr;
 
@@ -214,7 +216,7 @@ void WebSocketClient::onTextReceived(QString data)
                 }
                 case DataModuleType::Agv:
                 {
-//                    qDebug() << "agvData: " <<data;
+                    qDebug() << "agvData: " <<data;
 
                     WidgetBaseInfo::GetInstance()->InitData(jsonData);
                     //WidgetAllInfo::GetInstance()->InitData(jsonData);
@@ -225,15 +227,26 @@ void WebSocketClient::onTextReceived(QString data)
                 case DataModuleType::Station:
                 {
                     int type = moduleData.value("OperationType").toInt();
-                    if(type == int(StationOperationType::STATION_INITED) || type == int(StationOperationType::STATION_Updated))
+                    if(type == int(StationOperationType::STATION_INITED))
                     {
-                        StationModule::getInstance()->updataStation(moduleData);
+                        StationModule::getInstance()->initStationsInfo(moduleData);
                     }
                     else if(type == int(StationOperationType::CRAFTSTATION_INITED))
                     {
-                        StationModule::getInstance()->initCraftStationTypeInfo(moduleData);
+                        StationModule::getInstance()->initStationTypeInfo(moduleData);
                     }
-                    qDebug() << "stationData: " <<data;
+//                    qDebug() << "stationData: " <<data;
+                    break;
+                }
+                case DataModuleType::Alarm:
+                {
+                    qDebug() << "AlarmData: " <<data;
+                    int type = moduleData.value("OperationType").toInt();
+                    if(type == int(AlarmOperationType::Alarm_Updated))
+                    {
+                        WidgetError::GetInstance()->InitData(jsonData);
+                    }
+
                     break;
                 }
                 }

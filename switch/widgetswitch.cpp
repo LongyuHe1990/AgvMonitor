@@ -65,8 +65,8 @@ void WidgetSwitch::Initialize()
 
 void WidgetSwitch::TranslateLanguage()
 {
-  ui->label_title->setText("安全码验证");
-  ui->label_tip->setText("*请输入正确的安全码");
+  ui->label_title->setText(tr("安全码验证"));
+  ui->label_tip->setText(tr("*请输入正确的安全码"));
   ui->pushButton_12->setText("0");
   ui->pushButton_2->setText("1");
   ui->pushButton_3->setText("2");
@@ -77,8 +77,21 @@ void WidgetSwitch::TranslateLanguage()
   ui->pushButton_8->setText("7");
   ui->pushButton_9->setText("8");
   ui->pushButton_10->setText("9");
-  ui->pushButton_11->setText("删除");
-  ui->pushButton_13->setText("确定");
+  ui->pushButton_11->setText(tr("删除"));
+  ui->pushButton_13->setText(tr("确定"));
+}
+
+void WidgetSwitch::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }
 
 void WidgetSwitch::NumberButtonClicked(int num)

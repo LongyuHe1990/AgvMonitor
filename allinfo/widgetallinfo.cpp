@@ -60,6 +60,7 @@ WidgetAllInfo * WidgetAllInfo::GetInstance()
 
 void WidgetAllInfo::InitData(QVariantMap dataMap)
 {
+  GetDeviceName();
   if(dataMap.isEmpty())
   {
     return;
@@ -407,8 +408,9 @@ void WidgetAllInfo::TranslateLanguage()
   ui->label_88->setText(tr("物料类型(系统下发)"));
 }
 
-void WidgetAllInfo::GetDeviceName(QVariantMap dataMap)
+void WidgetAllInfo::GetDeviceName()
 {
+  QVariantMap dataMap = ConfigModule::getInstance()->getDeviceNameData();
   if(dataMap.isEmpty())
   {
     return;
@@ -432,9 +434,20 @@ void WidgetAllInfo::GetDeviceName(QVariantMap dataMap)
   QVariantMap dataDevice = device.value(QString("%1").arg(agvTemplateId)).toMap();
   int         id         = dataDevice.value("id").toInt();
   QString     name       = dataDevice.value("name").toString();
-  UserConfigs::AgvAxisId = id;
-  UserConfigs::AgvAxisName = name;
 
   ui->comboBox->addItem(tr("车体设备(%1)").arg(name));
+}
+
+void WidgetAllInfo::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }
 

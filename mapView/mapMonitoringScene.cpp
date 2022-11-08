@@ -30,6 +30,11 @@ const SlamItem *MapMonitoringScene::getSlamItem() const
     return m_slamItem;
 }
 
+const AgvItem *MapMonitoringScene::getAgvItem() const
+{
+    return m_agvItem;
+}
+
 void MapMonitoringScene::addNodeItems(QMap<QString, NODEINFO> nodes)
 {
     for(auto node : nodes)

@@ -24,6 +24,7 @@ public:
     QVariantMap getMaterialBufferParams(int stationTypeId);
     QVariantList getActionTypeOfStationType(int stationTypeId);
     int getAgvBelongMapId(int agvId);
+    QVariantMap getDeviceNameData();
 private:
     QVariantMap m_configs;
     int m_agvId;

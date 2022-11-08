@@ -215,6 +215,19 @@ void WidgetChartError::Initialize()
 
 void WidgetChartError::TranslateLanguage()
 {
-  show_bar_text_ = tr("单位：次");
+    show_bar_text_ = tr("单位：次");
+}
+
+void WidgetChartError::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }
 

@@ -207,3 +207,16 @@ void WidgetLogin::keyPressEvent(QKeyEvent* event)
     qDebug()<<"closeApp";
   }
 }
+
+void WidgetLogin::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
+}

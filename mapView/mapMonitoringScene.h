@@ -15,6 +15,7 @@ public:
     ~MapMonitoringScene();
 
     const SlamItem* getSlamItem()const;
+    const AgvItem* getAgvItem()const;
 
     void addNodeItems(QMap<QString, NODEINFO> nodes);
     void addLineItems(QMap<QString, LINEINFO> lines);

@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
   QTranslator translator;
   if(locale.language() == QLocale::English)
   {
-      if(translator.load("./translate/translate_en.qm"))
+      if(translator.load(GetCurrentBinPath() + "/translate_en.qm"))
       {
           qDebug() << "english system";
           a.installTranslator(&translator);
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
   }
   else if(locale.language() == QLocale::Chinese)
   {
-      if(translator.load(".\\translate\\translate_zh_CN.qm"))
+      if(translator.load(GetCurrentBinPath() + "/translate_zh_CN.qm"))
       {
           qDebug() << "中文系统";
           a.installTranslator(&translator);

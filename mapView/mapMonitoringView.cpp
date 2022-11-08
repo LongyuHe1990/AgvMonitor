@@ -30,6 +30,7 @@ MapMonitoringView::MapMonitoringView(QWidget * parent /*= nullptr*/)
     ,m_loadMapDataWatcher(nullptr)
     ,m_loadSlamWatcher(nullptr)
     ,m_isRelocation(false)
+    ,m_titleRelocDlg(nullptr)
 {
     s_mapMonitoringView = this;
 
@@ -49,6 +50,7 @@ MapMonitoringView::MapMonitoringView(QWidget * parent /*= nullptr*/)
     setDragMode(QGraphicsView::ScrollHandDrag);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     //setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+    setMouseTracking(true);
     m_scene = new MapMonitoringScene();
     setScene(m_scene);
     setTransform(transform().scale(0.02,-0.02));
@@ -89,6 +91,7 @@ MapMonitoringView::~MapMonitoringView()
     }
 
     m_relocButton=nullptr;
+    m_titleRelocDlg=nullptr;
 }
 
 MapMonitoringView *MapMonitoringView::getInstance()
@@ -152,39 +155,34 @@ void MapMonitoringView::updataAgvItemPos(QVariantMap data)
             m_scene->updataAgvItemPos(pos, angle, m_floorId == floorId);
         }
     }
+
+    m_agvInfor = data;
 }
 
 void MapMonitoringView::setRelocationResult(QVariantMap moduleData)
 {
     int status = moduleData.value("Result").toInt();
+    QMessageBox *msgtest;
+    msgtest = new QMessageBox(this);
+    msgtest->setWindowTitle("重定位");
+
     if(status == 0)
     {
-        QMessageBox::information(this,
-                              tr("重定位"),
-                              tr("重定位成功"),
-                              QMessageBox::Ok);
+        msgtest->setText("重定位成功!");
     }
     else if(status == -2)
     {
-        QMessageBox::information(this,
-                              tr("重定位"),
-                              tr("非手动模式"),
-                              QMessageBox::Ok);
+        msgtest->setText("非手动模式!");
     }
     else if(status == 1)
     {
-        QMessageBox::information(this,
-                              tr("重定位"),
-                              tr("车体定位失败"),
-                              QMessageBox::Ok);
+        msgtest->setText("车体定位失败!");
     }
     else if(status == -1)
     {
-        QMessageBox::information(this,
-                              tr("重定位"),
-                              tr("车体断开链接"),
-                              QMessageBox::Ok);
+        msgtest->setText("车体断开链接!");
     }
+    msgtest->show();
 }
 
 void MapMonitoringView::loadMapData(QVariantMap data)
@@ -468,8 +466,6 @@ void MapMonitoringView::readStationXml(QDomNodeList stationList)
 
             stationInfo.point = QPointF(x,y);
 
-            StationModule::getInstance()->initStationFromMap(id.toInt(), stationInfo);
-
             m_stations.insert(id, stationInfo);
         }
         else
@@ -610,6 +606,40 @@ void MapMonitoringView::showFloorInfo(int floor)
     requestMapDataInfo();
 }
 
+void MapMonitoringView::updataAgvConfidence(QVariantMap data)
+{
+    if(m_titleRelocDlg)
+    {
+        int operatorType = data.value("OperationType").toInt();
+        if(operatorType == int(AgvOperationType::AGV_STATUS_UPDATED))
+        {
+            QVariantMap content = data.value("Content").toMap();
+            QVariantMap posData = content.value("globalPos").toMap();
+            QPoint pos(posData.value("x").toInt(), posData.value("y").toInt());
+            int floorId = posData.value("z").toInt();
+
+            int confidence = content.value("confidence").toInt();
+
+            if(m_titleRelocDlg)
+            {
+                QLabel *cLabel = m_titleRelocDlg->findChild<QLabel*>("confidenceLabel");
+                QLabel *pLabel = m_titleRelocDlg->findChild<QLabel*>("positLabel");
+                if(pLabel)
+                {
+                    QString strPos = QString("x:%1 y:%2 z:%3").arg(QString::number(pos.x())).arg(QString::number(pos.y())).arg(floorId);
+                    pLabel->setText(strPos);
+                }
+
+                if(cLabel)
+                {
+                    QString con = QString("%1").arg(confidence);
+                    cLabel->setText(con);
+                }
+            }
+        }
+    }
+}
+
 void MapMonitoringView::zoomIn(QPoint pos)
 {
     QPointF cursorPoint = pos;
@@ -664,6 +694,47 @@ void MapMonitoringView::mouseMoveEvent(QMouseEvent *event)
         this->viewport()->update();
     }
 
+    QGraphicsItem *item = itemAt(event->pos());
+    if(m_scene)
+    {
+        if(!m_titleRelocDlg && m_isRelocation && item == m_scene->getAgvItem())
+        {
+            m_titleRelocDlg = new QDialog(this);
+            m_titleRelocDlg->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+            QVBoxLayout* parentLayout = new QVBoxLayout();
+            QHBoxLayout* zxdLayout = new QHBoxLayout();
+            QLabel* zxdLabel1 = new QLabel();
+            zxdLabel1->setText(tr("置信度:"));
+            QLabel* zxdLabel2 = new QLabel();
+            zxdLabel2->setObjectName("confidenceLabel");
+            zxdLayout->addWidget(zxdLabel1);
+            zxdLayout->addWidget(zxdLabel2);
+            parentLayout->addLayout(zxdLayout);
+
+            QHBoxLayout* positLayout = new QHBoxLayout();
+            QLabel* positLabel1 = new QLabel();
+            positLabel1->setText(tr("位置:"));
+            QLabel* positLabel2 = new QLabel();
+            positLabel2->setObjectName("positLabel");
+            positLayout->addWidget(positLabel1);
+            positLayout->addWidget(positLabel2);
+            parentLayout->addLayout(positLayout);
+
+            m_titleRelocDlg->setLayout(parentLayout);
+            m_titleRelocDlg->setGeometry(event->globalX(), event->globalY(), 200, 100);
+            m_titleRelocDlg->show();
+            updataAgvConfidence(m_agvInfor);
+        }
+
+        if(item != m_scene->getAgvItem())
+        {
+            if(m_titleRelocDlg)
+            {
+                delete m_titleRelocDlg;
+                m_titleRelocDlg = nullptr;
+            }
+        }
+    }
     QGraphicsView::mouseMoveEvent(event);
 }
 

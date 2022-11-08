@@ -32,6 +32,8 @@ public:
 
     void showFloorInfo(int floor);
 
+    void updataAgvConfidence(QVariantMap data);
+
 private:
     void zoomIn(QPoint pos);
     void zoomOut(QPoint pos);
@@ -90,6 +92,8 @@ private:
     double m_angle;
     QPixmap m_img;
     QPushButton* m_relocButton;
+    QDialog *m_titleRelocDlg;
+    QVariantMap m_agvInfor;
 };
 
 #endif // MAPMONITORINGVIEW_H

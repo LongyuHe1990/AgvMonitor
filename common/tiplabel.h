@@ -31,36 +31,39 @@ public:
      */
     static void Popup(const QString &text);
 
-  Q_SIGNALS:
+Q_SIGNALS:
     /*!
      * Animation close changed.
      */
     void AnimationCloseChanged();
 
-  public Q_SLOTS:
+public Q_SLOTS:
     /*!
      * Set context text.
      */
     void SetText(const QString &text);
 
-  private Q_SLOTS:
+private Q_SLOTS:
     /*!
      * Close animation when tiem out.
      */
     void CloseAnimation();
 
-  private:
+private:
     void Initialize();
+    void TranslateLanguage();
 
-  protected:
+protected:
     /*!
      * Override the widget event.
      */
     virtual void paintEvent(QPaintEvent* e) override;
+    virtual void changeEvent(QEvent* e) override;
 
-  private:
+private:
     QTimer  timer_;
     QLabel* text_label_;
+    QLabel* tip_label_;
 
 };
 

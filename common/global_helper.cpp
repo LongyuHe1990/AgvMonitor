@@ -1,4 +1,7 @@
 #include "global_helper.h"
+#include <QDir>
+#include <QFileDialog>
+#include <QDebug>
 
 QString GetWalkStatus(int walkStatus)
 {
@@ -211,4 +214,10 @@ NameAndLabelInfo GetActionType(int actionType)
   }
 
   return info;
+}
+
+QString GetCurrentBinPath()
+{
+  QDir dir = QDir::current();
+  return dir.path();
 }

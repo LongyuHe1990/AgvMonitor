@@ -5,7 +5,6 @@
 #include "configModule.h"
 #include "tasklist/widgettasklist.h"
 #include <QDebug>
-#include "customData.h"
 
 static TaskModule* s_taskModule = nullptr;
 

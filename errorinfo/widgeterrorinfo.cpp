@@ -87,3 +87,16 @@ void WidgetErrorInfo::TranslateLanguage()
   ui->label_20->setText(tr("Today's alert data"));
   ui->pushButton_3->setText(tr("Details"));
 }
+
+void WidgetErrorInfo::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
+}

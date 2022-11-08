@@ -22,22 +22,22 @@ void StationModule::updataStation(QVariantMap data)
     m_stations.insert(QString::number(id), content);
 }
 
-void StationModule::initCraftStationTypeInfo(QVariantMap info)
+void StationModule::initStationTypeInfo(QVariantMap info)
 {
     QVariantList list = info.value("Content").toList();
     for(int i = 0; i<list.size(); ++i)
     {
         QVariantMap type = list.at(i).toMap();
         int id = type.value("id").toInt();
-        m_craftStationTypeMap.insert(QString::number(id), type);
+        m_stationTypeMap.insert(QString::number(id), type);
     }
 }
 
-QVariantMap StationModule::getCraftStationType(int stationTypeId)
+QVariantMap StationModule::getStationType(int stationTypeId)
 {
     QVariantMap info;
-    QVariantMap::iterator iter = m_craftStationTypeMap.find(QString::number(stationTypeId));
-    if(iter != m_craftStationTypeMap.end())
+    QVariantMap::iterator iter = m_stationTypeMap.find(QString::number(stationTypeId));
+    if(iter != m_stationTypeMap.end())
     {
         info = iter.value().toMap();
     }
@@ -47,52 +47,45 @@ QVariantMap StationModule::getCraftStationType(int stationTypeId)
 
 QString StationModule::getStationName(int id)
 {
-    QVariantMap station = m_stationFromMap.value(QString::number(id)).toMap();
+    QVariantMap station = m_stations.value(QString::number(id)).toMap();
     QString name = station.value("name").toString();
     return name;
 }
 
 QVariantMap StationModule::getStation(int id)
 {
-    QVariantMap station = m_stationFromMap.value(QString::number(id)).toMap();
+    QVariantMap station = m_stations.value(QString::number(id)).toMap();
     return station;
 }
 
-void StationModule::initStationFromMap(int id, STATIONINFO stationInfo)
+void StationModule::initStationsInfo(QVariantMap info)
 {
-    QVariantMap station;
-    station.insert("id",stationInfo.id);
-    station.insert("name", stationInfo.name);
-    station.insert("nodeId", stationInfo.node.id);
-    station.insert("stationTypeId", stationInfo.stationTypeId);
-    station.insert("row", stationInfo.row);
-    station.insert("column", stationInfo.column);
-    m_stationFromMap.insert(QString::number(id), station);
+    m_stations.clear();
+    QVariantList list = info.value("Content").toList();
+    for(auto item : list)
+    {
+        QVariantMap stationInfo = item.toMap();
+        int id = stationInfo.value("id").toInt();
+        int typeId = stationInfo.value("stationTypeId").toInt();
+        m_stations.insert(QString::number(id), stationInfo);
 
-    initStationFromStationType(stationInfo.stationTypeId, stationInfo);
+        initStationFromStationType(typeId, stationInfo);
+    }
 }
 
-void StationModule::initStationFromStationType(int stationType, STATIONINFO stationInfo)
+void StationModule::initStationFromStationType(int stationType, QVariantMap stationInfo)
 {
-    QVariantMap station;
-    station.insert("id",stationInfo.id);
-    station.insert("name", stationInfo.name);
-    station.insert("nodeId", stationInfo.node.id);
-    station.insert("stationTypeId", stationInfo.stationTypeId);
-    station.insert("row", stationInfo.row);
-    station.insert("column", stationInfo.column);
-
     QVariantMap::iterator iter = m_stationTypeDistinguishesStation.find(QString::number(stationType));
     if(iter != m_stationTypeDistinguishesStation.end())
     {
         QVariantList list = iter.value().toList();
-        list.push_back(station);
+        list.push_back(stationInfo);
         m_stationTypeDistinguishesStation.insert(QString::number(stationType), list);
     }
     else
     {
         QVariantList list;
-        list.push_back(station);
+        list.push_back(stationInfo);
         m_stationTypeDistinguishesStation.insert(QString::number(stationType), list);
     }
 }
@@ -103,8 +96,8 @@ QVariantList StationModule::getStationFromStationType(int stationTypeId, int row
 
     if(stationTypeId == 0)
     {
-        QVariantMap::iterator iter = m_stationFromMap.begin();
-        for(;iter != m_stationFromMap.end(); ++iter)
+        QVariantMap::iterator iter = m_stations.begin();
+        for(;iter != m_stations.end(); ++iter)
         {
             QVariantMap station = iter.value().toMap();
             list.push_back(station);

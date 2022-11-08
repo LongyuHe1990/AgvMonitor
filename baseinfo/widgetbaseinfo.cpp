@@ -66,7 +66,10 @@ void WidgetBaseInfo::InitData(QVariantMap data_map)
   {
     return;
   }
-  int futureNodeId    = content.value("futureNodeId").toInt();
+  QVariantMap pos = content.value("globalPos").toMap();
+  int z = pos.value("z").toInt();
+  int nodeId    = content.value("nodeId").toInt();
+  QString currentLocate = QString::number(z) + "-" + QString::number(nodeId);
   int targetStationId = content.value("targetStationId").toInt();
   int id              = content.value("id").toInt();
   int walkStatus      = content.value("walkStatus").toInt();
@@ -74,6 +77,18 @@ void WidgetBaseInfo::InitData(QVariantMap data_map)
 
   QString agvName = ConfigModule::getInstance()->getAgvName(id);
   ui->label_7->setText(agvName);
+  if(workStatus == 0 || workStatus == 6 || workStatus == 3000 || workStatus == 3)
+  {
+      ui->label_6->setStyleSheet("border-image:url(:/image/home_all/lixian_icon.png);");
+  }
+  else if(workStatus == 1)
+  {
+      ui->label_6->setStyleSheet("border-image:url(:/image/home_all/zaixian_icon.png);");
+  }
+  else
+  {
+      ui->label_6->setStyleSheet("border-image:url(:/image/home_all/renwu_icon.png);");
+  }
   StatusAndColorInfo info = GetWorkStatusInfo(workStatus);
   ui->label_8->setText(info.status);
   ui->label_8->setStyleSheet(QString("QLabel{background-color: rgb(255, 255, 255, 0);color: %1;border:none;}").arg(info.color));
@@ -81,7 +96,7 @@ void WidgetBaseInfo::InitData(QVariantMap data_map)
   ui->label_26->setStyleSheet(QString("QLabel{background-color: rgb(255, 255, 255, 0);color: %1;border:none;}").arg(info.color));
   ui->label_12->setText(GetWalkStatus(walkStatus));
   ui->label_28->setText(GetWalkStatus(walkStatus));
-  ui->label->setText(QString::number(futureNodeId));
+  ui->label->setText(currentLocate);
   QString stationName = StationModule::getInstance()->getStationName(targetStationId);
   ui->label_3->setText(stationName.isEmpty() ? "无" : stationName);
 
@@ -199,6 +214,11 @@ void WidgetBaseInfo::InitData(QVariantMap data_map)
   ui->label_32->setText(isNormal ? tr("Normal") : tr("Abnormal"));
   ui->label_34->setText(isAvoid ? tr("Obstacle avoidance") : tr("Normal"));
   ui->label_36->setText(isEdged ? tr("Trigger") : tr("Normal"));
+  ui->label_21->setStyleSheet(isAuto ? "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(0, 255, 255);border:none;}" : "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(249, 99, 103);border:none;}");
+  ui->label_23->setStyleSheet(isScram ? "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(249, 99, 103);border:none;}" : "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(0, 255, 255);border:none;}");
+  ui->label_32->setStyleSheet(isNormal ? "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(0, 255, 255);border:none;}" : "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(249, 99, 103);border:none;}");
+  ui->label_34->setStyleSheet(isAvoid ? "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(249, 99, 103);border:none;}" : "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(0, 255, 255);border:none;}");
+  ui->label_36->setStyleSheet(isEdged ? "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(249, 99, 103);border:none;}" : "QLabel{background-color: rgb(255, 255, 255, 0);color: rgb(0, 255, 255);border:none;}");
 }
 
 void WidgetBaseInfo::VisitorModel(bool model)
@@ -266,7 +286,7 @@ void WidgetBaseInfo::Initialize()
   ui->label_15->setFont(font);
   ui->label_18->setFont(font);
 
-  ui->label_6->setFixedSize(QSize(14, 14));
+  ui->label_6->setFixedSize(QSize(20, 20));
   ui->label_13->setFixedSize(QSize(85, 78));
   ui->pushButton->setFixedSize(QSize(93, 30));
   ui->pushButton_2->setFixedSize(QSize(93, 30));
@@ -294,4 +314,17 @@ void WidgetBaseInfo::TranslateLanguage()
   ui->label_31->setText(tr("Current state of laser"));
   ui->label_33->setText(tr("Obstacle avoidance state"));
   ui->label_35->setText(tr("Contact state"));
+}
+
+void WidgetBaseInfo::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }

@@ -139,3 +139,16 @@ void WidgetSetting::TranslateLanguage()
     item->setTextAlignment(Qt::AlignCenter);
   }
 }
+
+void WidgetSetting::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
+}

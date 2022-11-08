@@ -21,7 +21,7 @@ struct StatisticsInfo
 
   inline int Max()
   {
-      return value > value1 ? value : value1;
+    return value > value1 ? value : value1;
   }
 };
 using StatisticsInfoList = std::list<StatisticsInfo>;
@@ -33,5 +33,6 @@ StatusAndColorInfo GetSafeDeviceStateInfo(bool status);
 StatusAndColorInfo GetConfigStatus(int status);
 QString            GetAgvHoverState(int taskState);
 NameAndLabelInfo   GetActionType(int actionType);
+QString            GetCurrentBinPath();
 
 

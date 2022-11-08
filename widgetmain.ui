@@ -125,7 +125,8 @@
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="styleSheet">
-               <string notr="true">QPushButton{color:rgb(255, 255, 255);background-color:transparent;border:none;}</string>
+               <string notr="true">QPushButton{color:rgb(255, 255, 255);background-color:transparent;border:none;}
+</string>
               </property>
               <property name="text">
                <string>主界面</string>
@@ -281,7 +282,8 @@
               <item>
                <widget class="QLabel" name="label_time">
                 <property name="styleSheet">
-                 <string notr="true">QLabel{color:rgb(255, 255, 255);background-color:transparent;border:none;}</string>
+                 <string notr="true">QLabel{background-color:transparent;border:none;
+color: qradialgradient(spread:pad, cx:0.505682, cy:0.5, radius:0.5, fx:0.505682, fy:0.5, stop:0.261364 rgba(255, 255, 255, 255), stop:0.886364 rgba(255, 161, 63, 255));}</string>
                 </property>
                 <property name="text">
                  <string>TextLabel</string>
@@ -294,7 +296,8 @@
               <item>
                <widget class="QLabel" name="label_date">
                 <property name="styleSheet">
-                 <string notr="true">QLabel{color:rgb(255, 255, 255);background-color:transparent;border:none;}</string>
+                 <string notr="true">QLabel{background-color:transparent;border:none;
+color: qradialgradient(spread:pad, cx:0.505682, cy:0.5, radius:0.5, fx:0.505682, fy:0.5, stop:0.261364 rgba(255, 255, 255, 255), stop:0.886364 rgba(255, 161, 63, 255));}</string>
                 </property>
                 <property name="text">
                  <string>TextLabel</string>

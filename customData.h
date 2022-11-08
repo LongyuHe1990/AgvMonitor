@@ -80,17 +80,23 @@ enum class TaskOperationType {
     Task_Updated = 2,
     Task_Erased = 3,
 
+
     Create_Task = 11,
     Cancel_Task = 12,
     Cancel_All_Task = 13,
     Delete_Task = 14
 };
 
+enum class AlarmOperationType {
+    Alarm_Updated = 2,
+};
+
 enum RequestIdType{
     REQUEST_MAP_XML,
     REQUEST_MAP_SLAM,
     REQUEST_RELOCATION,
-    REQUEST_CREATE_TASK
+    REQUEST_CREATE_TASK,
+    REQUEST_CANCEL_TASK,
+    REQUEST_DELETE_TASK
 };
-
 #endif // CUSTOMDATA_H

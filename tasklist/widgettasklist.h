@@ -32,8 +32,9 @@ private Q_SLOTS:
   void TaskDeleteButtonClicked();
 private:
   void Initialize();
-  void Translatelanguage();
+  void TranslateLanguage();
   void InitTasklistTable();
+  virtual void changeEvent(QEvent* e) override;
 
 private:
   Ui::WidgetTaskList* ui;

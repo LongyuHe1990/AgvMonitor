@@ -13,6 +13,7 @@ TipLabel::TipLabel(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
 
     Initialize();
+    TranslateLanguage();
 
     connect(&timer_, SIGNAL(timeout()), SLOT(CloseAnimation()));
     timer_.setInterval(800);
@@ -85,17 +86,16 @@ void TipLabel::Initialize()
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 
-    QLabel* info = new QLabel(this);
-    info->setText(tr("提示"));
-    info->setAlignment(Qt::AlignCenter);
-    info->setStyleSheet("color: #FFFFFF");
+    tip_label_ = new QLabel(this);
+    tip_label_->setAlignment(Qt::AlignCenter);
+    tip_label_->setStyleSheet("color: #FFFFFF");
 
     text_label_ = new QLabel(this);
     text_label_->setStyleSheet("color: #FFCC00");
     text_label_->setAlignment(Qt::AlignCenter);
 
     layout->addStretch();
-    layout->addWidget(info);
+    layout->addWidget(tip_label_);
     layout->addStretch();
     layout->addWidget(text_label_);
     layout->addStretch();
@@ -104,8 +104,13 @@ void TipLabel::Initialize()
     font.setPixelSize(16);
     text_label_->setFont(font);
     font.setPixelSize(12);
-    info->setFont(font);
+    tip_label_->setFont(font);
 
+}
+
+void TipLabel::TranslateLanguage()
+{
+    tip_label_->setText(tr("Tips"));
 }
 
 void TipLabel::paintEvent(QPaintEvent *e)
@@ -115,4 +120,17 @@ void TipLabel::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawPixmap(rect(), QPixmap(":/image/home_all/tip_label.png"));
+}
+
+void TipLabel::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+      TranslateLanguage();
+      break;
+    default:
+      break;
+    }
 }

@@ -40,6 +40,7 @@ private:
   void setAutoLogin(bool status);
   void autoLogig();
   void keyPressEvent(QKeyEvent* event) override;
+  virtual void changeEvent(QEvent* e) override;
 private:
   Ui::WidgetLogin* ui;
 

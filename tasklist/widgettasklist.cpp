@@ -5,6 +5,9 @@
 #include <QJsonDocument>
 #include <QScrollBar>
 #include "tasklist/widgetaddtask.h"
+#include "common/widgetmessagebox.h"
+#include "customData.h"
+#include "webSocket/webSocketClient.h"
 
 static WidgetTaskList* widget_tasklist_ = nullptr;
 
@@ -16,7 +19,7 @@ WidgetTaskList::WidgetTaskList(QWidget* parent)
 
   InitTasklistTable();
   Initialize();
-  Translatelanguage();
+  TranslateLanguage();
 
   connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(AddTaskButtonClicked()));
 
@@ -42,15 +45,13 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
 
   qDebug() << strRet;
 
-  if(dataMap.isEmpty())
-  {
-    ui->tableWidget->clearContents();
-    ui->tableWidget->setRowCount(0);
-    return;
-  }
-
   ui->tableWidget->clearContents();
   ui->tableWidget->setRowCount(0);
+
+  if(dataMap.isEmpty())
+  {
+    return;
+  }
 
   QList<QString> keys = dataMap.keys();
 
@@ -138,10 +139,66 @@ void WidgetTaskList::AddTaskButtonClicked()
 
 void WidgetTaskList::TaskCancelButtonClicked()
 {
+  QPushButton* sender_obj = qobject_cast<QPushButton *>(sender());
+  if(sender_obj == nullptr)
+  {
+    return;
+  }
+
+  const QModelIndex& index = ui->tableWidget->indexAt(QPoint(sender_obj->parentWidget()->frameGeometry().x(), sender_obj->parentWidget()->frameGeometry().y()));
+  if(!WidgetMessageBox().MessageHint(tr("cancle task"), tr("Confirm to cancle the task %1?").arg(ui->tableWidget->item(index.row(), 0)->text())))
+  {
+    return;
+  }
+
+  QVariantMap Content;
+  Content.insert("id", ui->tableWidget->item(index.row(), 0)->text());
+  QVariantMap ModuleData;
+  ModuleData.insert("Content", Content);
+  ModuleData.insert("OperationType", int(TaskOperationType::Cancel_Task));
+  QVariantMap sendData;
+  sendData.insert("ModuleType", int(DataModuleType::Task));
+  sendData.insert("Async", false);
+  sendData.insert("ModuleData", ModuleData);
+  sendData.insert("RequestId", int(RequestIdType::REQUEST_CANCEL_TASK));
+
+  QJsonObject   obj = QJsonObject::fromVariantMap(sendData);
+  QJsonDocument doc(obj);
+  QString       strRet = QString(doc.toJson(QJsonDocument::Indented));
+  // send data
+  WebSocketClient::getInstance()->sendDataToServer(strRet);
 }
 
 void WidgetTaskList::TaskDeleteButtonClicked()
 {
+  QPushButton* sender_obj = qobject_cast<QPushButton *>(sender());
+  if(sender_obj == nullptr)
+  {
+    return;
+  }
+
+  const QModelIndex& index = ui->tableWidget->indexAt(QPoint(sender_obj->parentWidget()->frameGeometry().x(), sender_obj->parentWidget()->frameGeometry().y()));
+  if(!WidgetMessageBox().MessageHint(tr("delete task"), tr("Confirm to delete the task %1?").arg(ui->tableWidget->item(index.row(), 0)->text())))
+  {
+    return;
+  }
+
+  QVariantMap Content;
+  Content.insert("id", ui->tableWidget->item(index.row(), 0)->text());
+  QVariantMap ModuleData;
+  ModuleData.insert("Content", Content);
+  ModuleData.insert("OperationType", int(TaskOperationType::Delete_Task));
+  QVariantMap sendData;
+  sendData.insert("ModuleType", int(DataModuleType::Task));
+  sendData.insert("Async", false);
+  sendData.insert("ModuleData", ModuleData);
+  sendData.insert("RequestId", int(RequestIdType::REQUEST_DELETE_TASK));
+
+  QJsonObject   obj = QJsonObject::fromVariantMap(sendData);
+  QJsonDocument doc(obj);
+  QString       strRet = QString(doc.toJson(QJsonDocument::Indented));
+  // send data
+  WebSocketClient::getInstance()->sendDataToServer(strRet);
 }
 
 void WidgetTaskList::Initialize()
@@ -157,7 +214,7 @@ void WidgetTaskList::Initialize()
   ui->pushButton_4->setIconSize(QSize(12, 12));
 }
 
-void WidgetTaskList::Translatelanguage()
+void WidgetTaskList::TranslateLanguage()
 {
   ui->label_23->setText(tr("Task information list"));
   ui->pushButton_4->setText(tr("Add"));
@@ -211,4 +268,17 @@ void WidgetTaskList::InitTasklistTable()
                                                       QScrollBar::add-page, QScrollBar::sub-page{ background:none; }");
   ui->tableWidget->setFocusPolicy(Qt::NoFocus);
   ui->tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+}
+
+void WidgetTaskList::changeEvent(QEvent* e)
+{
+  QWidget::changeEvent(e);
+  switch(e->type())
+  {
+  case QEvent::LanguageChange:
+    TranslateLanguage();
+    break;
+  default:
+    break;
+  }
 }

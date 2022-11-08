@@ -31,6 +31,7 @@ Q_SIGNALS:
 private:
   void Initialize();
   void TranslateLanguage();
+  virtual void changeEvent(QEvent* e) override;
 
 private:
   Ui::WidgetErrorInfo* ui;

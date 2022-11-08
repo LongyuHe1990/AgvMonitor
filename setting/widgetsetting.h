@@ -35,6 +35,7 @@ private:
   void InitLogTable();
   void Initialize();
   void TranslateLanguage();
+  virtual void changeEvent(QEvent* e) override;
 
 private:
   Ui::WidgetSetting* ui;
