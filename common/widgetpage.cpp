@@ -76,13 +76,13 @@ void WidgetPage::GoButtonClicked()
 void WidgetPage::Initialize()
 {
     QFont font = ui->pushButton->font();
-    font.setPixelSize(10);
+    font.setPixelSize(20);
 
     ui->pushButton->setFont(font);
     ui->pushButton_2->setFont(font);
     ui->pushButton_3->setFont(font);
 
-    font.setPixelSize(8);
+    font.setPixelSize(16);
     ui->lineEdit->setFont(font);
 
     ui->lineEdit->setValidator(new QIntValidator(this));

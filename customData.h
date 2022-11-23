@@ -99,4 +99,21 @@ enum RequestIdType{
     REQUEST_CANCEL_TASK,
     REQUEST_DELETE_TASK
 };
+
+enum class TaskCreateError
+{
+    NoError = 0,
+    AgvNotExist = 1,  //当指定AGV时 ，指定的AGV不存在
+    StationListEmpty = 2,  //目标站台为空
+    StationNotExist = 3,   // 目标站台不存在
+    StationMapAtypism = 4,   //目标站台不在一张地图上
+    StationAgvMapAtypism = 5,  //目标站台与指定AGV不在一张地图上
+    AgvLock = 6, //指定AGV被锁定,
+    StationMapIdNotExplicit = 7,    //站台的地图编号不明确
+    StationActionNotExist = 8, //站台无法执行此动作
+    NotFindStationAction = 9, //未下发站台动作
+    TaskNumRepeat = 10,  //TaskNumRepeat
+    TaskIdRepeat = 11,  //MasterDisconnected
+};
+
 #endif // CUSTOMDATA_H

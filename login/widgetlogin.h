@@ -47,5 +47,6 @@ private:
   WebSocketClient* m_webSocketClient;
   QEventLoop* event_loop_;
   int m_agvId;
+  QTimer * m_timer;
 };
 

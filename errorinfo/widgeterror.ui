@@ -91,7 +91,13 @@ background-color: rgb(66, 82, 106);border:none;}
            </property>
            <property name="icon">
             <iconset resource="../image.qrc">
-             <normaloff>:/image/home_all/fanhui_icon.png</normaloff>:/image/home_all/fanhui_icon.png</iconset>
+             <normaloff>:/image/fanhui_icon.png</normaloff>:/image/fanhui_icon.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>44</width>
+             <height>48</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -206,7 +212,7 @@ QCalendarWidget QToolButton#qt_calendar_nextmonth{qproperty-icon: url(:/image/ho
             <item>
              <widget class="QLabel" name="label_2">
               <property name="styleSheet">
-               <string notr="true">border-image: url(:/image/home_all/link2.png);</string>
+               <string notr="true">border-image: url(:/image/link_icon.png);</string>
               </property>
               <property name="text">
                <string/>
@@ -273,11 +279,17 @@ background-color: rgba(255, 255, 255, 0);border:none;}
 </string>
               </property>
               <property name="text">
-               <string/>
+               <string>搜索</string>
               </property>
               <property name="icon">
                <iconset resource="../image.qrc">
-                <normaloff>:/image/home_all/search_icon.png</normaloff>:/image/home_all/search_icon.png</iconset>
+                <normaloff>:/image/home_all/search_icon2.png</normaloff>:/image/home_all/search_icon2.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>36</width>
+                <height>36</height>
+               </size>
               </property>
              </widget>
             </item>

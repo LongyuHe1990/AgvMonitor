@@ -80,7 +80,7 @@ void TipLabel::CloseAnimation()
 
 void TipLabel::Initialize()
 {
-    setFixedSize(418, 110);
+    setFixedSize(836, 220);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -101,9 +101,9 @@ void TipLabel::Initialize()
     layout->addStretch();
 
     QFont font = text_label_->font();
-    font.setPixelSize(16);
+    font.setPixelSize(32);
     text_label_->setFont(font);
-    font.setPixelSize(12);
+    font.setPixelSize(24);
     tip_label_->setFont(font);
 
 }

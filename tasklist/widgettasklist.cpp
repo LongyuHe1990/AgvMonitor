@@ -8,6 +8,7 @@
 #include "common/widgetmessagebox.h"
 #include "customData.h"
 #include "webSocket/webSocketClient.h"
+#include "common/global_helper.h"
 
 static WidgetTaskList* widget_tasklist_ = nullptr;
 
@@ -38,12 +39,12 @@ WidgetTaskList * WidgetTaskList::GetInstance()
 
 void WidgetTaskList::InitData(QVariantMap dataMap)
 {
-  qDebug() << "--------------------------------------";
-  QJsonObject   obj = QJsonObject::fromVariantMap(dataMap);
-  QJsonDocument doc(obj);
-  QString       strRet = QString(doc.toJson(QJsonDocument::Indented));
+//  qDebug() << "--------------------------------------";
+//  QJsonObject   obj = QJsonObject::fromVariantMap(dataMap);
+//  QJsonDocument doc(obj);
+//  QString       strRet = QString(doc.toJson(QJsonDocument::Indented));
 
-  qDebug() << strRet;
+//  qDebug() << strRet;
 
   ui->tableWidget->clearContents();
   ui->tableWidget->setRowCount(0);
@@ -54,8 +55,6 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
   }
 
   QList<QString> keys = dataMap.keys();
-
-  qDebug() << keys.size();
 
   int row = 0;
   for(int i = 0; i < keys.size(); ++i)
@@ -72,7 +71,11 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     item0->setText(QString::number(item.value("id").toInt()));
     item1->setText(item.value("agvName").toString());
     item2->setText(item.value("taskPeriod").toString());
-    item3->setText(item.value("targetInfo").toString());
+    item3->setText(HandleLongString(ui->tableWidget, item.value("targetInfo").toString(), 300));
+    item0->setToolTip(item0->text());
+    item1->setToolTip(item1->text());
+    item2->setToolTip(item2->text());
+    item3->setToolTip(item.value("targetInfo").toString());
 
     ui->tableWidget->setItem(row, 0, item0);
     ui->tableWidget->setItem(row, 1, item1);
@@ -83,7 +86,10 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     btn_cancel->setText(tr("Cancel"));
     btn_cancel->setCursor(QCursor(Qt::PointingHandCursor));
     btn_cancel->setFocusPolicy(Qt::NoFocus);
-    btn_cancel->setFixedSize(QSize(43, 24));
+    btn_cancel->setFixedSize(QSize(86, 48));
+    QFont font = btn_cancel->font();
+    font.setPixelSize(18);
+    btn_cancel->setFont(font);
 
     btn_cancel->setStyleSheet(
       "QPushButton::hover{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;} \
@@ -95,7 +101,8 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     btn_delete->setText(tr("Force Delete"));
     btn_delete->setCursor(QCursor(Qt::PointingHandCursor));
     btn_delete->setFocusPolicy(Qt::NoFocus);
-    btn_delete->setFixedSize(QSize(43, 24));
+    btn_delete->setFixedSize(QSize(86, 48));
+    btn_delete->setFont(font);
 
     btn_delete->setStyleSheet(
       "QPushButton::hover{background-color:rgb(227, 186, 56);color:rgb(0,0,0);border:1px solid #D9E7FF;border-radius:4px;} \
@@ -120,7 +127,7 @@ void WidgetTaskList::InitData(QVariantMap dataMap)
     item4->setTextAlignment(Qt::AlignCenter);
 
     ui->tableWidget->setCellWidget(row, 4, widget1);
-    ui->tableWidget->setRowHeight(row, 24);
+    ui->tableWidget->setRowHeight(row, 80);
 
     ++row;
   }
@@ -203,15 +210,17 @@ void WidgetTaskList::TaskDeleteButtonClicked()
 
 void WidgetTaskList::Initialize()
 {
+  setFixedHeight(346);
   QFont font = ui->label_23->font();
-  font.setPixelSize(16);
+  font.setPixelSize(32);
   ui->label_23->setFont(font);
 
-  font.setPixelSize(12);
+  font.setPixelSize(24);
   ui->pushButton_4->setFont(font);
 
-  ui->pushButton_4->setFixedSize(QSize(70, 24));
-  ui->pushButton_4->setIconSize(QSize(12, 12));
+  ui->pushButton_4->setFixedSize(QSize(140, 54));
+  ui->pushButton_4->setIconSize(QSize(24, 24));
+  ui->widget_2->setFixedHeight(56);
 }
 
 void WidgetTaskList::TranslateLanguage()
@@ -235,30 +244,32 @@ void WidgetTaskList::InitTasklistTable()
   const int offset = 1;
   ui->tableWidget->setColumnCount(5);
   ui->tableWidget->horizontalHeader()->setDefaultSectionSize(50);
-  ui->tableWidget->setColumnWidth(0, 50 * offset);
-  ui->tableWidget->setColumnWidth(1, 100 * offset);
-  ui->tableWidget->setColumnWidth(2, 100 * offset);
-  ui->tableWidget->setColumnWidth(3, 100 * offset);
-  ui->tableWidget->setColumnWidth(4, 100 * offset);
+  ui->tableWidget->setColumnWidth(0, 100 * offset);
+  ui->tableWidget->setColumnWidth(1, 150 * offset);
+  ui->tableWidget->setColumnWidth(2, 150 * offset);
+  ui->tableWidget->setColumnWidth(3, 300 * offset);
+  ui->tableWidget->setColumnWidth(4, 200 * offset);
 
   // 设置表头字体加粗
   QFont font = ui->tableWidget->horizontalHeader()->font();
-  font.setPixelSize(14);
+  font.setPixelSize(28);
   ui->tableWidget->horizontalHeader()->setFont(font);
 
   font = ui->tableWidget->font();
-  font.setPixelSize(12);
+  font.setPixelSize(24);
   ui->tableWidget->setFont(font);
 
   ui->tableWidget->horizontalHeader()->setStretchLastSection(true);                   // 设置充满表宽度
   ui->tableWidget->setShowGrid(false);                                                // 设置不显示格子线
+  ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);                // 设置不可编辑
   ui->tableWidget->verticalHeader()->setVisible(false);
+  ui->tableWidget->horizontalHeader()->setFixedHeight(86);
   ui->tableWidget->setStyleSheet(
     " \
                                  QTableWidget::item{ border:none; border-top:0.5px solid rgb(255,255,255);} \
                                  QTableWidget::item:selected { background:transparent; color:rgb(240,179,28);} \
-                                 QTableWidget{ color:rgb(255,255,255); background-color:rgb(7, 22, 41); border:none; }");
-  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227, 186, 56);background-color: rgb(7, 22, 41); border:none; }");
+                                 QTableWidget{ color:rgb(255,255,255); background:transparent; border:none; }");
+  ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{ color:rgb(227, 186, 56);background-color: rgb(16, 23, 33); border:none; }");
   ui->tableWidget->verticalScrollBar()->setStyleSheet(
     "QScrollBar{ background:#0F1819; width:4px; padding-top:0px; padding-bottom:0px; } \
                                                       QScrollBar::handle:vertical{ border-radius:4px; background:#5D6068; min-height: 30px; } \

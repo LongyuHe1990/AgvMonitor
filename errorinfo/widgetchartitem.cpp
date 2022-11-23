@@ -4,6 +4,7 @@
 #include <QtCharts/qbarcategoryaxis.h>
 #include <QMetaObject>
 #include <QDebug>
+#include <QDateTime>
 
 #pragma comment  (lib, "Qt5Charts.lib")
 
@@ -48,9 +49,9 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 
     //
     QFont ft = painter.font();
-    ft.setPixelSize(10);
+    ft.setPixelSize(12);
     painter.setFont(ft);
-    painter.drawText(20, 20, show_bar_text_);
+    painter.drawText(43, 17, show_bar_text_);
   }
 
   if(!show_title_text_.isEmpty())
@@ -61,7 +62,7 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 
     //
     QFont ft = painter.font();
-    ft.setPixelSize(10);
+    ft.setPixelSize(12);
     painter.setFont(ft);
     const int text_height = QFontMetrics(ft).height() + chart_->margins().bottom();
     painter.drawText(0, height() - text_height, width(), text_height, Qt::AlignCenter, show_title_text_);
@@ -76,6 +77,7 @@ void WidgetChartItem::paintEvent(QPaintEvent* e)
 
 WidgetChartError::WidgetChartError(QWidget* parent)
   : WidgetChartItem(parent)
+  , curren_number_(0)
 {
   QLineSeries* series = new QLineSeries(chart_);
   series->setPen(QPen(QColor("#E3BA38"), 2));
@@ -173,7 +175,7 @@ void WidgetChartError::SetInputData(StatisticsInfoList data)
     axis_y->setMax(int(std::floor(max_value / 10.0)) * 10 + 10);
   }
   //
-
+  int i = 0;
   for(auto itr = data.begin(); itr != data.end(); ++itr)
   {
     StatisticsInfo info   = *itr;
@@ -181,24 +183,34 @@ void WidgetChartError::SetInputData(StatisticsInfoList data)
     const int      offset = (axis_x->count() + 1) * 2;
     if(axis_x)
     {
-      axis_x->append(info.key.mid(5), offset);
+//      axis_x->append(info.key.mid(5), offset);
+        axis_x->append(list_.at(i), offset);
+        if(current_week_ == list_.at(i))
+        {
+            curren_number_ = info.this_week;
+        }
     }
-
+    i++;
     const QList<QLineSeries *> serise_list = series_list_;
     if(serise_list.count() < 1)
     {
       return;
     }
 
-    serise_list.at(0)->append(QPointF(offset - 1, info.value));
-    serise_list.at(1)->append(QPointF(offset - 1, info.value1));
+    serise_list.at(0)->append(QPointF(offset - 1, info.this_week));
+    serise_list.at(1)->append(QPointF(offset - 1, info.last_week));
   }
+}
+
+int WidgetChartError::GetTodayErrorNumber()
+{
+    return curren_number_;
 }
 
 void WidgetChartError::Initialize()
 {
   QFont ft = font();
-  ft.setPixelSize(10);
+  ft.setPixelSize(12);
 
   QBarCategoryAxis* axis_x = static_cast<QBarCategoryAxis *>(chart_->axisX());
   if(axis_x)
@@ -211,11 +223,16 @@ void WidgetChartError::Initialize()
   {
     axis_y->setLabelsFont(ft);
   }
+
+  QDateTime curren_time = QDateTime::currentDateTime();
+  current_week_ = curren_time.toString("ddd");
 }
 
 void WidgetChartError::TranslateLanguage()
 {
     show_bar_text_ = tr("单位：次");
+//    list_ << tr("Mon") << tr("Tue") << tr("Wed") << tr("Thu") << tr("Fri") << tr("Sat") << tr("Sun");
+    list_ << tr("周一") << tr("周二") << tr("周三") << tr("周四") << tr("周五") << tr("周六") << tr("周天");
 }
 
 void WidgetChartError::changeEvent(QEvent *e)

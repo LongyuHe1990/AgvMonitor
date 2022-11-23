@@ -17,23 +17,13 @@ int main(int argc, char* argv[])
 
   QLocale locale;
   QTranslator translator;
-  if(locale.language() == QLocale::English)
+
+  if(translator.load(GetCurrentBinPath() + "/translate_zh_CN.qm"))
   {
-      if(translator.load(GetCurrentBinPath() + "/translate_en.qm"))
-      {
-          qDebug() << "english system";
-          a.installTranslator(&translator);
-      }
+      qDebug() << "中文系统";
+      a.installTranslator(&translator);
   }
-  else if(locale.language() == QLocale::Chinese)
-  {
-      if(translator.load(GetCurrentBinPath() + "/translate_zh_CN.qm"))
-      {
-          qDebug() << "中文系统";
-          a.installTranslator(&translator);
-      }
-  }
-  
+  a.setFont(QFont(QStringLiteral("微软雅黑")));
   QString qss;
   QFile qssFile(":/qss/theme.css");
   qssFile.open(QFile::ReadOnly);
@@ -62,10 +52,11 @@ int main(int argc, char* argv[])
   WidgetLogin     login;
 #ifdef QT_NO_DEBUG
   login.setGeometry(0, 0, deskRect.width(), deskRect.height());
+  login.showFullScreen();
 #else
   login.setGeometry(deskRect.width() / 2 - 400, deskRect.height()/2 - 300, 800, 600);
-#endif
   login.show();
+#endif
   QEventLoop loop;
   login.SetEventLoop(&loop);
   int status = loop.exec();
@@ -74,15 +65,18 @@ int main(int argc, char* argv[])
   {
     #ifdef QT_NO_DEBUG
       widget_main.setGeometry(0, 0, deskRect.width(), deskRect.height());
+      widget_main.showFullScreen();
     #else
       widget_main.setGeometry(deskRect.width() / 2 - 900, deskRect.height()/2 - 500, 1800, 1000);
-    #endif
       widget_main.show();
-      //widget_main.showFullScreen();
+//      widget_main.showFullScreen();
+    #endif
       QEventLoop loop_main;
       widget_main.SetEventLoop(&loop_main);
       loop_main.exec();
   }
+
+  QMetaObject::invokeMethod(&widget_main,"close",Qt::QueuedConnection);
 
   return a.exec();
 }

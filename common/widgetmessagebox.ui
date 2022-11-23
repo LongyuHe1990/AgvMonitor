@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>984</width>
-    <height>728</height>
+    <width>1920</width>
+    <height>1200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,7 +70,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>285</width>
+          <width>228</width>
           <height>20</height>
          </size>
         </property>
@@ -78,6 +78,12 @@
       </item>
       <item row="1" column="1">
        <widget class="QWidget" name="widget_2" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>400</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">#widget_2{border-image: url(:/image/home_all/message_box.png);}
 </string>
@@ -115,6 +121,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout" stretch="28,146,192,34,5">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
            </property>
            <item>
             <spacer name="horizontalSpacer_3">
@@ -250,23 +259,16 @@ color: rgb(255, 229, 2);}</string>
           </spacer>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="45,120,72,120,43">
+          <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="120,120">
            <property name="spacing">
-            <number>0</number>
+            <number>50</number>
            </property>
-           <item>
-            <spacer name="horizontalSpacer_10">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
+           <property name="leftMargin">
+            <number>50</number>
+           </property>
+           <property name="rightMargin">
+            <number>50</number>
+           </property>
            <item>
             <widget class="QPushButton" name="pushButton_2">
              <property name="cursor">
@@ -283,19 +285,6 @@ QPushButton::pressed{background-color: rgb(255, 238, 172);color: rgb(12, 2, 2);b
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
             <widget class="QPushButton" name="pushButton_3">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
@@ -309,19 +298,6 @@ QPushButton::pressed{background-color: rgb(255, 238, 172);color: rgb(12, 2, 2);b
               <string>PushButton</string>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_8">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </item>
@@ -348,7 +324,7 @@ QPushButton::pressed{background-color: rgb(255, 238, 172);color: rgb(12, 2, 2);b
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>283</width>
+          <width>228</width>
           <height>20</height>
          </size>
         </property>

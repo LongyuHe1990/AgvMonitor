@@ -63,7 +63,7 @@ void MapMonitoringScene::addStationItems(QMap<QString, STATIONINFO> stations)
         StationItem *stationItem = new StationItem();
         stationItem->setStationPoint(station.point.toPoint());
         stationItem->setAssociateNodePoint(station.node.point.toPoint());
-        stationItem->setStationName(station.name);
+        stationItem->setStationInfo(station);
         addItem(stationItem);
         stationItem->showLinkLine();
     }

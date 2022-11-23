@@ -20,7 +20,7 @@ public:
      * @param content 提示的消息内容content
      * @return 返回值bool - 关闭提示框
      */
-    bool MessageHint(const QString &title, const QString &content);
+    bool MessageHint(const QString &title, const QString &content, bool showCancle = true);
 
 Q_SIGNALS:
   /**

@@ -221,3 +221,17 @@ QString GetCurrentBinPath()
   QDir dir = QDir::current();
   return dir.path();
 }
+
+QString HandleLongString(QWidget *widget, QString str, int length)
+{
+    QFontMetrics fontMetrics(widget->font());
+
+    const int  fontSize = fontMetrics.width(str);        // 获取之前设置的字符串的像素大小
+    const int offset   = 1;
+    //
+    if(fontSize > length)
+    {
+      return fontMetrics.elidedText(str, Qt::ElideRight, length * offset);   // 返回一个带有省略号的字符串
+    }
+    return str;
+}

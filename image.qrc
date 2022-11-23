@@ -20,86 +20,94 @@
         <file>image/link_icon.png</file>
         <file>image/search_icon.png</file>
         <file>image/home/bj.png</file>
-		<file>image/home_all/dianliang_0.png</file>
+        <file>image/home_all/dianliang_0.png</file>
         <file>image/home_all/dianliang_5.png</file>
-		<file>image/home_all/dianliang_10.png</file>
-		<file>image/home_all/dianliang_15.png</file>
-		<file>image/home_all/dianliang_20.png</file>
+        <file>image/home_all/dianliang_10.png</file>
+        <file>image/home_all/dianliang_15.png</file>
+        <file>image/home_all/dianliang_20.png</file>
         <file>image/home_all/dianliang_25.png</file>
-		<file>image/home_all/dianliang_30.png</file>
-		<file>image/home_all/dianliang_35.png</file>
-		<file>image/home_all/dianliang_40.png</file>
-		<file>image/home_all/dianliang_45.png</file>
+        <file>image/home_all/dianliang_30.png</file>
+        <file>image/home_all/dianliang_35.png</file>
+        <file>image/home_all/dianliang_40.png</file>
+        <file>image/home_all/dianliang_45.png</file>
         <file>image/home_all/dianliang_50.png</file>
-		<file>image/home_all/dianliang_55.png</file>
-		<file>image/home_all/dianliang_60.png</file>
-		<file>image/home_all/dianliang_65.png</file>
-		<file>image/home_all/dianliang_70.png</file>
+        <file>image/home_all/dianliang_55.png</file>
+        <file>image/home_all/dianliang_60.png</file>
+        <file>image/home_all/dianliang_65.png</file>
+        <file>image/home_all/dianliang_70.png</file>
         <file>image/home_all/dianliang_75.png</file>
-		<file>image/home_all/dianliang_80.png</file>
-		<file>image/home_all/dianliang_85.png</file>
-		<file>image/home_all/dianliang_90.png</file>
-		<file>image/home_all/dianliang_95.png</file>
+        <file>image/home_all/dianliang_80.png</file>
+        <file>image/home_all/dianliang_85.png</file>
+        <file>image/home_all/dianliang_90.png</file>
+        <file>image/home_all/dianliang_95.png</file>
         <file>image/home_all/dianliang_100.png</file>
-		<file>image/home_all/logokuang_icon.png</file>
+        <file>image/home_all/logokuang_icon.png</file>
         <file>image/home_all/biappai_icon.png</file>
-		<file>image/home_all/bj2.png</file>
-		<file>image/home_all/chongdian_icon.png</file>
-		<file>image/home_all/chongdingwei_icon.png</file>
-		<file>image/home_all/daohangkuang_iocn.png</file>
-		<file>image/home_all/dingei_icon.png</file>
-		<file>image/home_all/dingwei_icon.png</file>
-		<file>image/home_all/ditu_icon.png</file>
-		<file>image/home_all/jiankong_no_icon.png</file>
-		<file>image/home_all/jiankong_yes_icon.png</file>
-		<file>image/home_all/jiantu_icon.png</file>
-		<file>image/home_all/jiqiweizhi_icon.png</file>
-		<file>image/home_all/kongzhi_no_icon.png</file>
-		<file>image/home_all/kongzhi_yes_icon.png</file>
-		<file>image/home_all/lixian_icon.png</file>
-		<file>image/home_all/logokuang_icon.png</file>
-		<file>image/home_all/qiehuan_icon.png</file>
-		<file>image/home_all/quyu_cion.png</file>
-		<file>image/home_all/renwu_icon1.png</file>
-		<file>image/home_all/renwu_icon2.png</file>
-		<file>image/home_all/renwu_icon.png</file>
-		<file>image/home_all/rizhi_no_icon.png</file>
-		<file>image/home_all/rizhi_yes_icon.png</file>
-		<file>image/home_all/shezhi_no_icon.png</file>
-		<file>image/home_all/shezhi_yes_icon.png</file>
-		<file>image/home_all/tishi_icon.png</file>
-		<file>image/home_all/tuichu_icon.png</file>
-		<file>image/home_all/zaixian_icon.png</file>
-		<file>image/home_all/zhantai_icon.png</file>
-		<file>image/home_all/zhaungshikuang_di_icon.png</file>
-		<file>image/home_all/zhuangtai_iocn.png</file>
-		<file>image/home_all/zhuye_no_icon.png</file>
-		<file>image/home_all/zhuye_yes_icon.png</file>
-		<file>image/home_all/logo_black.png</file>
-		<file>image/home_all/logo_white.png</file>
-		<file>image/home_all/kuan_chang_ copy.png</file>
-		<file>image/home_all/kuan_duan_ copy.png</file>
-		<file>image/home_all/tip_label.png</file>
-		<file>image/home_all/message_box.png</file>
-		<file>image/home_all/zhai_chang_copy.png</file>
-		<file>image/home_all/zhai_duan_copy.png</file>
-		<file>image/home_all/fanhui_icon.png</file>
-		<file>image/home_all/link2.png</file>
-		<file>image/home_all/search_icon.png</file>
-		<file>image/home_all/step1.png</file>
-		<file>image/home_all/step2.png</file>
-		<file>image/home_all/renwu_ditu.png</file>
-		<file>image/home_all/chevron-states.png</file>
-		<file>image/home_all/left_icon.png</file>
-		<file>image/home_all/right_icon.png</file>
-		<file>image/home_all/fanye_di.png</file>
-		<file>image/home/add_icon.png</file>
+        <file>image/home_all/bj2.png</file>
+        <file>image/home_all/chongdian_icon.png</file>
+        <file>image/home_all/chongdingwei_icon.png</file>
+        <file>image/home_all/daohangkuang_iocn.png</file>
+        <file>image/home_all/dingei_icon.png</file>
+        <file>image/home_all/dingwei_icon.png</file>
+        <file>image/home_all/ditu_icon.png</file>
+        <file>image/home_all/jiankong_no_icon.png</file>
+        <file>image/home_all/jiankong_no_icon2.png</file>
+        <file>image/home_all/jiankong_yes_icon.png</file>
+        <file>image/home_all/jiantu_icon.png</file>
+        <file>image/home_all/jiqiweizhi_icon.png</file>
+        <file>image/home_all/kongzhi_no_icon.png</file>
+        <file>image/home_all/kongzhi_no_icon2.png</file>
+        <file>image/home_all/kongzhi_yes_icon.png</file>
+        <file>image/home_all/lixian_icon.png</file>
+        <file>image/home_all/logokuang_icon.png</file>
+        <file>image/home_all/qiehuan_icon.png</file>
+        <file>image/home_all/quyu_cion.png</file>
+        <file>image/home_all/renwu_icon1.png</file>
+        <file>image/home_all/renwu_icon2.png</file>
+        <file>image/home_all/renwu_icon.png</file>
+        <file>image/home_all/rizhi_no_icon.png</file>
+        <file>image/home_all/rizhi_no_icon2.png</file>
+        <file>image/home_all/rizhi_yes_icon.png</file>
+        <file>image/home_all/shezhi_no_icon.png</file>
+        <file>image/home_all/shezhi_no_icon2.png</file>
+        <file>image/home_all/shezhi_yes_icon.png</file>
+        <file>image/home_all/tishi_icon.png</file>
+        <file>image/home_all/tuichu_icon.png</file>
+        <file>image/home_all/zaixian_icon.png</file>
+        <file>image/home_all/zhantai_icon.png</file>
+        <file>image/home_all/zhaungshikuang_di_icon.png</file>
+        <file>image/home_all/zhuangtai_iocn.png</file>
+        <file>image/home_all/zhuye_no_icon.png</file>
+        <file>image/home_all/zhuye_no_icon2.png</file>
+        <file>image/home_all/zhuye_yes_icon.png</file>
+        <file>image/home_all/logo_black.png</file>
+        <file>image/home_all/logo_white.png</file>
+        <file>image/home_all/kuan_chang_ copy.png</file>
+        <file>image/home_all/kuan_duan_ copy.png</file>
+        <file>image/home_all/tip_label.png</file>
+        <file>image/home_all/message_box.png</file>
+        <file>image/home_all/zhai_chang_copy.png</file>
+        <file>image/home_all/zhai_duan_copy.png</file>
+        <file>image/home_all/fanhui_icon.png</file>
+        <file>image/home_all/link2.png</file>
+        <file>image/home_all/search_icon.png</file>
+        <file>image/home_all/search_icon2.png</file>
+        <file>image/home_all/step1.png</file>
+        <file>image/home_all/step2.png</file>
+        <file>image/home_all/renwu_ditu.png</file>
+        <file>image/home_all/chevron-states.png</file>
+        <file>image/home_all/left_icon.png</file>
+        <file>image/home_all/right_icon.png</file>
+        <file>image/home_all/fanye_di.png</file>
+        <file>image/home/add_icon.png</file>
+        <file>image/home/add_icon2.png</file>
         <file>image/home/dingwei_icon.png</file>
         <file>image/home/robot_title.png</file>
         <file>image/home/shezhi_icon.png</file>
         <file>image/home/stare_title.png</file>
         <file>image/home/task_title.png</file>
         <file>image/home/tishi_icon.png</file>
+        <file>image/home/tishi_icon2.png</file>
         <file>image/home/logo.png</file>
         <file>image/home/touxiang_icon.png</file>
         <file>image/home/switch_icon.png</file>
@@ -113,5 +121,8 @@
         <file>image/floorSpread.png</file>
         <file>image/tag.png</file>
         <file>image/lift.png</file>
+        <file>image/lessen.png</file>
+        <file>image/magnify.png</file>
+        <file>image/positCar.png</file>
     </qresource>
 </RCC>

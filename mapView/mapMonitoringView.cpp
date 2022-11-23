@@ -31,6 +31,7 @@ MapMonitoringView::MapMonitoringView(QWidget * parent /*= nullptr*/)
     ,m_loadSlamWatcher(nullptr)
     ,m_isRelocation(false)
     ,m_titleRelocDlg(nullptr)
+    ,m_isAuto(false)
 {
     s_mapMonitoringView = this;
 
@@ -90,7 +91,6 @@ MapMonitoringView::~MapMonitoringView()
         m_loadSlamWatcher = nullptr;
     }
 
-    m_relocButton=nullptr;
     m_titleRelocDlg=nullptr;
 }
 
@@ -147,6 +147,7 @@ void MapMonitoringView::updataAgvItemPos(QVariantMap data)
     {
         QVariantMap content = data.value("Content").toMap();
         QVariantMap posData = content.value("globalPos").toMap();
+        m_isAuto = content.value("isAuto").toBool();
         QPoint pos(posData.value("x").toInt(), posData.value("y").toInt());
         int floorId = posData.value("z").toInt();
         int angle = content.value("angle").toInt();
@@ -416,7 +417,8 @@ void MapMonitoringView::readStationXml(QDomNodeList stationList)
             STATIONINFO stationInfo;
             QDomElement sonElement = sonNode.toElement();
             QString id = sonElement.attribute("id");
-            stationInfo.id = id;
+            int stationId = (m_mapId * 100 + m_floorId) * 100000 + id.toInt();
+            stationInfo.id = QString::number(stationId);
 
             QDomNode childNode = sonElement.firstChild();
             double x = 0.000;
@@ -553,21 +555,42 @@ void MapMonitoringView::centeredShowMapToView()
 
 void MapMonitoringView::initWidget()
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0,0,0,0);
     mainLayout->addStretch();
 
-    QHBoxLayout* operateLayout = new QHBoxLayout(this);
+    QVBoxLayout* operateLayout = new QVBoxLayout(this);
     operateLayout->addStretch();
-    m_relocButton = new QPushButton(this);
-    QIcon icon(":/image/relocation.png");
-    m_relocButton->setIcon(icon);
-    m_relocButton->setIconSize(QSize(50,50));
-    m_relocButton->setStyleSheet("background-color:transparent");
-    m_relocButton->setMaximumSize(60,60);
-    m_relocButton->setMinimumSize(60,60);
-    operateLayout->addWidget(m_relocButton);
-    connect(m_relocButton, &QPushButton::clicked, this, &MapMonitoringView::onClickRelocButton);
+
+    QPushButton *lessenButton = new QPushButton(this);
+    connect(lessenButton, &QPushButton::clicked, [=](){
+        zoomOut(geometry().center());
+    });
+    QPixmap lessenpixmap = QPixmap(":/image/lessen.png");
+    lessenButton->setIcon(lessenpixmap);
+    lessenButton->setIconSize(QSize(50, 50));
+    operateLayout->addWidget(lessenButton);
+
+    QPushButton *magnifyButton = new QPushButton(this);
+    connect(magnifyButton, &QPushButton::clicked, [=](){
+        zoomIn(geometry().center());
+    });
+    QPixmap magnifypixmap = QPixmap(":/image/magnify.png");
+    magnifyButton->setIcon(magnifypixmap);
+    magnifyButton->setIconSize(QSize(50, 50));
+    operateLayout->addWidget(magnifyButton);
+
+    QPushButton *positCarButton = new QPushButton(this);
+    connect(positCarButton, &QPushButton::clicked, [=](){
+        if(nullptr != m_scene->getAgvItem())
+        {
+            centerOn(m_scene->getAgvItem());
+        }
+    });
+    QPixmap positCarpixmap = QPixmap(":/image/positCar.png");
+    positCarButton->setIcon(positCarpixmap);
+    positCarButton->setIconSize(QSize(50, 50));
+    operateLayout->addWidget(positCarButton);
 
     mainLayout->addLayout(operateLayout);
 
@@ -577,6 +600,13 @@ void MapMonitoringView::initWidget()
 void MapMonitoringView::sendRelocationDataToServer()
 {
     //{"ModuleType":1,"Async":false,"ModuleData":{"Content":{"posX":15644.018181818183,"posY":2013.7363636363666,"angle":6.52,"id":6,"posZ":1},"OperationType":7},"RequestId":1}
+    if(m_isAuto)
+    {
+        QMessageBox *msgtest;
+        msgtest = new QMessageBox(this);
+        msgtest->setWindowTitle("重定位");
+        msgtest->setText("非手动模式,无法重定位!");
+    }
     QVariantMap rootMap;
     QVariantMap contentMap;
     QPointF mapPoint = mapToScene(m_pressPoint.x(), m_pressPoint.y());
@@ -637,6 +667,20 @@ void MapMonitoringView::updataAgvConfidence(QVariantMap data)
                 }
             }
         }
+    }
+}
+
+void MapMonitoringView::isRelocation(bool statu)
+{
+    m_isRelocation = statu;
+
+    if(m_isRelocation)
+    {
+        setDragMode(QGraphicsView::NoDrag);
+    }
+    else
+    {
+        setDragMode(QGraphicsView::ScrollHandDrag);
     }
 }
 
@@ -790,22 +834,4 @@ void MapMonitoringView::paintEvent(QPaintEvent *event)
     painter.rotate(-m_angle);
     QRect rect = QRect( - 30 / 2, - 30 / 2, 30, 30);
     painter.drawPixmap(rect, m_img);
-}
-
-void MapMonitoringView::onClickRelocButton()
-{
-    if(!m_isRelocation)
-    {
-        m_isRelocation = true;
-        setDragMode(QGraphicsView::NoDrag);
-        QIcon icon(":/image/showStation.png");
-        m_relocButton->setIcon(icon);
-    }
-    else
-    {
-        m_isRelocation=false;
-        setDragMode(QGraphicsView::ScrollHandDrag);
-        QIcon icon(":/image/relocation.png");
-        m_relocButton->setIcon(icon);
-    }
 }

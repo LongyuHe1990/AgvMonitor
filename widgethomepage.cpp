@@ -53,12 +53,9 @@ void WidgetHomepage::Initialize()
   ui->stackedWidget->addWidget(widget_addtask_);
   ui->verticalLayout_5->addWidget(widget_tasklist_);
 
-  ui->verticalLayout_4->addWidget(new TimeUtilizationRateView(this));
-  ui->verticalLayout_4->setStretch(0,1);
-  ui->verticalLayout_4->addWidget(new PerformanceUtilizationRateView(this));
-  ui->verticalLayout_4->setStretch(1,1);
+  ui->verticalLayout_6->addWidget(new TimeUtilizationRateView(this));
+  ui->verticalLayout_7->addWidget(new PerformanceUtilizationRateView(this));
   //异常报警
-  ui->verticalLayout_4->addWidget(Widget_error_);
-  ui->verticalLayout_4->setStretch(2,1);
+  ui->verticalLayout_8->addWidget(Widget_error_);
   ui->stackedWidget->setCurrentIndex(0);
 }

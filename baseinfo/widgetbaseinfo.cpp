@@ -23,6 +23,7 @@ WidgetBaseInfo::WidgetBaseInfo(QWidget* parent)
 
   widget_baseinfo_ = this;
 
+  ui->pushButton_2->hide();
   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(LogoutButtonClicked()));
   connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(PauseButtonClicekd()));
 }
@@ -243,16 +244,17 @@ void WidgetBaseInfo::PauseButtonClicekd()
 void WidgetBaseInfo::Initialize()
 {
   QFont font = ui->label_7->font();
-  font.setPixelSize(16);
+  font.setPixelSize(32);
   ui->label_7->setFont(font);
 
-  font.setPixelSize(14);
+  font.setPixelSize(28);
   ui->label_24->setFont(font);
   ui->label_17->setFont(font);
   ui->label_19->setFont(font);
   ui->label_13->setFont(font);
 
-  font.setPixelSize(12);
+  font.setPixelSize(24);
+  ui->label_10->setFont(font);
   ui->label_3->setFont(font);
   ui->label_16->setFont(font);
   ui->label_18->setFont(font);
@@ -279,20 +281,20 @@ void WidgetBaseInfo::Initialize()
   ui->pushButton->setFont(font);
   ui->pushButton_2->setFont(font);
 
-  font.setPixelSize(10);
+  font.setPixelSize(20);
   ui->label_11->setFont(font);
   ui->label_9->setFont(font);
   ui->label_16->setFont(font);
   ui->label_15->setFont(font);
   ui->label_18->setFont(font);
 
-  ui->label_6->setFixedSize(QSize(20, 20));
-  ui->label_13->setFixedSize(QSize(85, 78));
-  ui->pushButton->setFixedSize(QSize(93, 30));
-  ui->pushButton_2->setFixedSize(QSize(93, 30));
-  ui->label_2->setFixedSize(QSize(11, 11));
-  ui->label_4->setFixedSize(QSize(11, 11));
-  ui->label_14->setFixedSize(QSize(11, 11));
+  ui->label_6->setFixedSize(QSize(40, 40));
+  ui->label_13->setFixedSize(QSize(170, 156));
+  ui->pushButton->setFixedSize(QSize(186, 60));
+  ui->pushButton_2->setFixedSize(QSize(186, 60));
+  ui->label_2->setFixedSize(QSize(22, 22));
+  ui->label_4->setFixedSize(QSize(22, 22));
+  ui->label_14->setFixedSize(QSize(22, 22));
 }
 
 void WidgetBaseInfo::TranslateLanguage()

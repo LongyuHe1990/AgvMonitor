@@ -83,7 +83,7 @@ void TimeUtilizationRateView::paintEvent(QPaintEvent *event)
 
     painter.save();
     painter.setPen(QColor(Qt::white));
-    painter.setFont(QFont("微软雅黑", 10));
+    painter.setFont(QFont("微软雅黑", 16));
     painter.drawText(QRect(rect2.x() + 10, rect2.y(), rect2.width() - 50, rect2.height()), Qt::AlignVCenter | Qt::AlignLeft, tr("时间稼动率"));
     painter.restore();
 

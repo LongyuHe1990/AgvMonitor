@@ -108,8 +108,7 @@ QComboBox:on {
 QComboBox::drop-down {
     subcontrol-origin: padding;   /* 子控件在父元素中的原点矩形。如果未指定此属性，则默认为padding。 */
     subcontrol-position: top right;   /* 下拉框的位置（右上） */
-    width: 15px;   /* 下拉框的宽度 */
-
+    width: 30px;   /* 下拉框的宽度 */
     border-left-width: 0px;   /* 下拉框的左边界线宽度 */
     border-left-color: red;   /* 下拉框的左边界线颜色 */
     border-left-style: solid;   /* 下拉框的左边界线为实线 */

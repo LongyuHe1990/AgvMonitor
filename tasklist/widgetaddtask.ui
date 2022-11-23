@@ -39,8 +39,14 @@
 </string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1">
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4" stretch="4,10,19,12,9,24,8,24,8,24,8,24,8,24,8,24,8,24,19,30,15">
+       <layout class="QVBoxLayout" name="verticalLayout_4" stretch="4,22,23,24,18,48,16,48,16,48,16,48,16,48,16,48,16,48,38,60,31">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -48,13 +54,13 @@
          <number>9</number>
         </property>
         <property name="topMargin">
-         <number>9</number>
+         <number>0</number>
         </property>
         <property name="rightMargin">
          <number>12</number>
         </property>
         <property name="bottomMargin">
-         <number>9</number>
+         <number>0</number>
         </property>
         <item>
          <spacer name="verticalSpacer_12">
@@ -598,6 +604,10 @@ QCheckBox::indicator::checked { image: url(:/image/yes_icon.png);}</string>
           <property name="styleSheet">
            <string notr="true">QPushButton{background-color: rgb(255, 226, 96);
 color: rgb(0, 0, 0);border-radius:6px;border:none;}
+QPushButton::hover{background-color: rgba(43, 235, 182, 0.2);
+color: rgb(43, 235, 182);border-radius:6px;border:1px solid #2bebb6;}
+QPushButton::pressed{background-color: rgba(43, 235, 182, 0.2);
+color: rgb(43, 235, 182);border-radius:6px;border:1px solid #2bebb6;}
 </string>
           </property>
           <property name="text">
@@ -621,7 +631,7 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="4,10,19,12,9,193,10,30,15">
+       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="4,45,24,19,396,38,60,31">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -635,7 +645,7 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
          <number>9</number>
         </property>
         <property name="bottomMargin">
-         <number>12</number>
+         <number>0</number>
         </property>
         <item>
          <spacer name="verticalSpacer_11">
@@ -651,19 +661,39 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
          </spacer>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="0,0,0">
           <property name="leftMargin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_2">
-            <property name="styleSheet">
-             <string notr="true">border-image: url(:/image/home_all/step2.png);</string>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="spacing">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="styleSheet">
+               <string notr="true">border-image: url(:/image/home_all/step2.png);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_17">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item>
            <spacer name="horizontalSpacer_15">
@@ -695,19 +725,6 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_16">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -809,7 +826,10 @@ color: rgb(0, 0, 0);border-radius:6px;border:none;}
           <property name="styleSheet">
            <string notr="true">QPushButton{background-color: rgb(255, 226, 96);
 color: rgb(0, 0, 0);border-radius:6px;border:none;}
-</string>
+QPushButton::hover{background-color: rgba(43, 235, 182, 0.2);
+color: rgb(43, 235, 182);border-radius:6px;border:1px solid #2bebb6;}
+QPushButton::pressed{background-color: rgba(43, 235, 182, 0.2);
+color: rgb(43, 235, 182);border-radius:6px;border:1px solid #2bebb6;}</string>
           </property>
           <property name="text">
            <string>PushButton</string>

@@ -15,13 +15,13 @@ struct NameAndLabelInfo {
 
 struct StatisticsInfo
 {
-  int value;
-  int value1;
+  int this_week;
+  int last_week;
   QString key;
 
   inline int Max()
   {
-    return value > value1 ? value : value1;
+    return this_week > last_week ? this_week : last_week;
   }
 };
 using StatisticsInfoList = std::list<StatisticsInfo>;
@@ -34,5 +34,6 @@ StatusAndColorInfo GetConfigStatus(int status);
 QString            GetAgvHoverState(int taskState);
 NameAndLabelInfo   GetActionType(int actionType);
 QString            GetCurrentBinPath();
+QString  HandleLongString(QWidget *  widget, QString str, int length);
 
 

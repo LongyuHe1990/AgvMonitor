@@ -18,7 +18,6 @@ public:
     void updateFloorComboBox();
     void setAreaId(int areaId);
     void setMapId(int mapId);
-    void setMapVersions();
     void updataAgvItemPos(QVariantMap data);
 
 private:
@@ -33,9 +32,8 @@ private:
     int m_mapId;
     int m_floorId;
     QPushButton* m_relocButton;
-    QLabel* m_mapVersionsLabel;
-    QString m_mapVersions;
     QList<QString> m_floorIdList;
+    bool m_isRelocation;
 };
 
 #endif // MAPMONITORINGWIDGET_H

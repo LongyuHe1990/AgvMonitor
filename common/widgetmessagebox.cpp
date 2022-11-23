@@ -1,5 +1,6 @@
 #include "widgetmessagebox.h"
 #include "ui_widgetmessagebox.h"
+#include <QDesktopWidget>
 
 WidgetMessageBox::WidgetMessageBox(QWidget *parent) :
     QDialog(parent),
@@ -24,14 +25,14 @@ WidgetMessageBox::~WidgetMessageBox()
     delete ui;
 }
 
-bool WidgetMessageBox::MessageHint(const QString &title, const QString &content)
+bool WidgetMessageBox::MessageHint(const QString &title, const QString &content, bool showCancle)
 {
-    ResizeWidget();
-    //
     ui->pushButton_2->setHidden(false);
     ui->label->setText(title);
     ui->label_2->setText(TruntString(content));
+    ui->pushButton_3->setVisible(showCancle);
 
+    ResizeWidget();
     const int result = exec();
     qApp->processEvents();
     return result;
@@ -57,20 +58,19 @@ void WidgetMessageBox::TranslateLanguage()
 void WidgetMessageBox::Initialize()
 {
     QFont font = ui->label->font();
-    font.setPixelSize(12);
+    font.setPixelSize(24);
     ui->label->setFont(font);
-    ui->label_2->setFont(font);
 
     font = ui->pushButton->font();
-    font.setPixelSize(18);
+    font.setPixelSize(36);
     ui->label_2->setFont(font);
     ui->pushButton_2->setFont(font);
     ui->pushButton_3->setFont(font);
 
-    ui->pushButton->setFixedSize(QSize(34, 34));
-    ui->pushButton_2->setFixedSize(QSize(120, 32));
-    ui->pushButton_3->setFixedSize(QSize(120, 32));
-    ui->label_2->setFixedWidth(400);
+    ui->pushButton->setFixedSize(QSize(68, 68));
+    ui->pushButton_2->setFixedSize(QSize(240, 64));
+    ui->pushButton_3->setFixedSize(QSize(240, 64));
+    ui->label_2->setFixedWidth(800);
     //设置自动换行
     ui->label_2->setWordWrap(true);
     ui->label_2->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -78,6 +78,9 @@ void WidgetMessageBox::Initialize()
 
 void WidgetMessageBox::ResizeWidget()
 {
+    QDesktopWidget* pDesktopWidget = QApplication::desktop();
+    QRect           deskRect       = pDesktopWidget->geometry();
+//    setGeometry(deskRect.width() / 2 - 250, deskRect.height() / 2 - 200, 1920, 1200);
     setGeometry(0, 0, 1920, 1200);
 }
 

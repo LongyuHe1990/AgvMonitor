@@ -34,6 +34,7 @@ public:
 
     void updataAgvConfidence(QVariantMap data);
 
+    void isRelocation(bool statu);
 private:
     void zoomIn(QPoint pos);
     void zoomOut(QPoint pos);
@@ -65,7 +66,7 @@ private:
 
     void paintEvent(QPaintEvent *event);
 public slots:
-    void onClickRelocButton();
+
 private:
     int m_mapId;
     int m_floorId;
@@ -91,9 +92,9 @@ private:
     QLineF m_line;
     double m_angle;
     QPixmap m_img;
-    QPushButton* m_relocButton;
     QDialog *m_titleRelocDlg;
     QVariantMap m_agvInfor;
+    bool m_isAuto;  //true:"自动"  false:"手动"
 };
 
 #endif // MAPMONITORINGVIEW_H

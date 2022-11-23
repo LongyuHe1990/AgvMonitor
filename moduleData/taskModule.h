@@ -13,7 +13,9 @@ public:
 
     static TaskModule* getInstance();
 
-    void updataTask(QVariantMap data, int agvId);
+    void updataTask(QVariantMap data);
+
+    void taskOperaterState(int result);
 signals:
 
 private:

@@ -47,7 +47,7 @@ public:
   virtual void Clear() override;
 
   void SetInputData(StatisticsInfoList data);
-
+  int GetTodayErrorNumber();
 
 private:
   void Initialize();
@@ -55,5 +55,8 @@ private:
   virtual void changeEvent(QEvent* e) override;
 
   QList<QLineSeries*> series_list_;
+  QStringList list_;
+  int curren_number_;
+  QString current_week_;
 };
 

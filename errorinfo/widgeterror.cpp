@@ -121,11 +121,11 @@ void WidgetError::InitErrorTable()
 
   // 设置表头字体加粗
   QFont font = ui->tableWidget->horizontalHeader()->font();
-  font.setPixelSize(18);
+  font.setPixelSize(36);
   ui->tableWidget->horizontalHeader()->setFont(font);
 
   font = ui->tableWidget->font();
-  font.setPixelSize(14);
+  font.setPixelSize(28);
   ui->tableWidget->setFont(font);
 
   ui->tableWidget->horizontalHeader()->setStretchLastSection(true);                     // 设置充满表宽度
@@ -151,16 +151,18 @@ void WidgetError::InitErrorTable()
 void WidgetError::Initialize()
 {
   QFont font = ui->label->font();
-  font.setPixelSize(18);
+  font.setPixelSize(36);
   ui->label->setFont(font);
 
-  font.setPixelSize(16);
+  font.setPixelSize(32);
   ui->pushButton_2->setFont(font);
 
-  font.setPixelSize(14);
+  font.setPixelSize(28);
   ui->pushButton->setFont(font);
+  ui->dateEdit->setFont(font);
+  ui->dateEdit_2->setFont(font);
 
-  ui->label_2->setFixedSize(QSize(18, 18));
+  ui->label_2->setFixedSize(QSize(36, 36));
 }
 
 void WidgetError::TranslateLanguage()

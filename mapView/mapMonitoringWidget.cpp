@@ -11,6 +11,7 @@ MapMonitoringWidget::MapMonitoringWidget(QWidget *parent) : QWidget(parent)
   ,m_areaId(-1)
   ,m_mapId(-1)
   ,m_floorId(-1)
+  ,m_isRelocation(false)
 {
     s_mapMonitoringWidget = this;
 
@@ -19,7 +20,7 @@ MapMonitoringWidget::MapMonitoringWidget(QWidget *parent) : QWidget(parent)
 
 MapMonitoringWidget::~MapMonitoringWidget()
 {
-    m_mapVersionsLabel=nullptr;
+
 }
 
 MapMonitoringWidget *MapMonitoringWidget::getInstance()
@@ -37,12 +38,12 @@ void MapMonitoringWidget::initWidget()
 
     QHBoxLayout* titleLayout = new QHBoxLayout(this);
     titleLayout->setContentsMargins(20,0,40,0);
-    titleLayout->setSpacing(5);
+    titleLayout->setSpacing(10);
     titleLayout->setGeometry(QRect(0,0,geometry().width(),40));
 
-    QFont font("微软雅黑", 9);
+    QFont font("微软雅黑", 18);
     QLabel* imageArea = new QLabel(this);
-    imageArea->setMinimumSize(30,40);
+    imageArea->setMinimumSize(40,40);
     imageArea->setAlignment(Qt::AlignCenter);
     QPixmap areaImage(30,30);
     areaImage.load(":/image/area.png");
@@ -51,7 +52,7 @@ void MapMonitoringWidget::initWidget()
     titleLayout->addWidget(imageArea);
     QLabel *labelArea = new QLabel(this);
     //labelArea->setFrameShape(QFrame::Box);
-    labelArea->setMinimumSize(40,40);
+    labelArea->setMinimumSize(100,40);
     labelArea->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     labelArea->setStyleSheet("color:white;");
     labelArea->setFont(font);
@@ -60,7 +61,7 @@ void MapMonitoringWidget::initWidget()
     labelArea->setObjectName("labelArea");
     titleLayout->addWidget(labelArea);
 
-    titleLayout->addSpacing(30);
+    titleLayout->addSpacing(20);
 
     QLabel* imageMap = new QLabel(this);
     imageMap->setAlignment(Qt::AlignCenter);
@@ -73,7 +74,7 @@ void MapMonitoringWidget::initWidget()
     titleLayout->addWidget(imageMap);
     QLabel *labelMap = new QLabel(this);
     //labelMap->setFrameShape(QFrame::Box);
-    labelMap->setMinimumSize(40,40);
+    labelMap->setMinimumSize(100,40);
     labelMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     QString mapName = "地图" + QString::number(m_mapId);
     labelMap->setText(mapName);
@@ -81,7 +82,8 @@ void MapMonitoringWidget::initWidget()
     labelMap->setFont(font);
     labelMap->setStyleSheet("color:white");
     titleLayout->addWidget(labelMap);
-    titleLayout->addStretch();
+
+    titleLayout->addSpacing(20);
 
     QHBoxLayout* floorBoxLayout = new QHBoxLayout(this);
     floorBoxLayout->setContentsMargins(0,0,0,0);
@@ -93,6 +95,7 @@ void MapMonitoringWidget::initWidget()
     floorImage = floorImage.scaled(30,30);
     floorLabel->setPixmap(floorImage);
     QComboBox* pComboBox = new QComboBox(this);
+    pComboBox->setStyleSheet("QComboBox {combobox-popup: 0;}");
     connect(pComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),[=](int index){
         if(index >= 0)
         {
@@ -104,7 +107,7 @@ void MapMonitoringWidget::initWidget()
             }
         }
     });
-    pComboBox->setMinimumSize(60, 40);
+    pComboBox->setMinimumSize(100, 40);
     pComboBox->setObjectName("mapView_floorComboBox");
     QListView* listView = new QListView();
     pComboBox->setView(listView);
@@ -113,16 +116,39 @@ void MapMonitoringWidget::initWidget()
     titleLayout->addLayout(floorBoxLayout);
 
     titleLayout->addStretch();
-    m_mapVersionsLabel = new QLabel(this);
-    m_mapVersionsLabel->setFont(QFont("微软雅黑", 8));
-    m_mapVersionsLabel->setStyleSheet("color:white");
-    m_mapVersionsLabel->setMinimumHeight(40);
-    m_mapVersionsLabel->setAlignment(Qt::AlignVCenter);
-    QString versionsInfo = tr("当前地图版本：") + m_mapVersions;
-    m_mapVersionsLabel->setText(versionsInfo);
-    //m_mapVersionsLabel->setFrameShape (QFrame::Box);
-    titleLayout->addStretch();
-    titleLayout->addWidget(m_mapVersionsLabel);
+
+    QPushButton* relocatButton = new QPushButton(this);
+    relocatButton->setStyleSheet("QPushButton{"
+
+                                 "border: 0px solid black;"//边框宽度和颜色
+
+                                 "border-radius: 5px;"//边框圆角
+
+                                 "background-color:#e4bc3a;  "//背景颜色
+
+                                 "color:black;                 "//字体颜色
+                                 "}");
+    QPixmap pixmap = QPixmap(":/image/relocation.png");
+    relocatButton->setIcon(pixmap);
+    relocatButton->setIconSize(QSize(35, 35));
+    relocatButton->setMinimumSize(80, 40);
+    connect(relocatButton, &QPushButton::clicked, [=](){
+        if(!m_isRelocation)
+        {
+            m_isRelocation = true;
+            QIcon icon(":/image/showStation.png");
+            relocatButton->setIcon(icon);
+        }
+        else
+        {
+            m_isRelocation=false;
+            QIcon icon(":/image/relocation.png");
+            relocatButton->setIcon(icon);
+        }
+
+        MapMonitoringView::getInstance()->isRelocation(m_isRelocation);
+    });
+    titleLayout->addWidget(relocatButton);
 
     mainLayout->addLayout(titleLayout);
 
@@ -171,18 +197,6 @@ void MapMonitoringWidget::setMapId(int mapId)
     MapMonitoringView::getInstance()->setMapId(mapId);
 }
 
-void MapMonitoringWidget::setMapVersions()
-{
-    if(m_mapVersionsLabel != nullptr)
-    {
-        QString versionsInfo = tr("当前地图版本：") + m_mapVersions;
-        if(m_mapVersionsLabel != nullptr)
-        {
-            m_mapVersionsLabel->setText(versionsInfo);
-        }
-    }
-}
-
 void MapMonitoringWidget::updataAgvItemPos(QVariantMap data)
 {
     int operatorType = data.value("OperationType").toInt();
@@ -190,11 +204,6 @@ void MapMonitoringWidget::updataAgvItemPos(QVariantMap data)
     {
         QVariantMap content = data.value("Content").toMap();
         QString currentMapUuid = content.value("currentMapUuid").toString();
-        if(m_mapVersions != currentMapUuid)
-        {
-            m_mapVersions = currentMapUuid;
-            setMapVersions();
-        }
     }
 
     if(MapMonitoringView::getInstance() != nullptr)

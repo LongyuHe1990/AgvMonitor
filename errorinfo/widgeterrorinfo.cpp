@@ -58,33 +58,32 @@ void WidgetErrorInfo::InitData(QVariantMap data_map)
   {
     StatisticsInfo info;
     info.key   = QString("2022/09/%1").arg(i);
-    info.value = i;
-    info.value1 = i + 5;
+    info.this_week = i;
+    info.last_week = i + 5;
     list.push_back(info);
   }
 
   ui->widgetchart->SetInputData(list);
+  ui->label_19->setText(QString::number(ui->widgetchart->GetTodayErrorNumber()));
 }
 
 void WidgetErrorInfo::Initialize()
 {
+  setFixedHeight(346);
   QFont font = ui->label_10->font();
-  font.setPixelSize(16);
-
+  font.setPixelSize(32);
   ui->label_19->setFont(font);
 
-  font.setPixelSize(12);
+  font.setPixelSize(24);
   ui->pushButton_3->setFont(font);
-  ui->label_20->setFont(font);
   ui->label_10->setFont(font);
-
-  ui->pushButton_3->setFixedSize(QSize(70, 24));
+  ui->pushButton_3->setFixedSize(QSize(140, 54));
+  ui->widget_2->setFixedHeight(56);
 }
 
 void WidgetErrorInfo::TranslateLanguage()
 {
-  ui->label_10->setText(tr("Abnormal alarm"));
-  ui->label_20->setText(tr("Today's alert data"));
+  ui->label_10->setText(tr("Today's alert data"));
   ui->pushButton_3->setText(tr("Details"));
 }
 

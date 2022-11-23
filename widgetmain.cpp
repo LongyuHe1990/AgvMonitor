@@ -124,28 +124,28 @@ void WidgetMain::HideErrorDetialWidget()
 void WidgetMain::Initialize()
 {
   QFont font = ui->label_title->font();
-  font.setPixelSize(16);
+  font.setPixelSize(32);
   ui->label_title->setFont(font);
   ui->label_time->setFont(font);
 
-  font.setPixelSize(12);
+  font.setPixelSize(24);
   ui->pushButton_home->setFont(font);
   ui->pushButton_control->setFont(font);
   ui->pushButton_detail->setFont(font);
   ui->pushButton_log->setFont(font);
   ui->pushButton_setting->setFont(font);
 
-  font.setPixelSize(10);
+  font.setPixelSize(20);
   ui->label_date->setFont(font);
 
-  ui->label_icon->setFixedSize(QSize(110, 15));
-  ui->label_time->setFixedSize(QSize(50, 14));
-  ui->label_date->setFixedSize(QSize(50, 14));
-  ui->pushButton_home->setFixedSize(QSize(105, 28));
-  ui->pushButton_control->setFixedSize(QSize(105, 28));
-  ui->pushButton_detail->setFixedSize(QSize(105, 28));
-  ui->pushButton_log->setFixedSize(QSize(105, 28));
-  ui->pushButton_setting->setFixedSize(QSize(105, 28));
+  ui->label_icon->setFixedSize(QSize(220, 30));
+  ui->label_time->setFixedSize(QSize(100, 28));
+  ui->label_date->setFixedSize(QSize(100, 28));
+  ui->pushButton_home->setFixedSize(QSize(210, 56));
+  ui->pushButton_control->setFixedSize(QSize(210, 56));
+  ui->pushButton_detail->setFixedSize(QSize(210, 56));
+  ui->pushButton_log->setFixedSize(QSize(210, 56));
+  ui->pushButton_setting->setFixedSize(QSize(210, 56));
 }
 
 void WidgetMain::TranslateLanguage()

@@ -5,6 +5,7 @@
 #include "configModule.h"
 #include "tasklist/widgettasklist.h"
 #include <QDebug>
+#include "common/widgetmessagebox.h"
 
 static TaskModule* s_taskModule = nullptr;
 
@@ -22,17 +23,13 @@ TaskModule *TaskModule::getInstance()
     return s_taskModule;
 }
 
-void TaskModule::updataTask(QVariantMap data, int agv_id)
+void TaskModule::updataTask(QVariantMap data)
 {
     int type = data.value("OperationType").toInt();
     QVariantMap content = data.value("Content").toMap();
 
     int id = content.value("id").toInt();
     int agvId = content.value("agvId").toInt();
-    if(agvId == agv_id)
-    {
-        return;
-    }
 
     int curTargetStationIndex = content.value("curTargetStationIndex").toInt();
     int executeStatus = content.value("executeStatus").toInt();
@@ -60,13 +57,16 @@ void TaskModule::updataTask(QVariantMap data, int agv_id)
         QVariantList actionList = station.value("actionList").toList();
         QVariantMap action = actionList.at(0).toMap();
         int actionId = action.value("action").toInt();
-        QString actionName = m_actionName.find(QString::number(actionId))->toMap().value("name").toString();
-
+        QString actionName = "";
+        if(m_actionName.find(QString::number(actionId)) != m_actionName.end())
+        {
+           actionName = m_actionName.find(QString::number(actionId))->toMap().value("name").toString();
+        }
         targetInfo += station.value("stationName").toString() +
-          "(" +
-          QString::number(action.value("agvAxisId").toInt()) +
-          "-" +
-          QString::number(action.value("stationAxisId").toInt()) +
+          "(" + "A" +
+          QString::number(action.value("agvBufferIndex").toInt()) +
+          "-" + "S" +
+          QString::number(action.value("stationBufferIndex").toInt()) +
           "-" +
           (actionName.isEmpty() ? "无" : actionName) +
           ");";
@@ -86,4 +86,60 @@ void TaskModule::updataTask(QVariantMap data, int agv_id)
 
     //界面更新
     WidgetTaskList::GetInstance()->InitData(m_tasks);
+}
+
+void TaskModule::taskOperaterState(int result)
+{
+    if(result == static_cast<int>(TaskCreateError::NoError))
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("任务创建成功"),false);
+    }
+    else if(result == static_cast<int>(TaskCreateError::AgvNotExist),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("当指定AGV时 ，指定的AGV不存在"),false);
+    }
+    else if(result == static_cast<int>(TaskCreateError::StationListEmpty),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("目标站台为空"),false);
+    }
+    else if(result == static_cast<int>(TaskCreateError::StationNotExist),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("目标站台不存在"),false);
+    }
+    else if(result == static_cast<int>(TaskCreateError::StationMapAtypism),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("目标站台不在一张地图上"),false);
+    }
+    else if(result == static_cast<int>(TaskCreateError::StationAgvMapAtypism),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("目标站台与指定AGV不在一张地图上"));
+    }
+    else if(result == static_cast<int>(TaskCreateError::AgvLock),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("指定AGV被锁定"));
+    }
+    else if(result == static_cast<int>(TaskCreateError::StationMapIdNotExplicit),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("站台的地图编号不明确"));
+    }
+    else if(result == static_cast<int>(TaskCreateError::StationActionNotExist),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("站台无法执行此动作"));
+    }
+    else if(result == static_cast<int>(TaskCreateError::NotFindStationAction),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("未下发站台动作"));
+    }
+    else if(result == static_cast<int>(TaskCreateError::TaskNumRepeat),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("TaskNumRepeat"));
+    }
+    else if(result == static_cast<int>(TaskCreateError::TaskIdRepeat),false)
+    {
+        WidgetMessageBox().MessageHint(tr("任务"), tr("MasterDisconnected"));
+    }
+    else
+    {
+         WidgetMessageBox().MessageHint(tr("任务"), tr("未知错误"),false);
+    }
 }

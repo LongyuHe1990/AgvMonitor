@@ -2,8 +2,10 @@
 #define STATIONITEM_H
 
 #include <QGraphicsItem>
+#include <QObject>
 #include <QPainterPath>
 #include "linkLine.h"
+#include "mapInfo.h"
 
 enum StationType
 {
@@ -12,8 +14,10 @@ enum StationType
     STATION_COMMON//普通
 };
 
-class StationItem : public QGraphicsItem
+class StationItem: public QObject, public QGraphicsItem
 {
+    Q_OBJECT
+
 public:
     StationItem(QGraphicsItem *parent = nullptr);
     ~StationItem();
@@ -26,23 +30,30 @@ public:
 
     void showLinkLine(bool show = true);
 
-    void setStationName(QString name);
+    void setStationInfo(STATIONINFO info);
     void setStationType(StationType type);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)override;
+
 private:
 
     QRectF boundingRect() const override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    void createTask();
 private:
     QPointF m_stationPoint;
     QPointF m_associateNodePoint;
 
     LinkLine* m_linkLine;
-    QString m_stationName;
+    STATIONINFO m_stationInfo;
 
     StationType  m_type;
     QRect m_boundingRect;
+    QTimer* m_timer;
 };
 
 #endif // STATIONITEM_H

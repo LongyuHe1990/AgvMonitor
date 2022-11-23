@@ -186,6 +186,11 @@ void WebSocketClient::onTextReceived(QString data)
                 {
                     MapMonitoringView::getInstance()->setRelocationResult(moduleData);
                 }
+                else if(requestId == RequestIdType::REQUEST_CREATE_TASK)
+                {
+                    int result = moduleData.value("Result").toInt();
+                    TaskModule::getInstance()->taskOperaterState(result);
+                }
             }
             else
             {
@@ -211,7 +216,7 @@ void WebSocketClient::onTextReceived(QString data)
                 case DataModuleType::Task:
                 {
 //                    qDebug() << "taskData: " <<data;
-                    TaskModule::getInstance()->updataTask(moduleData, UserConfigs::AgvId);
+                    TaskModule::getInstance()->updataTask(moduleData);
                     break;
                 }
                 case DataModuleType::Agv:

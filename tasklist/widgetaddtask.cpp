@@ -36,15 +36,15 @@ WidgetAddTask::WidgetAddTask(QWidget* parent)
 
   QString style =
     "\
-          QComboBox{ color: rgb(255, 255, 255); background-color: rgb(64, 67, 76); border:none; combobox-popup: 0;border-radius:4px;} \
-          QComboBox::hover{color: rgb(255, 255, 255); background-color: rgb(64, 67, 76); } \
+          QComboBox{ color: rgb(255, 255, 255); background-color: rgb(64, 67, 76); border:none; combobox-popup: 0;border-radius:4px;font-size:24px;} \
+          QComboBox::hover{color: rgb(227, 186, 56); background-color: rgb(64, 67, 76); } \
           QComboBox::drop-down{ width:10; subcontrol-origin:padding; subcontrol-position:top right; border-left-width:0px; border-left-color:darkgray; border-left-style:solid; padding-right:10px; } \
           QComboBox::down-arrow{ border-image:url(:/image/home/xiala_icon.png); width:0px; height:0px; }\
           QListView::item{padding-left:5px;color: rgb(255,255,255); background-color: rgb(64, 67, 76);}\
-          QListView::item:hover{ color: rgb(255,255,255); background-color: rgb(64, 67, 76);}\
+          QListView::item:hover{ color: rgb(227,186,56); background-color: rgb(64, 67, 76);}\
           QComboBox QAbstractItemView {border:0px solid #dddddd;outline:0px;height:30px;} \
           QComboBox QAbstractItemView::item {min-height: 30px;background-color: rgb(64, 67, 76);color:rgb(255,255,255);padding-left:11px;padding-right:11px;outline:1px solid rgb(216,215,211);} \
-          QComboBox QAbstractItemView::item:hover {background-color: rgb(64, 67, 76);color:rgb(255,255,255);}";
+          QComboBox QAbstractItemView::item:hover {background-color: rgb(64, 67, 76);color:rgb(227,186,56);}";
   QStyledItemDelegate* delegate = new QStyledItemDelegate(this);
   ui->comboBox_action->setItemDelegate(delegate);
   ui->comboBox_action->setStyleSheet(styleSheet() + style);
@@ -231,6 +231,9 @@ void WidgetAddTask::AddButtonClicked()
   model_->item(count_, 0)->setTextAlignment(Qt::AlignCenter);
   model_->item(count_, 1)->setTextAlignment(Qt::AlignCenter);
   model_->item(count_, 2)->setTextAlignment(Qt::AlignCenter);
+  model_->item(count_, 0)->setToolTip(QString::number(count_));
+  model_->item(count_, 1)->setToolTip(info.stationName);
+  model_->item(count_, 2)->setToolTip(info.actionName);
   model_->item(count_)->setData(QVariant::fromValue(info));
 
   count_++;
@@ -445,13 +448,13 @@ void WidgetAddTask::ClearMenuTriggered()
 void WidgetAddTask::Initialize()
 {
   QFont font = ui->label_title->font();
-  font.setPixelSize(16);
+  font.setPixelSize(32);
   ui->label_title->setFont(font);
   ui->label_tragetList->setFont(font);
   ui->pushButton_add->setFont(font);
   ui->pushButton_create->setFont(font);
 
-  font.setPixelSize(12);
+  font.setPixelSize(24);
   ui->label_type->setFont(font);
   ui->label_target->setFont(font);
   ui->label_loop->setFont(font);
@@ -466,11 +469,11 @@ void WidgetAddTask::Initialize()
   ui->comboBox_agvFloor->setFont(font);
   ui->comboBox_device->setFont(font);
 
-  ui->pushButton_close->setFixedSize(QSize(34, 34));
-  ui->label->setFixedSize(QSize(32, 11));
-  ui->label_2->setFixedSize(QSize(32, 11));
-  ui->pushButton_add->setFixedHeight(30);
-  ui->pushButton_create->setFixedHeight(30);
+  ui->pushButton_close->setFixedSize(QSize(45, 45));
+  ui->label->setFixedSize(QSize(63, 22));
+  ui->label_2->setFixedSize(QSize(63, 22));
+  ui->pushButton_add->setFixedHeight(60);
+  ui->pushButton_create->setFixedHeight(60);
 }
 
 void WidgetAddTask::TranslateLanguage()
@@ -496,6 +499,7 @@ void WidgetAddTask::InitTargetListTableView()
 {
    model_ = new QStandardItemModel();
    ui->tableView->setModel(model_);
+   model_->setColumnCount(3);
 
    ui->tableView->verticalHeader()->setVisible(false);
    ui->tableView->horizontalHeader()->setStretchLastSection(true);
@@ -504,7 +508,9 @@ void WidgetAddTask::InitTargetListTableView()
    ui->tableView->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
    ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-   ui->tableView->setColumnWidth(0, 30);
+   ui->tableView->setColumnWidth(0, 50);
+   ui->tableView->setColumnWidth(1, 200);
+   ui->tableView->setColumnWidth(2, 168);
    ui->tableView->resizeColumnToContents(2);
 
    ui->tableView->setFocusPolicy(Qt::NoFocus);
@@ -516,13 +522,13 @@ void WidgetAddTask::InitTargetListTableView()
    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);                  // 设置不可编辑
 
    QFont font = ui->tableView->font();
-   font.setPixelSize(12);
+   font.setPixelSize(24);
    ui->tableView->setFont(font);
 
    ui->tableView->horizontalHeader()->setFont(font);
 
-   ui->tableView->verticalHeader()->setDefaultSectionSize(24);
-   ui->tableView->horizontalHeader()->setFixedHeight(24);                              // 设置表头的高度
+   ui->tableView->verticalHeader()->setDefaultSectionSize(48);
+   ui->tableView->horizontalHeader()->setFixedHeight(48);                              // 设置表头的高度
    ui->tableView->setStyleSheet(
      "QTableView::Item{ border:none; }\
       QTableView::item:selected {background:transparent;color:rgb(240,179,28);border:none;}\
