@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
   login.setGeometry(0, 0, deskRect.width(), deskRect.height());
   login.showFullScreen();
 #else
-  login.setGeometry(deskRect.width() / 2 - 400, deskRect.height()/2 - 300, 800, 600);
+  login.setGeometry(deskRect.width() / 2 - 650, deskRect.height()/2 - 300, 1000, 600);
   login.show();
 #endif
   QEventLoop loop;

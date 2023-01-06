@@ -235,3 +235,32 @@ QString HandleLongString(QWidget *widget, QString str, int length)
     }
     return str;
 }
+
+StatusAndColorInfo GetLastestExecuteStatus(int status)
+{
+    StatusAndColorInfo info;
+    switch(status)
+    {
+    case -1:
+      info.status = "命令未接收";
+      info.color  = "#ec1c24";
+      break;
+    case 0:
+      info.status = "命令未执行";
+      info.color  = "#ec1c24";
+      break;
+    case 1:
+      info.status = "命令执行中";
+      info.color  = "#cca436";
+      break;
+    case 2:
+      info.status = "命令执行完成";
+      info.color  = "#cca436";
+      break;
+    default:
+      info.status = "";
+      info.color  = "";
+      break;
+    }
+    return info;
+}

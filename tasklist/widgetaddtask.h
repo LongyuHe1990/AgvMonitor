@@ -45,6 +45,7 @@ private Q_SLOTS:
   void CreateButtonClicked();
   void StationTypeChanged(int index);
   void StationRowChanged(int index);
+  void TargetStationChanged(int index);
   void TableViewMenu(const QPoint &pos);
   void DeleteMenuTriggered();
   void ClearMenuTriggered();

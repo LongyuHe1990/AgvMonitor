@@ -65,6 +65,7 @@ WidgetAddTask::WidgetAddTask(QWidget* parent)
 
   connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(StationTypeChanged(int)));
   connect(ui->comboBox_agvFloor, SIGNAL(currentIndexChanged(int)), this, SLOT(StationRowChanged(int)));
+  connect(ui->comboBox_target, SIGNAL(currentIndexChanged(int)), this, SLOT(TargetStationChanged(int)));
 }
 
 WidgetAddTask::~WidgetAddTask()
@@ -418,6 +419,28 @@ void WidgetAddTask::StationRowChanged(int index)
 
     ui->comboBox_target->addItem(name, temp);
   }
+}
+
+void WidgetAddTask::TargetStationChanged(int index)
+{
+    ui->comboBox_action->clear();
+
+    int stationTypeId = 0;
+
+    QVariantMap map = ui->comboBox_target->itemData(ui->comboBox_target->currentIndex()).toMap();
+    if(!map.empty())
+    {
+      stationTypeId = map.value("stationTypeId").toInt();
+    }
+
+    // 机构动作
+    QVariantList actionList = ConfigModule::getInstance()->getActionTypeOfStationType(stationTypeId);
+    for(int i = 0; i < actionList.size(); ++i)
+    {
+      int              type = actionList.at(i).toInt();
+      NameAndLabelInfo info = GetActionType(type);
+      ui->comboBox_action->addItem(info.name, type);
+    }
 }
 
 void WidgetAddTask::TableViewMenu(const QPoint &pos)

@@ -31,6 +31,7 @@ StatusAndColorInfo GetWorkStatusInfo(int workStatus);
 StatusAndColorInfo GetExecuteStatusInfo(int executeStatus);
 StatusAndColorInfo GetSafeDeviceStateInfo(bool status);
 StatusAndColorInfo GetConfigStatus(int status);
+StatusAndColorInfo GetLastestExecuteStatus(int status);
 QString            GetAgvHoverState(int taskState);
 NameAndLabelInfo   GetActionType(int actionType);
 QString            GetCurrentBinPath();

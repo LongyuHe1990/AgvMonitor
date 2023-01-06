@@ -4,11 +4,11 @@
 #include <QDebug>
 
 #define WIDGET_HOME 0
-//#define WIDGET_CONTROL 1
+#define WIDGET_CONTROL 1
 //#define WIDGET_DETAIL 2
 //#define WIDGET_LOG 3
 //#define WIDGET_SETTING 4
-#define WIDGET_ERROR 1
+#define WIDGET_ERROR 2
 
 WidgetMain::WidgetMain(QWidget* parent)
   : QWidget(parent)
@@ -33,11 +33,13 @@ WidgetMain::WidgetMain(QWidget* parent)
   TranslateLanguage();
 
   widget_home_    = new WidgetHomepage(this);
+  widget_manual_control_ = new WidgetManualControl(this);
 //  widget_setting_ = new WidgetSetting(this);
 //  widget_switch_  = new WidgetSwitch(this);
   widget_error_   = new WidgetError(this);
 
   ui->stackedWidget->addWidget(widget_home_);
+  ui->stackedWidget->addWidget(widget_manual_control_);
 //  ui->stackedWidget->addWidget(widget_setting_);
   ui->stackedWidget->addWidget(widget_error_);
 
@@ -108,7 +110,11 @@ void WidgetMain::MenuButtonClicked(int index)
     }
   }
 
-//  ui->stackedWidget->setCurrentIndex(index);
+  if(index != 0 && index != 1)
+  {
+    return;
+  }
+  ui->stackedWidget->setCurrentIndex(index);
 }
 
 void WidgetMain::ShowErrorDetailWidget()

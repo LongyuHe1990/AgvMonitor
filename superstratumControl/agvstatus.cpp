@@ -56,8 +56,6 @@ void AgvStatus::InitData(QVariantMap dataMap)
     return;
   }
 
-
-
   if(content.find("agvState") != content.end())
   {
     QVariantMap agvState = content.value("agvState").toMap();

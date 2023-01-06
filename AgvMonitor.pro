@@ -48,18 +48,21 @@ include(moduleData/moduleData.pri)
 include(common/common.pri)
 include(common/customWidget.)
 include(statisticAnalysis/statisticAnalysis.pri)
+include(superstratumControl/superstratumControl.pri)
 
 SOURCES += \
     main.cpp \
     widgetmain.cpp \
     widgethomepage.cpp \
-    widgetapp.cpp
+    widgetapp.cpp \
+    widgetmanualcontrol.cpp
 
 HEADERS += \
     customData.h \
     widgetmain.h \
     widgethomepage.h \
-    widgetapp.h
+    widgetapp.h \
+    widgetmanualcontrol.h
 
 FORMS += \
     login/widgetlogin.ui \
@@ -75,7 +78,9 @@ FORMS += \
     switch/widgetcode.ui \
     tasklist/widgetaddtask.ui \
     common/widgetmessagebox.ui \
-    common/widgetpage.ui
+    common/widgetpage.ui \
+    superstratumControl/agvstatus.ui \
+    widgetmanualcontrol.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -96,3 +101,5 @@ DEPENDPATH += $$PWD/third_party/include
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/third_party/lib/Logger.lib
 else:unix:!macx|win32-g++: PRE_TARGETDEPS += $$PWD/third_party/lib/libLogger.a
+
+DISTFILES +=

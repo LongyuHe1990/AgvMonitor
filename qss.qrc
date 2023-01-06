@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qss/theme.css</file>
+        <file>qss/superstratumControlComboBox.css</file>
+        <file>qss/superstratumControlButton.css</file>
     </qresource>
 </RCC>

@@ -2,6 +2,117 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>AgvStatus</name>
+    <message>
+        <location filename="../AgvStatus/agvstatus.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.ui" line="51"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="80"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="91"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="123"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="152"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="163"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="191"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="202"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="230"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="241"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="269"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="280"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="308"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="319"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="347"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="358"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="386"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="397"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="429"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="458"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="469"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="497"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="508"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="536"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="547"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="575"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="586"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="614"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="625"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="653"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="664"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="692"/>
+        <location filename="../AgvStatus/agvstatus.ui" line="703"/>
+        <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="60"/>
+        <source>Agv attribute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="61"/>
+        <source>Final execution status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="62"/>
+        <source>Issued by the system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="63"/>
+        <source>Expected material quantity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="64"/>
+        <location filename="../AgvStatus/agvstatus.cpp" line="71"/>
+        <source>Command number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="65"/>
+        <location filename="../AgvStatus/agvstatus.cpp" line="73"/>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="66"/>
+        <location filename="../AgvStatus/agvstatus.cpp" line="74"/>
+        <source>Step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="67"/>
+        <location filename="../AgvStatus/agvstatus.cpp" line="75"/>
+        <source>Item ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="68"/>
+        <location filename="../AgvStatus/agvstatus.cpp" line="76"/>
+        <source>Item quantity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="69"/>
+        <location filename="../AgvStatus/agvstatus.cpp" line="77"/>
+        <source>Item Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="70"/>
+        <source>Device upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AgvStatus/agvstatus.cpp" line="72"/>
+        <source>Execution status</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TipLabel</name>
     <message>
         <location filename="../common/tiplabel.cpp" line="113"/>
@@ -17,99 +128,99 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.ui" line="125"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="170"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="241"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="297"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="365"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="421"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="476"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="531"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="726"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="131"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="176"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="247"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="303"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="371"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="427"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="482"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="537"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="739"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.ui" line="608"/>
-        <location filename="../tasklist/widgetaddtask.ui" line="822"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="614"/>
+        <location filename="../tasklist/widgetaddtask.ui" line="835"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../tasklist/widgetaddtask.cpp" line="124"/>
-        <location filename="../tasklist/widgetaddtask.cpp" line="315"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="318"/>
         <source>第%1排</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="426"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="429"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="427"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="430"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="478"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="481"/>
         <source>Add task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="479"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="482"/>
         <source>Platform type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="480"/>
-        <location filename="../tasklist/widgetaddtask.cpp" line="491"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="483"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="494"/>
         <source>Target platform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="481"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="484"/>
         <source>Platform level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="482"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="485"/>
         <source>Row number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="483"/>
-        <location filename="../tasklist/widgetaddtask.cpp" line="491"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="486"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="494"/>
         <source>Mechanism action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="484"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="487"/>
         <source>Car body position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="485"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="488"/>
         <source>Circular task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="486"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="489"/>
         <source>Target List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="487"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="490"/>
         <source>Add Target List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="488"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="491"/>
         <source>Create Task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgetaddtask.cpp" line="491"/>
+        <location filename="../tasklist/widgetaddtask.cpp" line="494"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
@@ -400,188 +511,188 @@
         <location filename="../baseinfo/widgetbaseinfo.ui" line="67"/>
         <location filename="../baseinfo/widgetbaseinfo.ui" line="188"/>
         <location filename="../baseinfo/widgetbaseinfo.ui" line="234"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="285"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="352"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="415"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="552"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="562"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="576"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="586"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="762"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="772"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="824"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="834"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="886"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="896"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="948"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="958"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1010"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1020"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1072"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1082"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1134"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1144"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1196"/>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="1206"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="291"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="361"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="427"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="564"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="574"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="591"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="601"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="767"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="777"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="829"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="839"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="891"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="901"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="953"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="963"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1015"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1025"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1077"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1087"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1139"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1149"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1201"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="1211"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="656"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="674"/>
         <source>登出</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.ui" line="687"/>
+        <location filename="../baseinfo/widgetbaseinfo.ui" line="692"/>
         <source>暂停</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="113"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="114"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="113"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="114"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="116"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="117"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="211"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="212"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="211"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="212"/>
         <source>Manual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="212"/>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="216"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="213"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="217"/>
         <source>Trigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="212"/>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="214"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="213"/>
         <location filename="../baseinfo/widgetbaseinfo.cpp" line="215"/>
         <location filename="../baseinfo/widgetbaseinfo.cpp" line="216"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="217"/>
         <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="214"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="215"/>
         <source>Abnormal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="215"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="216"/>
         <source>Obstacle avoidance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="232"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="233"/>
         <source>Sign out confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="232"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="233"/>
         <source>Are you sure you want to log out of the robot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="234"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="235"/>
         <source>Login succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="300"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="302"/>
         <source>Basic information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="301"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="303"/>
         <source>Running state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="302"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="304"/>
         <source>Machine position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="303"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="305"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="304"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="306"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="305"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="307"/>
         <source>Charging state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="306"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="308"/>
         <source>Battery voltage(V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="307"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="309"/>
         <source>Battery current(A)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="308"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="310"/>
         <source>Offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="309"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="311"/>
         <source>AGV mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="310"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="312"/>
         <source>Emergency stop status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="311"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="313"/>
         <source>AGV working state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="312"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="314"/>
         <source>AGV travel status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="313"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="315"/>
         <source>AGV speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="314"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="316"/>
         <source>Current state of laser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="315"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="317"/>
         <source>Obstacle avoidance state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../baseinfo/widgetbaseinfo.cpp" line="316"/>
+        <location filename="../baseinfo/widgetbaseinfo.cpp" line="318"/>
         <source>Contact state</source>
         <translation type="unfinished"></translation>
     </message>
@@ -589,53 +700,53 @@
 <context>
     <name>WidgetChartError</name>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="87"/>
-        <source>This Week</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="89"/>
+        <source>本周</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="96"/>
-        <source>Last Week</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="98"/>
+        <source>过去一周</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Mon</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="233"/>
+        <source>单位：次</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Tue</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周一</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Wed</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周二</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Thu</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周三</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Fri</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周四</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Sat</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周五</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="177"/>
-        <source>Sun</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周六</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgetchartitem.cpp" line="221"/>
-        <source>Units：Times</source>
+        <location filename="../errorinfo/widgetchartitem.cpp" line="235"/>
+        <source>周天</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -660,52 +771,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.ui" line="141"/>
+        <location filename="../errorinfo/widgeterror.ui" line="147"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="168"/>
-        <source>Exception information list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="169"/>
-        <source>Search</source>
+        <location filename="../errorinfo/widgeterror.ui" line="282"/>
+        <source>搜索</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../errorinfo/widgeterror.cpp" line="170"/>
+        <source>Exception information list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../errorinfo/widgeterror.cpp" line="171"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../errorinfo/widgeterror.cpp" line="172"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="173"/>
+        <location filename="../errorinfo/widgeterror.cpp" line="175"/>
         <source>Modular</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="173"/>
+        <location filename="../errorinfo/widgeterror.cpp" line="175"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="173"/>
+        <location filename="../errorinfo/widgeterror.cpp" line="175"/>
         <source>Exception code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="173"/>
+        <location filename="../errorinfo/widgeterror.cpp" line="175"/>
         <source>Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="173"/>
+        <location filename="../errorinfo/widgeterror.cpp" line="175"/>
         <source>Describe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterror.cpp" line="173"/>
+        <location filename="../errorinfo/widgeterror.cpp" line="175"/>
         <source>Tips</source>
         <translation type="unfinished">提示</translation>
     </message>
@@ -723,32 +839,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterrorinfo.ui" line="120"/>
+        <location filename="../errorinfo/widgeterrorinfo.ui" line="145"/>
         <source>详情</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterrorinfo.ui" line="173"/>
-        <source>TextLabel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../errorinfo/widgeterrorinfo.ui" line="261"/>
+        <location filename="../errorinfo/widgeterrorinfo.ui" line="219"/>
         <source>暂无数据</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../errorinfo/widgeterrorinfo.cpp" line="86"/>
-        <source>Abnormal alarm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../errorinfo/widgeterrorinfo.cpp" line="87"/>
         <source>Today&apos;s alert data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../errorinfo/widgeterrorinfo.cpp" line="88"/>
+        <location filename="../errorinfo/widgeterrorinfo.cpp" line="87"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -784,42 +890,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="141"/>
+        <location filename="../login/widgetlogin.cpp" line="159"/>
         <source>Vehicle ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="142"/>
+        <location filename="../login/widgetlogin.cpp" line="160"/>
         <source>IP address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="143"/>
+        <location filename="../login/widgetlogin.cpp" line="161"/>
         <source>Guest Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="144"/>
+        <location filename="../login/widgetlogin.cpp" line="162"/>
         <source>Automatic login next time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="145"/>
+        <location filename="../login/widgetlogin.cpp" line="163"/>
         <source>Remember the vehicle ID and IP address, and log in automatically after the next restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="146"/>
+        <location filename="../login/widgetlogin.cpp" line="164"/>
         <source>*Please enter the correct IP address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="147"/>
+        <location filename="../login/widgetlogin.cpp" line="165"/>
         <source>*Please enter ip address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../login/widgetlogin.cpp" line="148"/>
+        <location filename="../login/widgetlogin.cpp" line="166"/>
         <source>Dispatching platform of traction satellite system</source>
         <translation type="unfinished"></translation>
     </message>
@@ -842,58 +948,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.ui" line="162"/>
+        <location filename="../widgetmain.ui" line="171"/>
         <source>手动控制</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.ui" line="189"/>
+        <location filename="../widgetmain.ui" line="207"/>
         <source>状态详览</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.ui" line="216"/>
+        <location filename="../widgetmain.ui" line="240"/>
         <source>日志</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.ui" line="246"/>
+        <location filename="../widgetmain.ui" line="276"/>
         <source>设置</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.ui" line="289"/>
-        <location filename="../widgetmain.ui" line="303"/>
+        <location filename="../widgetmain.ui" line="325"/>
+        <location filename="../widgetmain.ui" line="339"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.cpp" line="153"/>
+        <location filename="../widgetmain.cpp" line="155"/>
         <source>Dispatching platform of traction satellite system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.cpp" line="154"/>
+        <location filename="../widgetmain.cpp" line="156"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.cpp" line="155"/>
+        <location filename="../widgetmain.cpp" line="157"/>
         <source>Manual control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.cpp" line="156"/>
+        <location filename="../widgetmain.cpp" line="158"/>
         <source>Status Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.cpp" line="157"/>
+        <location filename="../widgetmain.cpp" line="159"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgetmain.cpp" line="158"/>
+        <location filename="../widgetmain.cpp" line="160"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1195,37 +1301,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="226"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="228"/>
         <source>Task information list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="227"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="229"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="230"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="232"/>
         <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="230"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="232"/>
         <source>AGV number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="230"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="232"/>
         <source>Stage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="230"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="232"/>
         <source>Target List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tasklist/widgettasklist.cpp" line="230"/>
+        <location filename="../tasklist/widgettasklist.cpp" line="232"/>
         <source>Operation</source>
         <translation type="unfinished"></translation>
     </message>

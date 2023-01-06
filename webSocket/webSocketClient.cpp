@@ -17,6 +17,8 @@
 #include "common/global_config.h"
 #include "mapView/mapMonitoringWidget.h"
 #include "errorinfo/widgeterror.h"
+#include "superstratumControl/superstratumControlView.h"
+#include "superstratumControl/agvstatus.h"
 
 static WebSocketClient* s_webSocketClient = nullptr;
 
@@ -221,7 +223,7 @@ void WebSocketClient::onTextReceived(QString data)
                 }
                 case DataModuleType::Agv:
                 {
-                    qDebug() << "agvData: " <<data;
+                    //qDebug() << "agvData: " <<data;
 
                     WidgetBaseInfo::GetInstance()->InitData(jsonData);
                     //WidgetAllInfo::GetInstance()->InitData(jsonData);
@@ -235,17 +237,18 @@ void WebSocketClient::onTextReceived(QString data)
                     if(type == int(StationOperationType::STATION_INITED))
                     {
                         StationModule::getInstance()->initStationsInfo(moduleData);
+                        SuperstratumControlView::getInstance()->initWidgetData();
                     }
                     else if(type == int(StationOperationType::CRAFTSTATION_INITED))
                     {
                         StationModule::getInstance()->initStationTypeInfo(moduleData);
                     }
-//                    qDebug() << "stationData: " <<data;
+                    qDebug() << "stationData: " <<data;
                     break;
                 }
                 case DataModuleType::Alarm:
                 {
-                    qDebug() << "AlarmData: " <<data;
+                    //qDebug() << "AlarmData: " <<data;
                     int type = moduleData.value("OperationType").toInt();
                     if(type == int(AlarmOperationType::Alarm_Updated))
                     {
@@ -254,11 +257,24 @@ void WebSocketClient::onTextReceived(QString data)
 
                     break;
                 }
+                case DataModuleType::Interaction:
+                {
+                    //qDebug() << "Interaction: " <<data;
+                    int type = moduleData.value("OperationType").toInt();
+                    if(type == int(InteractionOperationType::InteractionUpdated) || type == int(InteractionOperationType::InteractionCreated) || type == int(InteractionOperationType::InteractionInited))
+                    {
+                        QVariantMap contentData = moduleData.value("Content").toMap();
+                        SuperstratumControlView::getInstance()->updateCurrentInteractInfo(contentData);
+                        AgvStatus::GetInstance()->InitData(jsonData);
+                    }
+
+                    break;
+                }
+
                 }
             }
         }
     }
-
 }
 
 void WebSocketClient::onTimeoutReconnect()

@@ -11,6 +11,7 @@
 #include "setting/widgetsetting.h"
 #include "switch/widgetswitch.h"
 #include "errorinfo/widgeterror.h"
+#include "widgetmanualcontrol.h"
 #include <QEventLoop>
 #include <QButtonGroup>
 #include <QDateTime>
@@ -57,5 +58,6 @@ private:
   QButtonGroup*   button_group_;
   QTimer*         timer_;
   QTranslator*    translator_;
+  WidgetManualControl* widget_manual_control_;
 };
 

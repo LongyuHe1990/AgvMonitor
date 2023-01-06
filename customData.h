@@ -13,6 +13,7 @@ enum class DataModuleType
     Alarm,
     Simula,
     User,
+    Interaction,
     //这个必须放到最后一个
     HeartBeat
 };
@@ -114,6 +115,14 @@ enum class TaskCreateError
     NotFindStationAction = 9, //未下发站台动作
     TaskNumRepeat = 10,  //TaskNumRepeat
     TaskIdRepeat = 11,  //MasterDisconnected
+};
+
+enum class InteractionOperationType
+{
+    InteractionInited,
+    InteractionCreated = 1,
+    InteractionUpdated,
+    InteractionErased,
 };
 
 #endif // CUSTOMDATA_H
